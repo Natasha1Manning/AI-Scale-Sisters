@@ -1,0 +1,1688 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  ExternalLink,
+  Star,
+  Heart,
+  DollarSign,
+  Target,
+  ArrowRight,
+  Copy,
+  Check,
+  Grid3X3,
+  List,
+  Crown,
+  Zap,
+  Award,
+  UserCheck,
+} from "lucide-react"
+import Link from "next/link"
+
+interface AITool {
+  id: string
+  name: string
+  description: string
+  category: string
+  difficulty: "Beginner" | "Intermediate" | "Expert"
+  popularity: "High" | "Medium" | "New"
+  price: "Free" | "Freemium" | "Paid"
+  rating: number
+  features: string[]
+  beginnerExplanation: string
+  relatedTools: string[]
+  website: string
+  copyPrompt: string
+  whatPeopleUseItFor: string[]
+  signUpRequired: boolean
+  specialBadge?: "startup-fav" | "creator-pick" | "our-top-pick" | "trending"
+  isNew?: boolean
+}
+
+// Comprehensive AI tools database with 150+ tools
+const aiTools: AITool[] = [
+  // General AI Assistants
+  {
+    id: "chatgpt",
+    name: "ChatGPT",
+    description: "OpenAI's versatile AI assistant for conversations, content creation, coding, and problem-solving.",
+    category: "General AI Assistant",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.5,
+    features: ["Natural conversations", "Custom instructions", "File analysis", "Web browsing"],
+    beginnerExplanation:
+      "ChatGPT is like having the smartest business mentor available 24/7. You can ask it anything - from 'How do I price my products?' to 'Write a professional email to a client' - and it gives you helpful, detailed answers!",
+    relatedTools: ["Claude", "Gemini"],
+    website: "https://chat.openai.com",
+    copyPrompt:
+      "I run a [BUSINESS TYPE] business targeting [TARGET AUDIENCE]. Help me create a comprehensive business strategy for [SPECIFIC GOAL]. Consider my current challenges: [LIST CHALLENGES]. Provide actionable steps, timeline, and potential obstacles to watch for.",
+    whatPeopleUseItFor: ["Business strategy", "Content writing", "Customer support", "Problem solving"],
+    signUpRequired: true,
+    specialBadge: "our-top-pick",
+  },
+  {
+    id: "claude",
+    name: "Claude",
+    description: "Anthropic's AI assistant known for thoughtful, nuanced responses and strong reasoning capabilities.",
+    category: "General AI Assistant",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.6,
+    features: ["Long conversations", "Document analysis", "Code generation", "Creative writing"],
+    beginnerExplanation:
+      "Claude is like having a thoughtful, careful advisor who takes time to understand your needs before giving detailed, well-reasoned advice for your business decisions.",
+    relatedTools: ["ChatGPT", "Gemini"],
+    website: "https://claude.ai",
+    copyPrompt:
+      "As a [BUSINESS TYPE] entrepreneur, I need help with [SPECIFIC CHALLENGE]. Please provide a detailed analysis of my situation and actionable recommendations that consider both short-term and long-term implications.",
+    whatPeopleUseItFor: ["Strategic planning", "Document review", "Research analysis", "Creative projects"],
+    signUpRequired: true,
+    specialBadge: "creator-pick",
+  },
+  {
+    id: "gemini",
+    name: "Gemini",
+    description:
+      "Google's multimodal AI that can understand text, images, audio, and video for comprehensive assistance.",
+    category: "General AI Assistant",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.4,
+    features: ["Multimodal input", "Google integration", "Real-time information", "Code execution"],
+    beginnerExplanation:
+      "Gemini is like having Google's entire knowledge base as your personal assistant. It can look at images, understand documents, and give you up-to-date information about your industry and competitors.",
+    relatedTools: ["ChatGPT", "Claude"],
+    website: "https://gemini.google.com",
+    copyPrompt:
+      "Help me analyze my [BUSINESS TYPE] market. I want to understand current trends, competitor strategies, and opportunities for [SPECIFIC GOAL]. Please provide data-driven insights and actionable recommendations.",
+    whatPeopleUseItFor: ["Market research", "Data analysis", "Content creation", "Technical support"],
+    signUpRequired: true,
+    specialBadge: "trending",
+  },
+  {
+    id: "grok",
+    name: "Grok",
+    description: "xAI's conversational AI with real-time access to X (Twitter) data and a witty personality.",
+    category: "General AI Assistant",
+    difficulty: "Intermediate",
+    popularity: "New",
+    price: "Paid",
+    rating: 4.2,
+    features: ["Real-time X data", "Conversational AI", "Current events", "Social media insights"],
+    beginnerExplanation:
+      "Grok is like having a social media-savvy assistant who knows what's trending right now and can help you understand current conversations in your industry.",
+    relatedTools: ["ChatGPT", "Claude"],
+    website: "https://grok.x.ai",
+    copyPrompt:
+      "What are the current trends and conversations happening in the [INDUSTRY] space on social media? Help me identify opportunities to engage with my [TARGET AUDIENCE] and create relevant content.",
+    whatPeopleUseItFor: ["Social media strategy", "Trend analysis", "Current events", "Market insights"],
+    signUpRequired: true,
+    specialBadge: "trending",
+    isNew: true,
+  },
+  {
+    id: "deepseek",
+    name: "DeepSeek",
+    description: "Advanced AI model focused on reasoning and problem-solving with strong analytical capabilities.",
+    category: "General AI Assistant",
+    difficulty: "Intermediate",
+    popularity: "New",
+    price: "Freemium",
+    rating: 4.3,
+    features: ["Deep reasoning", "Problem solving", "Mathematical analysis", "Code generation"],
+    beginnerExplanation:
+      "DeepSeek is like having a brilliant analyst who can break down complex business problems into manageable pieces and provide logical, step-by-step solutions.",
+    relatedTools: ["Claude", "ChatGPT"],
+    website: "https://deepseek.com",
+    copyPrompt:
+      "I'm facing a complex business challenge with [DESCRIBE PROBLEM]. Please break this down into smaller components, analyze each part, and provide a systematic approach to solving it.",
+    whatPeopleUseItFor: ["Complex problem solving", "Data analysis", "Strategic planning", "Technical challenges"],
+    signUpRequired: true,
+    isNew: true,
+  },
+  {
+    id: "perplexity",
+    name: "Perplexity AI",
+    description: "AI-powered search engine that provides accurate, cited answers with real-time information.",
+    category: "Research & Search",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.5,
+    features: ["Real-time search", "Source citations", "Follow-up questions", "Academic mode"],
+    beginnerExplanation:
+      "Perplexity is like having a research assistant who not only finds information but also tells you exactly where it came from, so you can trust the answers for your business decisions.",
+    relatedTools: ["Google", "Bing"],
+    website: "https://perplexity.ai",
+    copyPrompt:
+      "Research the current state of the [INDUSTRY] market, including key players, recent developments, and opportunities for a [BUSINESS TYPE] business. Provide sources for all information.",
+    whatPeopleUseItFor: ["Market research", "Fact-checking", "Academic research", "Current events"],
+    signUpRequired: false,
+    specialBadge: "startup-fav",
+  },
+
+  // Writing & Content Generation
+  {
+    id: "jasper",
+    name: "Jasper AI",
+    description:
+      "Advanced AI writing assistant that creates high-quality content for blogs, social media, ads, and more.",
+    category: "Content Creation",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Paid",
+    rating: 4.7,
+    features: ["Long-form content", "Brand voice training", "SEO optimization", "Multiple languages"],
+    beginnerExplanation:
+      "Jasper is like having a professional writer who knows your business inside and out. You give it a topic like 'blog post about skincare tips' and it writes a complete, engaging article that sounds like you wrote it!",
+    relatedTools: ["Copy.ai", "Writesonic"],
+    website: "https://jasper.ai",
+    copyPrompt:
+      "Write a 1500-word blog post about [TOPIC] for my [TARGET AUDIENCE]. Include practical tips, actionable advice, and optimize for SEO with the keyword '[PRIMARY KEYWORD]'. Write in a [TONE] tone that matches my brand voice. Include a compelling introduction and clear call-to-action at the end.",
+    whatPeopleUseItFor: ["Blog posts", "Ad copy", "Social media content", "Email campaigns"],
+    signUpRequired: true,
+    specialBadge: "creator-pick",
+  },
+  {
+    id: "rytr",
+    name: "Rytr",
+    description: "AI writing assistant for creating high-quality content quickly and affordably.",
+    category: "Content Creation",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.3,
+    features: ["40+ use cases", "Multiple tones", "Plagiarism checker", "Team collaboration"],
+    beginnerExplanation:
+      "Rytr is like having a writing buddy who helps you create any type of content you need - from emails to blog posts - without the high cost of premium tools.",
+    relatedTools: ["Jasper", "Copy.ai"],
+    website: "https://rytr.me",
+    copyPrompt:
+      "Create engaging [CONTENT TYPE] for my [BUSINESS TYPE] that will appeal to [TARGET AUDIENCE]. The tone should be [TONE] and include a clear call-to-action for [DESIRED ACTION].",
+    whatPeopleUseItFor: ["Blog writing", "Social media posts", "Email copy", "Product descriptions"],
+    signUpRequired: true,
+  },
+  {
+    id: "writer-com",
+    name: "Writer.com",
+    description: "Enterprise-focused AI writing platform with brand consistency and compliance features.",
+    category: "Content Creation",
+    difficulty: "Intermediate",
+    popularity: "Medium",
+    price: "Paid",
+    rating: 4.4,
+    features: ["Brand guidelines", "Team collaboration", "Content governance", "API integration"],
+    beginnerExplanation:
+      "Writer.com is like having a professional writing team that ensures all your content matches your brand voice and meets your company standards.",
+    relatedTools: ["Jasper", "Grammarly"],
+    website: "https://writer.com",
+    copyPrompt:
+      "Create [CONTENT TYPE] that aligns with my brand guidelines for [BRAND NAME]. The content should target [AUDIENCE] and maintain a [TONE] voice while promoting [PRODUCT/SERVICE].",
+    whatPeopleUseItFor: ["Brand content", "Team writing", "Marketing copy", "Documentation"],
+    signUpRequired: true,
+  },
+  {
+    id: "grammarly",
+    name: "Grammarly",
+    description:
+      "AI writing assistant that improves grammar, clarity, and tone across all your business communications.",
+    category: "Content Creation",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.6,
+    features: ["Grammar checking", "Tone detection", "Plagiarism detection", "Writing suggestions"],
+    beginnerExplanation:
+      "Grammarly is like having an English teacher who helps make all your writing sound professional and clear. It catches mistakes, suggests better words, and makes sure your emails and content sound exactly right!",
+    relatedTools: ["ProWritingAid", "Hemingway Editor"],
+    website: "https://grammarly.com",
+    copyPrompt:
+      "Review and improve this business communication: [PASTE YOUR TEXT]. Focus on clarity, professionalism, and ensuring the tone matches my brand voice. Suggest improvements for grammar, structure, and impact while maintaining my authentic voice.",
+    whatPeopleUseItFor: ["Email writing", "Content editing", "Proposal writing", "Social media posts"],
+    signUpRequired: true,
+    specialBadge: "our-top-pick",
+  },
+  {
+    id: "prowritingaid",
+    name: "ProWritingAid",
+    description: "Comprehensive writing assistant with detailed analysis and improvement suggestions.",
+    category: "Content Creation",
+    difficulty: "Intermediate",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.5,
+    features: ["Style analysis", "Readability scores", "Plagiarism checker", "Writing reports"],
+    beginnerExplanation:
+      "ProWritingAid is like having a writing coach who gives you detailed feedback on how to make your writing more engaging, clear, and professional.",
+    relatedTools: ["Grammarly", "Hemingway Editor"],
+    website: "https://prowritingaid.com",
+    copyPrompt:
+      "Analyze my writing style and provide suggestions to improve clarity, engagement, and professionalism for my [BUSINESS TYPE] content targeting [AUDIENCE].",
+    whatPeopleUseItFor: ["Long-form content", "Book writing", "Academic writing", "Business documents"],
+    signUpRequired: true,
+  },
+  {
+    id: "quillbot",
+    name: "QuillBot",
+    description: "AI-powered paraphrasing and writing enhancement tool for improving content quality.",
+    category: "Content Creation",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.4,
+    features: ["Paraphrasing", "Grammar checker", "Summarizer", "Citation generator"],
+    beginnerExplanation:
+      "QuillBot is like having a writing assistant who can help you say the same thing in different, better ways, making your content more engaging and professional.",
+    relatedTools: ["Grammarly", "Wordtune"],
+    website: "https://quillbot.com",
+    copyPrompt:
+      "Help me rephrase and improve this content for my [BUSINESS TYPE]: [PASTE CONTENT]. Make it more engaging and professional while maintaining the original meaning.",
+    whatPeopleUseItFor: ["Content rewriting", "Academic writing", "Email improvement", "Social media posts"],
+    signUpRequired: false,
+  },
+  {
+    id: "anyword",
+    name: "Anyword",
+    description: "AI copywriting platform with predictive performance scoring for marketing content.",
+    category: "Content Creation",
+    difficulty: "Intermediate",
+    popularity: "Medium",
+    price: "Paid",
+    rating: 4.3,
+    features: ["Performance prediction", "A/B testing", "Brand voice", "Copy intelligence"],
+    beginnerExplanation:
+      "Anyword is like having a marketing expert who can predict which version of your content will perform better before you even publish it.",
+    relatedTools: ["Jasper", "Copy.ai"],
+    website: "https://anyword.com",
+    copyPrompt:
+      "Create high-converting copy for my [CAMPAIGN TYPE] targeting [AUDIENCE]. Predict performance and provide multiple variations for A/B testing.",
+    whatPeopleUseItFor: ["Ad copy", "Email marketing", "Landing pages", "Social media ads"],
+    signUpRequired: true,
+  },
+  {
+    id: "copy-ai",
+    name: "Copy.ai",
+    description: "AI-powered copywriting tool for creating marketing content, emails, and social media posts.",
+    category: "Content Creation",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.4,
+    features: ["90+ templates", "Brand voice", "Team collaboration", "Workflow automation"],
+    beginnerExplanation:
+      "Copy.ai is like having a creative marketing team that can quickly generate ideas and copy for any type of content you need for your business.",
+    relatedTools: ["Jasper", "Rytr"],
+    website: "https://copy.ai",
+    copyPrompt:
+      "Generate creative copy for my [BUSINESS TYPE] that will engage [TARGET AUDIENCE] and drive them to [DESIRED ACTION]. Include multiple variations and different approaches.",
+    whatPeopleUseItFor: ["Marketing copy", "Social media content", "Email campaigns", "Product descriptions"],
+    signUpRequired: true,
+    specialBadge: "startup-fav",
+  },
+  {
+    id: "wordtune",
+    name: "Wordtune",
+    description: "AI writing companion that helps you express your ideas clearly and compellingly.",
+    category: "Content Creation",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.3,
+    features: ["Rewriting suggestions", "Tone adjustment", "Length control", "Spices feature"],
+    beginnerExplanation:
+      "Wordtune is like having a writing buddy who helps you find the perfect way to express your ideas, making your writing more clear and impactful.",
+    relatedTools: ["Grammarly", "QuillBot"],
+    website: "https://wordtune.com",
+    copyPrompt:
+      "Help me improve the clarity and impact of this business communication: [PASTE TEXT]. Suggest different ways to express the same ideas more effectively.",
+    whatPeopleUseItFor: ["Email writing", "Content improvement", "Academic writing", "Professional communication"],
+    signUpRequired: true,
+  },
+  {
+    id: "sudowrite",
+    name: "Sudowrite",
+    description: "AI writing partner specifically designed for creative writing and storytelling.",
+    category: "Content Creation",
+    difficulty: "Intermediate",
+    popularity: "Medium",
+    price: "Paid",
+    rating: 4.5,
+    features: ["Story development", "Character creation", "Plot assistance", "Style matching"],
+    beginnerExplanation:
+      "Sudowrite is like having a creative writing partner who helps you develop stories, create compelling characters, and overcome writer's block.",
+    relatedTools: ["Jasper", "Writer.com"],
+    website: "https://sudowrite.com",
+    copyPrompt:
+      "Help me develop a compelling brand story for my [BUSINESS TYPE] that will resonate with [TARGET AUDIENCE] and highlight [KEY VALUES/MISSION].",
+    whatPeopleUseItFor: ["Brand storytelling", "Creative content", "Marketing narratives", "Content marketing"],
+    signUpRequired: true,
+  },
+
+  // Image Generation & Design
+  {
+    id: "midjourney",
+    name: "Midjourney",
+    description: "AI image generator known for creating stunning, artistic visuals from text descriptions.",
+    category: "Design & Visual",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Paid",
+    rating: 4.8,
+    features: ["Artistic styles", "High resolution", "Style consistency", "Community gallery"],
+    beginnerExplanation:
+      "Midjourney is like having a talented artist who can create beautiful, professional images for your business just by describing what you want in words.",
+    relatedTools: ["DALL-E", "Stable Diffusion"],
+    website: "https://midjourney.com",
+    copyPrompt:
+      "Create a professional image for my [BUSINESS TYPE] showing [DESCRIPTION]. Style should be [STYLE PREFERENCE] and suitable for [USE CASE - website/social media/marketing].",
+    whatPeopleUseItFor: ["Marketing visuals", "Social media content", "Website graphics", "Brand imagery"],
+    signUpRequired: true,
+    specialBadge: "creator-pick",
+  },
+  {
+    id: "stable-diffusion",
+    name: "Stable Diffusion",
+    description: "Open-source AI image generator with customizable models and local installation options.",
+    category: "Design & Visual",
+    difficulty: "Expert",
+    popularity: "High",
+    price: "Free",
+    rating: 4.6,
+    features: ["Open source", "Custom models", "Local installation", "API access"],
+    beginnerExplanation:
+      "Stable Diffusion is like having your own personal art studio that you can customize and control completely, though it requires more technical knowledge to set up.",
+    relatedTools: ["Midjourney", "DALL-E"],
+    website: "https://stability.ai",
+    copyPrompt:
+      "Generate professional business imagery for [BUSINESS TYPE] with [SPECIFIC REQUIREMENTS]. Focus on [STYLE/MOOD] that appeals to [TARGET AUDIENCE].",
+    whatPeopleUseItFor: ["Custom artwork", "Product mockups", "Marketing materials", "Creative projects"],
+    signUpRequired: false,
+  },
+  {
+    id: "dalle-3",
+    name: "DALL-E 3",
+    description: "OpenAI's advanced image generator integrated with ChatGPT for seamless text-to-image creation.",
+    category: "Design & Visual",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Paid",
+    rating: 4.7,
+    features: ["ChatGPT integration", "High quality", "Text understanding", "Safety filters"],
+    beginnerExplanation:
+      "DALL-E 3 is like having a professional photographer and graphic designer combined, who can create exactly what you describe for your business needs.",
+    relatedTools: ["Midjourney", "Adobe Firefly"],
+    website: "https://openai.com/dall-e-3",
+    copyPrompt:
+      "Create a professional image for my [BUSINESS TYPE] that shows [DETAILED DESCRIPTION]. The image should be suitable for [INTENDED USE] and appeal to [TARGET AUDIENCE].",
+    whatPeopleUseItFor: ["Marketing graphics", "Social media posts", "Website images", "Presentations"],
+    signUpRequired: true,
+    specialBadge: "our-top-pick",
+  },
+  {
+    id: "adobe-firefly",
+    name: "Adobe Firefly",
+    description: "Adobe's AI image generator integrated with Creative Cloud for professional design workflows.",
+    category: "Design & Visual",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.5,
+    features: ["Creative Cloud integration", "Commercial safety", "Style matching", "Vector generation"],
+    beginnerExplanation:
+      "Adobe Firefly is like having Adobe's professional design tools powered by AI, making it easy to create commercial-ready graphics for your business.",
+    relatedTools: ["DALL-E", "Midjourney"],
+    website: "https://firefly.adobe.com",
+    copyPrompt:
+      "Generate professional marketing visuals for my [BUSINESS TYPE] that align with current design trends and are suitable for commercial use in [SPECIFIC APPLICATION].",
+    whatPeopleUseItFor: ["Professional graphics", "Marketing materials", "Brand assets", "Commercial imagery"],
+    signUpRequired: true,
+  },
+  {
+    id: "canva",
+    name: "Canva",
+    description:
+      "AI-powered design platform for creating stunning visuals, social media posts, and marketing materials in minutes.",
+    category: "Design & Visual",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.8,
+    features: ["AI design suggestions", "Brand kit", "Social media templates", "Video editing"],
+    beginnerExplanation:
+      "Think of Canva like having a professional designer friend who helps you create beautiful graphics instantly. You just tell it what you want (like 'Instagram post for my bakery') and it creates gorgeous designs for you!",
+    relatedTools: ["Adobe Express", "Figma"],
+    website: "https://canva.com",
+    copyPrompt:
+      "Create a professional Instagram post for my [BUSINESS TYPE] business promoting [PRODUCT/SERVICE]. Use modern, clean design with [BRAND COLORS]. Include space for my logo and make it eye-catching for my target audience of [TARGET AUDIENCE].",
+    whatPeopleUseItFor: ["Social media posts", "Marketing materials", "Presentations", "Brand assets"],
+    signUpRequired: true,
+    specialBadge: "our-top-pick",
+  },
+  {
+    id: "google-imagen",
+    name: "Google Imagen",
+    description: "Google's text-to-image AI model with photorealistic image generation capabilities.",
+    category: "Design & Visual",
+    difficulty: "Intermediate",
+    popularity: "New",
+    price: "Paid",
+    rating: 4.4,
+    features: ["Photorealistic images", "Text rendering", "Style control", "High resolution"],
+    beginnerExplanation:
+      "Google Imagen is like having a professional photographer who can create incredibly realistic images of anything you describe for your business.",
+    relatedTools: ["DALL-E", "Midjourney"],
+    website: "https://imagen.research.google",
+    copyPrompt:
+      "Create photorealistic images for my [BUSINESS TYPE] showing [SPECIFIC SCENE/PRODUCT]. The images should look professional and be suitable for [MARKETING USE].",
+    whatPeopleUseItFor: ["Product photography", "Marketing visuals", "Website imagery", "Advertising"],
+    signUpRequired: true,
+    isNew: true,
+  },
+  {
+    id: "playground-ai",
+    name: "Playground AI",
+    description: "User-friendly AI image generator with multiple models and editing capabilities.",
+    category: "Design & Visual",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.3,
+    features: ["Multiple AI models", "Image editing", "Batch generation", "Community gallery"],
+    beginnerExplanation:
+      "Playground AI is like having an easy-to-use art studio where you can experiment with different styles and create professional images for your business.",
+    relatedTools: ["Midjourney", "Stable Diffusion"],
+    website: "https://playgroundai.com",
+    copyPrompt:
+      "Generate creative visuals for my [BUSINESS TYPE] in [STYLE PREFERENCE]. Create multiple variations that I can use for [SPECIFIC PURPOSE].",
+    whatPeopleUseItFor: ["Social media graphics", "Marketing visuals", "Creative projects", "Brand imagery"],
+    signUpRequired: true,
+  },
+  {
+    id: "looka",
+    name: "Looka",
+    description: "AI-powered logo and brand identity generator for creating professional business branding.",
+    category: "Design & Visual",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Paid",
+    rating: 4.4,
+    features: ["Logo generation", "Brand kit", "Business cards", "Social media templates"],
+    beginnerExplanation:
+      "Looka is like having a professional brand designer who creates your entire brand identity - logo, colors, fonts, and marketing materials - all in one place.",
+    relatedTools: ["Canva", "Adobe Express"],
+    website: "https://looka.com",
+    copyPrompt:
+      "Create a professional brand identity for my [BUSINESS TYPE] called [BUSINESS NAME]. The brand should appeal to [TARGET AUDIENCE] and convey [BRAND VALUES/PERSONALITY].",
+    whatPeopleUseItFor: ["Logo design", "Brand identity", "Business cards", "Marketing materials"],
+    signUpRequired: true,
+  },
+
+  // Video & Avatar Creation
+  {
+    id: "synthesia",
+    name: "Synthesia",
+    description: "Create professional AI videos with virtual presenters - no camera or studio needed.",
+    category: "Video Creation",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Paid",
+    rating: 4.6,
+    features: ["AI avatars", "Multiple languages", "Custom branding", "Screen recording"],
+    beginnerExplanation:
+      "Synthesia lets you create professional videos without being on camera! You just type what you want to say, choose a virtual presenter, and it creates a video that looks like a real person is talking about your business.",
+    relatedTools: ["Loom", "Vidyard"],
+    website: "https://synthesia.io",
+    copyPrompt:
+      "Create a 2-minute explainer video script for my [PRODUCT/SERVICE]. The video should introduce the problem my target audience faces, explain how my solution works, highlight key benefits, and end with a clear call-to-action. Keep the language simple and engaging for [TARGET AUDIENCE].",
+    whatPeopleUseItFor: ["Product demos", "Training videos", "Marketing content", "Presentations"],
+    signUpRequired: true,
+    specialBadge: "trending",
+  },
+  {
+    id: "runway-ml",
+    name: "Runway ML",
+    description: "AI-powered video editing and generation platform with advanced creative tools.",
+    category: "Video Creation",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.5,
+    features: ["Video generation", "AI editing", "Green screen", "Motion tracking"],
+    beginnerExplanation:
+      "Runway ML is like having a professional video editor who can create and edit videos using AI, making complex video effects simple and accessible.",
+    relatedTools: ["Synthesia", "Luma AI"],
+    website: "https://runwayml.com",
+    copyPrompt:
+      "Help me create engaging video content for my [BUSINESS TYPE] that will showcase [PRODUCT/SERVICE] in a creative and professional way for [PLATFORM/USE CASE].",
+    whatPeopleUseItFor: ["Video editing", "Creative content", "Marketing videos", "Social media content"],
+    signUpRequired: true,
+    specialBadge: "creator-pick",
+  },
+  {
+    id: "opus-clip",
+    name: "OpusClip",
+    description: "AI video editor that automatically creates short clips from long-form content.",
+    category: "Video Creation",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.4,
+    features: ["Auto clipping", "Viral score", "Captions", "Social media optimization"],
+    beginnerExplanation:
+      "OpusClip is like having a social media manager who watches your long videos and automatically creates short, engaging clips perfect for TikTok, Instagram, and YouTube Shorts.",
+    relatedTools: ["Runway ML", "Loom"],
+    website: "https://opus.pro",
+    copyPrompt:
+      "Transform my long-form content about [TOPIC] into engaging short clips that will perform well on [SOCIAL PLATFORM]. Focus on the most valuable insights for [TARGET AUDIENCE].",
+    whatPeopleUseItFor: ["Social media clips", "Content repurposing", "Video marketing", "Viral content"],
+    signUpRequired: true,
+  },
+  {
+    id: "heygen",
+    name: "HeyGen",
+    description: "AI video generator with customizable avatars and multilingual capabilities.",
+    category: "Video Creation",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Paid",
+    rating: 4.3,
+    features: ["Custom avatars", "Voice cloning", "Multiple languages", "API integration"],
+    beginnerExplanation:
+      "HeyGen is like having your own personal spokesperson who can speak in any language and deliver your message professionally in videos.",
+    relatedTools: ["Synthesia", "D-ID"],
+    website: "https://heygen.com",
+    copyPrompt:
+      "Create a professional video presentation for my [BUSINESS TYPE] explaining [KEY MESSAGE] to [TARGET AUDIENCE]. Make it engaging and include a strong call-to-action.",
+    whatPeopleUseItFor: ["Marketing videos", "Training content", "Presentations", "Multilingual content"],
+    signUpRequired: true,
+  },
+
+  // Automation & Productivity
+  {
+    id: "zapier",
+    name: "Zapier",
+    description: "Automate repetitive tasks by connecting your favorite apps and tools with AI-powered workflows.",
+    category: "Automation",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.5,
+    features: ["App integrations", "Workflow automation", "AI suggestions", "Error handling"],
+    beginnerExplanation:
+      "Zapier is like having a robot assistant that does boring, repetitive tasks for you. For example, when someone fills out a form on your website, Zapier can automatically add them to your email list and send you a notification!",
+    relatedTools: ["Make", "IFTTT"],
+    website: "https://zapier.com",
+    copyPrompt:
+      "Help me automate my business workflow: When [TRIGGER EVENT] happens, I want to automatically [DESIRED ACTION]. Connect my [APP 1] with [APP 2] to streamline [SPECIFIC PROCESS]. Suggest the most efficient automation sequence and any additional steps I should consider.",
+    whatPeopleUseItFor: ["Workflow automation", "Data syncing", "Lead management", "Task automation"],
+    signUpRequired: true,
+    specialBadge: "creator-pick",
+  },
+  {
+    id: "n8n",
+    name: "n8n",
+    description: "Open-source workflow automation tool with visual interface and extensive integrations.",
+    category: "Automation",
+    difficulty: "Expert",
+    popularity: "Medium",
+    price: "Free",
+    rating: 4.4,
+    features: ["Open source", "Visual workflows", "Self-hosted", "Custom nodes"],
+    beginnerExplanation:
+      "n8n is like having your own automation factory that you can customize completely, though it requires more technical knowledge to set up and manage.",
+    relatedTools: ["Zapier", "Make"],
+    website: "https://n8n.io",
+    copyPrompt:
+      "Design a custom workflow for my [BUSINESS TYPE] that automates [SPECIFIC PROCESS]. Include error handling and notifications for [TEAM MEMBERS].",
+    whatPeopleUseItFor: ["Custom automation", "Data processing", "API integrations", "Business workflows"],
+    signUpRequired: false,
+  },
+  {
+    id: "notion-ai",
+    name: "Notion AI",
+    description:
+      "AI-enhanced workspace for project management, note-taking, and team collaboration with smart automation.",
+    category: "Productivity",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.6,
+    features: ["AI writing assistant", "Smart templates", "Database automation", "Team collaboration"],
+    beginnerExplanation:
+      "Notion AI is like having a super-organized personal assistant who helps you keep track of everything in your business. It can write meeting notes, create to-do lists, and even help you plan projects - all in one place!",
+    relatedTools: ["Airtable", "Monday.com"],
+    website: "https://notion.so",
+    copyPrompt:
+      "Create a comprehensive project management system for my [PROJECT TYPE]. Include task tracking, timeline management, team collaboration features, and progress monitoring. Set up templates for recurring processes and automate status updates.",
+    whatPeopleUseItFor: ["Project management", "Note-taking", "Team wikis", "Content planning"],
+    signUpRequired: true,
+    specialBadge: "startup-fav",
+  },
+  {
+    id: "microsoft-copilot",
+    name: "Microsoft Copilot",
+    description: "AI assistant integrated across Microsoft 365 apps for enhanced productivity and automation.",
+    category: "Productivity",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Paid",
+    rating: 4.4,
+    features: ["Office integration", "Email assistance", "Document creation", "Data analysis"],
+    beginnerExplanation:
+      "Microsoft Copilot is like having a smart assistant built into all your Microsoft Office apps, helping you write emails, create presentations, and analyze data more efficiently.",
+    relatedTools: ["Google Workspace", "Notion"],
+    website: "https://copilot.microsoft.com",
+    copyPrompt:
+      "Help me create a professional [DOCUMENT TYPE] for my [BUSINESS TYPE]. Include [SPECIFIC REQUIREMENTS] and format it appropriately for [INTENDED AUDIENCE].",
+    whatPeopleUseItFor: ["Document creation", "Email writing", "Data analysis", "Presentation design"],
+    signUpRequired: true,
+  },
+  {
+    id: "clockwise",
+    name: "Clockwise",
+    description: "AI-powered calendar management and focus time optimization tool.",
+    category: "Productivity",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.3,
+    features: ["Focus time", "Calendar optimization", "Meeting analytics", "Team coordination"],
+    beginnerExplanation:
+      "Clockwise is like having a personal scheduler who protects your time for important work and helps you avoid meeting overload.",
+    relatedTools: ["Calendly", "Reclaim"],
+    website: "https://clockwise.com",
+    copyPrompt:
+      "Optimize my calendar for maximum productivity as a [ROLE] in a [BUSINESS TYPE]. I need focused time for [KEY ACTIVITIES] while maintaining availability for [IMPORTANT MEETINGS].",
+    whatPeopleUseItFor: ["Calendar management", "Focus time", "Meeting optimization", "Productivity tracking"],
+    signUpRequired: true,
+  },
+  {
+    id: "reclaim",
+    name: "Reclaim.ai",
+    description:
+      "AI calendar assistant that automatically schedules tasks, habits, and meetings for optimal productivity.",
+    category: "Productivity",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.4,
+    features: ["Smart scheduling", "Task management", "Habit tracking", "Calendar defense"],
+    beginnerExplanation:
+      "Reclaim.ai is like having a personal assistant who automatically finds the best times for your important tasks and protects your calendar from meeting overload.",
+    relatedTools: ["Clockwise", "Calendly"],
+    website: "https://reclaim.ai",
+    copyPrompt:
+      "Help me optimize my weekly schedule as a [ROLE]. I need time blocked for [KEY TASKS], regular habits like [HABITS], and availability for [MEETING TYPES].",
+    whatPeopleUseItFor: ["Time blocking", "Task scheduling", "Habit formation", "Calendar optimization"],
+    signUpRequired: true,
+  },
+
+  // Marketing & Sales
+  {
+    id: "mailchimp",
+    name: "Mailchimp",
+    description:
+      "AI-driven email marketing platform that helps you create, send, and optimize email campaigns automatically.",
+    category: "Marketing & Sales",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.6,
+    features: ["AI email optimization", "Audience segmentation", "Automated campaigns", "Analytics"],
+    beginnerExplanation:
+      "Mailchimp is like having a smart marketing assistant that knows exactly when and what to email your customers. It learns what your customers like and sends them personalized messages automatically!",
+    relatedTools: ["ConvertKit", "Klaviyo"],
+    website: "https://mailchimp.com",
+    copyPrompt:
+      "Create a welcome email sequence for new subscribers to my [BUSINESS TYPE] business. The sequence should introduce my brand, provide value about [YOUR EXPERTISE], and gently promote my [MAIN PRODUCT/SERVICE]. Keep the tone [BRAND VOICE - friendly/professional/casual].",
+    whatPeopleUseItFor: ["Email newsletters", "Customer onboarding", "Product launches", "Automated campaigns"],
+    signUpRequired: true,
+    specialBadge: "startup-fav",
+  },
+  {
+    id: "hootsuite",
+    name: "Hootsuite Insights",
+    description:
+      "AI-powered social media management with smart scheduling, content suggestions, and performance analytics.",
+    category: "Social Media",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Paid",
+    rating: 4.4,
+    features: ["AI content suggestions", "Best time posting", "Competitor analysis", "ROI tracking"],
+    beginnerExplanation:
+      "Hootsuite is like having a social media manager who never sleeps! It figures out the best times to post, suggests what content will get the most likes, and manages all your social accounts from one place.",
+    relatedTools: ["Buffer", "Sprout Social"],
+    website: "https://hootsuite.com",
+    copyPrompt:
+      "Create a 30-day social media content calendar for my [BUSINESS TYPE] business. Include a mix of educational, promotional, and engaging content for [PLATFORMS]. My target audience is [TARGET AUDIENCE] and my main goals are [GOALS]. Suggest optimal posting times and hashtag strategies.",
+    whatPeopleUseItFor: ["Social media scheduling", "Analytics tracking", "Team collaboration", "Content planning"],
+    signUpRequired: true,
+  },
+  {
+    id: "buffer",
+    name: "Buffer",
+    description: "AI-enhanced social media scheduling and analytics platform for consistent online presence.",
+    category: "Social Media",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.5,
+    features: ["Smart scheduling", "Analytics", "Team collaboration", "Content suggestions"],
+    beginnerExplanation:
+      "Buffer is like having a social media assistant who posts your content at the perfect times when your audience is most active. It helps you stay consistent online without having to be glued to your phone!",
+    relatedTools: ["Hootsuite", "Later"],
+    website: "https://buffer.com",
+    copyPrompt:
+      "Create a week's worth of social media posts for my [BUSINESS TYPE] targeting [AUDIENCE]. Include a mix of educational tips about [YOUR EXPERTISE], behind-the-scenes content, customer testimonials, and promotional posts for [PRODUCT/SERVICE]. Optimize posting times for maximum engagement.",
+    whatPeopleUseItFor: ["Social media scheduling", "Content planning", "Analytics tracking", "Team management"],
+    signUpRequired: true,
+    specialBadge: "startup-fav",
+  },
+  {
+    id: "hubspot",
+    name: "HubSpot",
+    description: "Comprehensive CRM and marketing platform with AI-powered lead generation and customer management.",
+    category: "Marketing & Sales",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.5,
+    features: ["CRM integration", "Lead scoring", "Email automation", "Sales pipeline"],
+    beginnerExplanation:
+      "HubSpot is like having an entire marketing and sales team that tracks every interaction with your customers and helps you nurture leads into paying customers automatically.",
+    relatedTools: ["Salesforce", "Pipedrive"],
+    website: "https://hubspot.com",
+    copyPrompt:
+      "Set up a lead nurturing campaign for my [BUSINESS TYPE]. Create a sequence that guides prospects from initial interest in [PRODUCT/SERVICE] to purchase, including educational content and strategic touchpoints.",
+    whatPeopleUseItFor: ["Lead management", "Email marketing", "Sales tracking", "Customer service"],
+    signUpRequired: true,
+  },
+  {
+    id: "convertkit",
+    name: "ConvertKit",
+    description: "Email marketing platform designed for creators with AI-powered automation and segmentation.",
+    category: "Marketing & Sales",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.4,
+    features: ["Creator-focused", "Visual automations", "Tagging system", "Landing pages"],
+    beginnerExplanation:
+      "ConvertKit is like having a marketing assistant specifically trained to help creators and entrepreneurs build relationships with their audience through smart email campaigns.",
+    relatedTools: ["Mailchimp", "ActiveCampaign"],
+    website: "https://convertkit.com",
+    copyPrompt:
+      "Design an email automation sequence for my [CREATOR TYPE] business that converts subscribers into customers for [PRODUCT/SERVICE]. Include value-driven content and strategic sales touchpoints.",
+    whatPeopleUseItFor: ["Creator marketing", "Course sales", "Newsletter automation", "Audience building"],
+    signUpRequired: true,
+  },
+  {
+    id: "klaviyo",
+    name: "Klaviyo",
+    description: "Advanced email and SMS marketing platform with AI-driven personalization for e-commerce.",
+    category: "Marketing & Sales",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.6,
+    features: ["E-commerce integration", "Predictive analytics", "SMS marketing", "Advanced segmentation"],
+    beginnerExplanation:
+      "Klaviyo is like having a data scientist and marketing expert who analyzes your customers' behavior and sends them perfectly timed, personalized messages that drive sales.",
+    relatedTools: ["Mailchimp", "Omnisend"],
+    website: "https://klaviyo.com",
+    copyPrompt:
+      "Create a comprehensive email marketing strategy for my e-commerce business selling [PRODUCTS]. Include welcome series, abandoned cart recovery, post-purchase follow-up, and win-back campaigns.",
+    whatPeopleUseItFor: ["E-commerce email marketing", "SMS campaigns", "Customer retention", "Revenue optimization"],
+    signUpRequired: true,
+    specialBadge: "creator-pick",
+  },
+
+  // Voice & Audio AI
+  {
+    id: "elevenlabs",
+    name: "ElevenLabs",
+    description: "Advanced AI voice generation and cloning platform for creating realistic speech.",
+    category: "Voice & Audio",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.7,
+    features: ["Voice cloning", "Multiple languages", "Emotion control", "API access"],
+    beginnerExplanation:
+      "ElevenLabs is like having a professional voice actor who can speak in any voice you want, including your own, for podcasts, videos, and audio content.",
+    relatedTools: ["Murf.ai", "Speechify"],
+    website: "https://elevenlabs.io",
+    copyPrompt:
+      "Create professional voiceover content for my [BUSINESS TYPE] explaining [TOPIC/PRODUCT]. The voice should sound [TONE/STYLE] and be suitable for [USE CASE - podcast/video/presentation].",
+    whatPeopleUseItFor: ["Voiceovers", "Podcast creation", "Audio books", "Video narration"],
+    signUpRequired: true,
+    specialBadge: "trending",
+  },
+  {
+    id: "murf-ai",
+    name: "Murf.ai",
+    description: "AI voice generator with studio-quality voices for professional audio content creation.",
+    category: "Voice & Audio",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.4,
+    features: ["Studio voices", "Voice editing", "Multiple accents", "Commercial license"],
+    beginnerExplanation:
+      "Murf.ai is like having access to a recording studio with professional voice actors who can read any script you write in various styles and accents.",
+    relatedTools: ["ElevenLabs", "Speechify"],
+    website: "https://murf.ai",
+    copyPrompt:
+      "Generate professional audio content for my [BUSINESS TYPE] that explains [KEY MESSAGE] to [TARGET AUDIENCE]. Choose an appropriate voice style and tone for [INTENDED USE].",
+    whatPeopleUseItFor: ["Presentations", "E-learning", "Marketing videos", "Podcast intros"],
+    signUpRequired: true,
+  },
+  {
+    id: "udio",
+    name: "Udio",
+    description: "AI music generation platform for creating original songs and audio content.",
+    category: "Music & Audio",
+    difficulty: "Beginner",
+    popularity: "New",
+    price: "Freemium",
+    rating: 4.3,
+    features: ["Music generation", "Lyric creation", "Multiple genres", "Commercial use"],
+    beginnerExplanation:
+      "Udio is like having a personal composer who can create original music and songs for your business, from background music to jingles and theme songs.",
+    relatedTools: ["Suno", "AIVA"],
+    website: "https://udio.com",
+    copyPrompt:
+      "Create original background music for my [BUSINESS TYPE] that conveys [MOOD/EMOTION] and would be suitable for [USE CASE - videos/presentations/website]. Style should be [GENRE PREFERENCE].",
+    whatPeopleUseItFor: ["Background music", "Jingles", "Podcast music", "Video soundtracks"],
+    signUpRequired: true,
+    isNew: true,
+  },
+
+  // Music & Sound Generation
+  {
+    id: "suno",
+    name: "Suno",
+    description: "AI music creation platform that generates complete songs with lyrics and vocals.",
+    category: "Music & Audio",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.5,
+    features: ["Complete songs", "Vocal generation", "Lyric writing", "Multiple styles"],
+    beginnerExplanation:
+      "Suno is like having a full band and songwriter who can create complete songs with vocals for your business, from jingles to theme songs.",
+    relatedTools: ["Udio", "AIVA"],
+    website: "https://suno.ai",
+    copyPrompt:
+      "Create a catchy jingle for my [BUSINESS TYPE] called [BUSINESS NAME]. The song should highlight [KEY BENEFIT/MESSAGE] and be memorable for [TARGET AUDIENCE]. Style: [GENRE PREFERENCE].",
+    whatPeopleUseItFor: ["Business jingles", "Brand songs", "Marketing music", "Podcast themes"],
+    signUpRequired: true,
+    specialBadge: "trending",
+  },
+  {
+    id: "aiva",
+    name: "AIVA",
+    description: "AI composer that creates original music for various applications and commercial use.",
+    category: "Music & Audio",
+    difficulty: "Intermediate",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.4,
+    features: ["Classical composition", "Soundtrack creation", "MIDI export", "Copyright ownership"],
+    beginnerExplanation:
+      "AIVA is like having a classically trained composer who creates sophisticated background music and soundtracks for your professional content.",
+    relatedTools: ["Suno", "Amper Music"],
+    website: "https://aiva.ai",
+    copyPrompt:
+      "Compose professional background music for my [BUSINESS TYPE] that would enhance [CONTENT TYPE]. The music should evoke [DESIRED EMOTION] and be suitable for [SPECIFIC USE].",
+    whatPeopleUseItFor: ["Background music", "Video soundtracks", "Presentation music", "Commercial music"],
+    signUpRequired: true,
+  },
+
+  // Code & Developer Tools
+  {
+    id: "github-copilot",
+    name: "GitHub Copilot",
+    description: "AI pair programmer that helps write code faster with intelligent suggestions and completions.",
+    category: "Development",
+    difficulty: "Expert",
+    popularity: "High",
+    price: "Paid",
+    rating: 4.6,
+    features: ["Code completion", "Multiple languages", "Context awareness", "IDE integration"],
+    beginnerExplanation:
+      "GitHub Copilot is like having an experienced programmer sitting next to you, helping you write code faster and suggesting solutions to programming problems.",
+    relatedTools: ["Cursor", "Tabnine"],
+    website: "https://github.com/features/copilot",
+    copyPrompt:
+      "Help me build a [TYPE OF APPLICATION] for my [BUSINESS TYPE]. I need [SPECIFIC FUNCTIONALITY] that will help [TARGET USERS] achieve [GOAL]. Suggest the best approach and technologies.",
+    whatPeopleUseItFor: ["Code writing", "Bug fixing", "Learning programming", "Productivity enhancement"],
+    signUpRequired: true,
+    specialBadge: "creator-pick",
+  },
+  {
+    id: "cursor",
+    name: "Cursor",
+    description: "AI-powered code editor designed for pair programming with AI assistance.",
+    category: "Development",
+    difficulty: "Expert",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.7,
+    features: ["AI chat", "Code generation", "Codebase understanding", "Natural language editing"],
+    beginnerExplanation:
+      "Cursor is like having a smart code editor that understands what you're trying to build and can write entire functions or fix bugs just by describing what you want.",
+    relatedTools: ["GitHub Copilot", "Replit"],
+    website: "https://cursor.sh",
+    copyPrompt:
+      "I want to create a [TYPE OF FEATURE] for my [BUSINESS TYPE] website. Help me understand the requirements and write the necessary code to implement [SPECIFIC FUNCTIONALITY].",
+    whatPeopleUseItFor: ["Web development", "App building", "Code refactoring", "Learning to code"],
+    signUpRequired: true,
+    specialBadge: "trending",
+  },
+  {
+    id: "replit",
+    name: "Replit",
+    description: "Cloud-based development environment with AI assistance for coding and collaboration.",
+    category: "Development",
+    difficulty: "Intermediate",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.4,
+    features: ["Cloud IDE", "AI assistance", "Collaboration", "Instant deployment"],
+    beginnerExplanation:
+      "Replit is like having a complete development studio in your browser where you can build apps with AI help, without needing to install anything on your computer.",
+    relatedTools: ["GitHub Codespaces", "Glitch"],
+    website: "https://replit.com",
+    copyPrompt:
+      "Help me build a simple [TYPE OF APPLICATION] for my [BUSINESS TYPE]. I want to create [SPECIFIC FUNCTIONALITY] that my customers can use to [DESIRED OUTCOME].",
+    whatPeopleUseItFor: ["Learning to code", "Prototyping", "Web apps", "Collaboration"],
+    signUpRequired: true,
+  },
+
+  // Customer Service & Business Intelligence
+  {
+    id: "intercom",
+    name: "Intercom",
+    description: "AI-powered customer service platform with chatbots and automated support workflows.",
+    category: "Customer Service",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Paid",
+    rating: 4.5,
+    features: ["AI chatbots", "Live chat", "Help desk", "Customer insights"],
+    beginnerExplanation:
+      "Intercom is like having a customer service team that never sleeps, answering common questions automatically and connecting customers to human help when needed.",
+    relatedTools: ["Zendesk", "Freshdesk"],
+    website: "https://intercom.com",
+    copyPrompt:
+      "Set up automated customer support for my [BUSINESS TYPE]. Create responses for common questions about [PRODUCTS/SERVICES] and escalation paths for complex issues.",
+    whatPeopleUseItFor: ["Customer support", "Lead qualification", "User onboarding", "Help desk"],
+    signUpRequired: true,
+  },
+  {
+    id: "zendesk",
+    name: "Zendesk",
+    description: "Customer service platform with AI-powered ticket routing and automated responses.",
+    category: "Customer Service",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Paid",
+    rating: 4.4,
+    features: ["Ticket management", "AI routing", "Knowledge base", "Analytics"],
+    beginnerExplanation:
+      "Zendesk is like having an organized customer service manager who sorts all customer inquiries and makes sure they get to the right person quickly.",
+    relatedTools: ["Intercom", "Freshdesk"],
+    website: "https://zendesk.com",
+    copyPrompt:
+      "Create a customer service workflow for my [BUSINESS TYPE] that handles [COMMON ISSUES]. Include automated responses and escalation procedures for [COMPLEX SITUATIONS].",
+    whatPeopleUseItFor: ["Support tickets", "Customer service", "Help documentation", "Team collaboration"],
+    signUpRequired: true,
+  },
+
+  // Translation & Language
+  {
+    id: "deepl",
+    name: "DeepL",
+    description: "AI-powered translation service known for high-quality, nuanced translations.",
+    category: "Translation",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.7,
+    features: ["High-quality translation", "Document translation", "API access", "Tone preservation"],
+    beginnerExplanation:
+      "DeepL is like having a professional translator who understands context and nuance, helping you communicate with international customers in their native language.",
+    relatedTools: ["Google Translate", "Microsoft Translator"],
+    website: "https://deepl.com",
+    copyPrompt:
+      "Translate my [BUSINESS TYPE] marketing materials into [TARGET LANGUAGE] while maintaining the professional tone and cultural appropriateness for [TARGET MARKET].",
+    whatPeopleUseItFor: [
+      "Document translation",
+      "Website localization",
+      "International marketing",
+      "Customer communication",
+    ],
+    signUpRequired: false,
+  },
+  {
+    id: "whisper",
+    name: "Whisper",
+    description: "OpenAI's speech recognition system that converts audio to text with high accuracy.",
+    category: "Speech-to-Text",
+    difficulty: "Intermediate",
+    popularity: "High",
+    price: "Free",
+    rating: 4.6,
+    features: ["Multiple languages", "High accuracy", "Noise robustness", "Open source"],
+    beginnerExplanation:
+      "Whisper is like having a professional transcriptionist who can accurately convert any audio recording into text, even with background noise or accents.",
+    relatedTools: ["Otter.ai", "Rev"],
+    website: "https://openai.com/research/whisper",
+    copyPrompt:
+      "Transcribe my [AUDIO TYPE - meeting/interview/presentation] and format it appropriately for [INTENDED USE]. Include speaker identification and clean up any filler words.",
+    whatPeopleUseItFor: ["Meeting transcription", "Podcast transcripts", "Interview notes", "Content creation"],
+    signUpRequired: false,
+  },
+
+  // Education & Learning
+  {
+    id: "khan-academy",
+    name: "Khan Academy",
+    description: "Educational platform with AI-powered personalized learning and tutoring assistance.",
+    category: "Education",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Free",
+    rating: 4.8,
+    features: ["Personalized learning", "Progress tracking", "Interactive exercises", "AI tutoring"],
+    beginnerExplanation:
+      "Khan Academy is like having a personal tutor who adapts to your learning style and helps you master new skills at your own pace.",
+    relatedTools: ["Coursera", "Udemy"],
+    website: "https://khanacademy.org",
+    copyPrompt:
+      "Help me create a learning plan to develop [SKILL/KNOWLEDGE] that will benefit my [BUSINESS TYPE]. Structure it with milestones and practical applications.",
+    whatPeopleUseItFor: ["Skill development", "Business education", "Personal learning", "Team training"],
+    signUpRequired: false,
+  },
+  {
+    id: "duolingo",
+    name: "Duolingo",
+    description: "Language learning app with AI-powered personalization and adaptive learning paths.",
+    category: "Education",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.7,
+    features: ["Gamified learning", "Adaptive difficulty", "Speech recognition", "Progress tracking"],
+    beginnerExplanation:
+      "Duolingo is like having a language teacher who makes learning fun through games and adapts lessons based on how quickly you learn.",
+    relatedTools: ["Babbel", "Rosetta Stone"],
+    website: "https://duolingo.com",
+    copyPrompt:
+      "Help me learn [LANGUAGE] for my [BUSINESS TYPE] so I can better serve [TARGET MARKET]. Focus on business vocabulary and customer service phrases.",
+    whatPeopleUseItFor: [
+      "Language learning",
+      "International business",
+      "Cultural communication",
+      "Personal development",
+    ],
+    signUpRequired: true,
+  },
+
+  // Web & App Builders
+  {
+    id: "wix-adi",
+    name: "Wix ADI",
+    description: "AI website builder that creates personalized websites based on your business needs.",
+    category: "Web Development",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.3,
+    features: ["AI design", "Drag-and-drop", "Mobile optimization", "SEO tools"],
+    beginnerExplanation:
+      "Wix ADI is like having a web designer who creates a complete website for your business just by asking you a few questions about what you need.",
+    relatedTools: ["Squarespace", "WordPress"],
+    website: "https://wix.com",
+    copyPrompt:
+      "Create a professional website for my [BUSINESS TYPE] that showcases [PRODUCTS/SERVICES] and appeals to [TARGET AUDIENCE]. Include [SPECIFIC FEATURES] and optimize for [MAIN GOAL].",
+    whatPeopleUseItFor: ["Business websites", "Online stores", "Portfolios", "Landing pages"],
+    signUpRequired: true,
+  },
+  {
+    id: "framer",
+    name: "Framer",
+    description: "AI-powered web design tool that generates websites from simple text descriptions.",
+    category: "Web Development",
+    difficulty: "Intermediate",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.5,
+    features: ["AI generation", "Interactive design", "Responsive layouts", "CMS integration"],
+    beginnerExplanation:
+      "Framer is like having a professional web designer who can create beautiful, interactive websites just from describing what you want.",
+    relatedTools: ["Webflow", "Figma"],
+    website: "https://framer.com",
+    copyPrompt:
+      "Design a modern website for my [BUSINESS TYPE] that converts visitors into customers. Include [KEY SECTIONS] and optimize the user experience for [PRIMARY GOAL].",
+    whatPeopleUseItFor: ["Professional websites", "Landing pages", "Portfolio sites", "Interactive designs"],
+    signUpRequired: true,
+    specialBadge: "creator-pick",
+  },
+
+  // AI Detectors & Security
+  {
+    id: "originality-ai",
+    name: "Originality.AI",
+    description: "AI content detector and plagiarism checker for identifying AI-generated text.",
+    category: "Content Analysis",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Paid",
+    rating: 4.4,
+    features: ["AI detection", "Plagiarism checking", "Readability analysis", "Team management"],
+    beginnerExplanation:
+      "Originality.AI is like having a content quality inspector who can tell you if content was written by AI or humans, and check for plagiarism.",
+    relatedTools: ["GPTZero", "Copyleaks"],
+    website: "https://originality.ai",
+    copyPrompt:
+      "Analyze this content for my [BUSINESS TYPE] to ensure it meets quality standards and authenticity requirements for [INTENDED USE]: [PASTE CONTENT].",
+    whatPeopleUseItFor: ["Content verification", "Quality assurance", "Academic integrity", "Publishing standards"],
+    signUpRequired: true,
+  },
+  {
+    id: "gptzero",
+    name: "GPTZero",
+    description: "AI detection tool specifically designed to identify AI-generated text with high accuracy.",
+    category: "Content Analysis",
+    difficulty: "Beginner",
+    popularity: "Medium",
+    price: "Freemium",
+    rating: 4.3,
+    features: ["AI detection", "Batch processing", "API access", "Educational focus"],
+    beginnerExplanation:
+      "GPTZero is like having a detective who specializes in identifying whether content was written by AI, helping maintain authenticity in your communications.",
+    relatedTools: ["Originality.AI", "Winston AI"],
+    website: "https://gptzero.me",
+    copyPrompt:
+      "Check this content for AI generation to ensure authenticity for my [BUSINESS TYPE] [CONTENT TYPE]: [PASTE CONTENT].",
+    whatPeopleUseItFor: ["Content authenticity", "Academic verification", "Publishing quality", "Brand integrity"],
+    signUpRequired: false,
+  },
+
+  // Specialized Business Tools
+  {
+    id: "calendly",
+    name: "Calendly",
+    description: "AI-powered scheduling tool that eliminates back-and-forth emails and automates appointment booking.",
+    category: "Productivity",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.7,
+    features: ["Smart scheduling", "Calendar integration", "Automated reminders", "Custom workflows"],
+    beginnerExplanation:
+      "Calendly is like having a personal secretary who handles all your appointment scheduling. Clients can book meetings with you automatically, and it sends reminders so no one forgets!",
+    relatedTools: ["Acuity", "Bookly"],
+    website: "https://calendly.com",
+    copyPrompt:
+      "Set up my scheduling system for [TYPE OF MEETINGS/CONSULTATIONS]. Create automated email sequences for booking confirmations, reminders, and follow-ups. Include intake questions to gather [SPECIFIC INFORMATION] before our meeting to make sessions more productive.",
+    whatPeopleUseItFor: ["Meeting scheduling", "Client bookings", "Consultation calls", "Event planning"],
+    signUpRequired: true,
+    specialBadge: "our-top-pick",
+  },
+  {
+    id: "loom",
+    name: "Loom",
+    description: "AI-powered screen recording and video messaging tool for clear communication and tutorials.",
+    category: "Video Creation",
+    difficulty: "Beginner",
+    popularity: "High",
+    price: "Freemium",
+    rating: 4.7,
+    features: ["Screen recording", "AI transcription", "Video editing", "Team collaboration"],
+    beginnerExplanation:
+      "Loom is like having a personal video assistant that helps you record your screen and create professional videos instantly. Perfect for tutorials, client updates, or explaining complex ideas visually!",
+    relatedTools: ["Camtasia", "ScreenFlow"],
+    website: "https://loom.com",
+    copyPrompt:
+      "Create a tutorial video script for teaching my customers how to [SPECIFIC TASK/PROCESS]. Break it down into clear, easy-to-follow steps. Include an engaging introduction, step-by-step instructions, common troubleshooting tips, and a helpful conclusion.",
+    whatPeopleUseItFor: ["Screen recordings", "Tutorial videos", "Client updates", "Team communication"],
+    signUpRequired: true,
+    specialBadge: "our-top-pick",
+  },
+]
+
+export default function ResultsPage() {
+  const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [filteredTools, setFilteredTools] = useState<AITool[]>([])
+  const [selectedCategory, setSelectedCategory] = useState("all")
+
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+  const [copiedPrompts, setCopiedPrompts] = useState<Record<string, boolean>>({})
+
+  useEffect(() => {
+    // Get answers from localStorage
+    const storedAnswers = localStorage.getItem("questionnaireAnswers")
+    if (storedAnswers) {
+      const parsedAnswers = JSON.parse(storedAnswers)
+      setAnswers(parsedAnswers)
+
+      // Filter tools based on answers (simplified logic)
+      let filtered = [...aiTools]
+
+      // Filter by AI experience level
+      if (parsedAnswers.ai_experience === "Complete beginner - explain everything!") {
+        filtered = filtered.filter((tool) => tool.difficulty === "Beginner")
+      } else if (parsedAnswers.ai_experience === "Some experience with basic tools") {
+        filtered = filtered.filter((tool) => tool.difficulty !== "Expert")
+      }
+
+      // Handle multiple industries if selected
+      if (parsedAnswers.industry && parsedAnswers.industry.includes("Just exploring options")) {
+        // Show all tools if they're just exploring
+        filtered = [...aiTools]
+      }
+
+      setFilteredTools(filtered)
+    }
+  }, [])
+
+  const categories = ["all", ...Array.from(new Set(filteredTools.map((tool) => tool.category)))]
+
+  const displayedTools =
+    selectedCategory === "all" ? filteredTools : filteredTools.filter((tool) => tool.category === selectedCategory)
+
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case "Beginner":
+        return "bg-emerald-100 text-emerald-700 border-emerald-200"
+      case "Intermediate":
+        return "bg-amber-100 text-amber-700 border-amber-200"
+      case "Expert":
+        return "bg-rose-100 text-rose-700 border-rose-200"
+      default:
+        return "bg-gray-100 text-gray-700 border-gray-200"
+    }
+  }
+
+  const getSpecialBadge = (badge?: string) => {
+    switch (badge) {
+      case "startup-fav":
+        return (
+          <Badge className="bg-blue-100 text-blue-700 border-blue-200 flex items-center space-x-1">
+            <Zap className="w-3 h-3" />
+            <span>Startup Favorite</span>
+          </Badge>
+        )
+      case "creator-pick":
+        return (
+          <Badge className="bg-purple-100 text-purple-700 border-purple-200 flex items-center space-x-1">
+            <UserCheck className="w-3 h-3" />
+            <span>Creator's Choice</span>
+          </Badge>
+        )
+      case "our-top-pick":
+        return (
+          <Badge className="bg-yellow-100 text-yellow-700 border-yellow-200 flex items-center space-x-1">
+            <Crown className="w-3 h-3" />
+            <span>Our Top Pick</span>
+          </Badge>
+        )
+      case "trending":
+        return (
+          <Badge className="bg-rose-100 text-rose-700 border-rose-200 flex items-center space-x-1">
+            <Award className="w-3 h-3" />
+            <span>Trending Now</span>
+          </Badge>
+        )
+      default:
+        return null
+    }
+  }
+
+  const copyPrompt = async (toolId: string, prompt: string) => {
+    try {
+      // Replace placeholders with user's actual answers
+      let personalizedPrompt = prompt
+      if (answers.inspiration) {
+        personalizedPrompt = personalizedPrompt.replace(/\[BUSINESS TYPE\]/g, answers.industry || "business")
+        personalizedPrompt = personalizedPrompt.replace(
+          /\[TARGET AUDIENCE\]/g,
+          answers.target_audience || "your target audience",
+        )
+        personalizedPrompt = personalizedPrompt.replace(
+          /\[YOUR EXPERTISE\]/g,
+          answers.challenge_solving || "your expertise",
+        )
+      }
+
+      await navigator.clipboard.writeText(personalizedPrompt)
+      setCopiedPrompts((prev) => ({ ...prev, [toolId]: true }))
+      setTimeout(() => {
+        setCopiedPrompts((prev) => ({ ...prev, [toolId]: false }))
+      }, 2000)
+    } catch (err) {
+      console.error("Failed to copy prompt:", err)
+    }
+  }
+
+  const renderGridCard = (tool: AITool) => (
+    <Card
+      key={tool.id}
+      className="border-rose-100 hover:shadow-xl transition-all duration-300 bg-white/95 backdrop-blur-sm"
+    >
+      <CardHeader className="pb-4">
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center space-x-3">
+            <CardTitle className="text-2xl font-bold text-gray-800">{tool.name}</CardTitle>
+            {tool.isNew && <Badge className="bg-gradient-to-r from-rose-400 to-pink-500 text-white">NEW</Badge>}
+          </div>
+          <div className="flex items-center space-x-1 bg-yellow-50 px-3 py-1 rounded-full">
+            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            <span className="text-sm font-semibold text-yellow-700">{tool.rating}</span>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2 mb-4">
+          <Badge className={`${getDifficultyColor(tool.difficulty)} border`}>{tool.difficulty}</Badge>
+          <Badge className="bg-gray-50 text-gray-600 border-gray-200 flex items-center space-x-1">
+            <DollarSign className="w-3 h-3" />
+            <span>{tool.price}</span>
+          </Badge>
+          {tool.specialBadge && getSpecialBadge(tool.specialBadge)}
+        </div>
+      </CardHeader>
+
+      <CardContent className="space-y-6">
+        <p className="text-gray-600 text-lg leading-relaxed">{tool.description}</p>
+
+        {/* Sign-up requirement */}
+        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <span className="font-medium text-gray-700">Account required:</span>
+          <Badge className={tool.signUpRequired ? "bg-rose-100 text-rose-700" : "bg-emerald-100 text-emerald-700"}>
+            {tool.signUpRequired ? "Yes" : "No"}
+          </Badge>
+        </div>
+
+        {/* What people use it for */}
+        <div className="bg-rose-50 p-6 rounded-xl">
+          <h4 className="font-semibold text-gray-800 mb-3 text-lg">Popular uses:</h4>
+          <div className="flex flex-wrap gap-2">
+            {tool.whatPeopleUseItFor.map((use, index) => (
+              <Badge key={index} className="bg-white text-rose-700 border-rose-200 px-3 py-1">
+                {use}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-blue-50 p-6 rounded-xl">
+          <h4 className="font-semibold text-gray-800 mb-3 text-lg flex items-center">
+            <Target className="w-5 h-5 mr-2 text-blue-500" />
+            Perfect for beginners:
+          </h4>
+          <p className="text-gray-700 leading-relaxed">{tool.beginnerExplanation}</p>
+        </div>
+
+        <div>
+          <h4 className="font-semibold text-gray-800 mb-3 text-lg">Key features:</h4>
+          <div className="grid grid-cols-2 gap-2">
+            {tool.features.map((feature, index) => (
+              <div key={index} className="flex items-center space-x-2 text-sm text-gray-600">
+                <div className="w-2 h-2 bg-rose-400 rounded-full"></div>
+                <span>{feature}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {tool.relatedTools.length > 0 && (
+          <div>
+            <h4 className="font-semibold text-gray-800 mb-2">Similar tools:</h4>
+            <p className="text-gray-600">{tool.relatedTools.join(" • ")}</p>
+          </div>
+        )}
+
+        {/* Action buttons with copy prompt next to try button */}
+        <div className="flex flex-col space-y-3 pt-4">
+          <div className="flex space-x-3">
+            <Button
+              className="flex-1 bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white shadow-lg text-lg py-3"
+              onClick={() => window.open(tool.website, "_blank")}
+            >
+              Try {tool.name}
+              <ExternalLink className="w-5 h-5 ml-2" />
+            </Button>
+            <Button
+              onClick={() => copyPrompt(tool.id, tool.copyPrompt)}
+              className="bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white shadow-lg px-6"
+            >
+              {copiedPrompts[tool.id] ? (
+                <>
+                  <Check className="w-4 h-4 mr-2" />
+                  Copied!
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy Prompt
+                </>
+              )}
+            </Button>
+            <Button className="border-rose-300 text-rose-600 hover:bg-rose-50 bg-transparent p-3" variant="outline">
+              <Heart className="w-5 h-5" />
+            </Button>
+          </div>
+          <p className="text-sm text-gray-500 text-center">Ready-to-use prompt personalized for your business</p>
+        </div>
+      </CardContent>
+    </Card>
+  )
+
+  const renderListCard = (tool: AITool) => (
+    <Card
+      key={tool.id}
+      className="border-rose-100 hover:shadow-lg transition-all duration-300 bg-white/95 backdrop-blur-sm"
+    >
+      <CardContent className="p-6">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <div className="flex items-center space-x-3 mb-3">
+              <CardTitle className="text-xl font-bold text-gray-800">{tool.name}</CardTitle>
+              {tool.isNew && (
+                <Badge className="bg-gradient-to-r from-rose-400 to-pink-500 text-white text-xs">NEW</Badge>
+              )}
+              <div className="flex items-center space-x-1 bg-yellow-50 px-2 py-1 rounded-full">
+                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                <span className="text-xs font-semibold text-yellow-700">{tool.rating}</span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2 mb-3">
+              <Badge className={`${getDifficultyColor(tool.difficulty)} border text-xs`}>{tool.difficulty}</Badge>
+              <Badge className="bg-gray-50 text-gray-600 border-gray-200 flex items-center space-x-1 text-xs">
+                <DollarSign className="w-2 h-2" />
+                <span>{tool.price}</span>
+              </Badge>
+              {tool.specialBadge && getSpecialBadge(tool.specialBadge)}
+            </div>
+
+            <p className="text-gray-600 mb-4 leading-relaxed">{tool.description}</p>
+
+            <div className="flex flex-wrap gap-1 mb-4">
+              {tool.whatPeopleUseItFor.slice(0, 3).map((use, index) => (
+                <Badge key={index} className="bg-rose-50 text-rose-700 border-rose-200 text-xs px-2 py-1">
+                  {use}
+                </Badge>
+              ))}
+              {tool.whatPeopleUseItFor.length > 3 && (
+                <Badge className="bg-gray-50 text-gray-600 text-xs px-2 py-1">
+                  +{tool.whatPeopleUseItFor.length - 3} more
+                </Badge>
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-2 ml-6">
+            <Button
+              className="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white shadow-lg px-4 py-2"
+              onClick={() => window.open(tool.website, "_blank")}
+            >
+              Try {tool.name}
+              <ExternalLink className="w-4 h-4 ml-2" />
+            </Button>
+            <Button
+              onClick={() => copyPrompt(tool.id, tool.copyPrompt)}
+              className="bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white shadow-lg px-4 py-2"
+            >
+              {copiedPrompts[tool.id] ? (
+                <>
+                  <Check className="w-3 h-3 mr-2" />
+                  Copied!
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3 h-3 mr-2" />
+                  Copy Prompt
+                </>
+              )}
+            </Button>
+            <Button className="border-rose-300 text-rose-600 hover:bg-rose-50 bg-transparent p-2" variant="outline">
+              <Heart className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+
+  return (
+    <div className="container mx-auto py-12">
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">AI Tool Recommendations for Your Business</h1>
+
+      {/* Category Tabs */}
+      <Tabs defaultValue="all" className="mb-8">
+        <TabsList className="justify-center">
+          {categories.map((category) => (
+            <TabsTrigger
+              key={category}
+              value={category}
+              onClick={() => setSelectedCategory(category)}
+              className="data-[state=active]:bg-rose-50 data-[state=active]:text-rose-700"
+            >
+              {category === "all" ? "All Categories" : category}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
+
+      {/* View Mode Toggle */}
+      <div className="flex items-center justify-end mb-4">
+        <span className="mr-3 text-gray-600">View Mode:</span>
+        <Button
+          variant="outline"
+          className={`mr-2 ${viewMode === "grid" ? "bg-rose-50 text-rose-700 border-rose-300" : "border-gray-300 text-gray-600"}`}
+          onClick={() => setViewMode("grid")}
+        >
+          <Grid3X3 className="w-4 h-4 mr-2" />
+          Grid
+        </Button>
+        <Button
+          variant="outline"
+          className={`${viewMode === "list" ? "bg-rose-50 text-rose-700 border-rose-300" : "border-gray-300 text-gray-600"}`}
+          onClick={() => setViewMode("list")}
+        >
+          <List className="w-4 h-4 mr-2" />
+          List
+        </Button>
+      </div>
+
+      {/* Tools Display */}
+      {viewMode === "grid" ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">{displayedTools.map(renderGridCard)}</div>
+      ) : (
+        <div className="space-y-6 mb-16">{displayedTools.map(renderListCard)}</div>
+      )}
+
+      {/* Inspirational Section */}
+      <div className="bg-gradient-to-r from-rose-400 to-pink-500 rounded-2xl p-12 text-center text-white shadow-xl mb-16">
+        <div className="max-w-4xl mx-auto">
+          <blockquote className="text-2xl italic mb-6 font-light">
+            "The way to get started is to quit talking and begin doing."
+          </blockquote>
+          <cite className="text-rose-100 text-lg">— Whitney Wolfe Herd, Founder of Bumble</cite>
+        </div>
+      </div>
+
+      {/* Next Steps */}
+      <Card className="border-rose-100 shadow-xl bg-white/95">
+        <CardHeader className="text-center pb-8">
+          <CardTitle className="text-3xl font-bold text-gray-800 mb-4">Ready to Transform Your Business? 🚀</CardTitle>
+          <p className="text-xl text-gray-600">Your success journey starts with the first step</p>
+        </CardHeader>
+        <CardContent className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-6 bg-rose-50 rounded-xl">
+              <div className="w-16 h-16 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <span className="text-white text-2xl font-bold">1</span>
+              </div>
+              <h3 className="font-semibold mb-3 text-lg">Start with Your Prompts</h3>
+              <p className="text-gray-600">
+                Use the personalized prompts we've created specifically for your business vision
+              </p>
+            </div>
+
+            <div className="text-center p-6 bg-rose-50 rounded-xl">
+              <div className="w-16 h-16 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <span className="text-white text-2xl font-bold">2</span>
+              </div>
+              <h3 className="font-semibold mb-3 text-lg">Begin with Beginner Tools</h3>
+              <p className="text-gray-600">
+                Build confidence with tools marked "Beginner" before advancing to more complex options
+              </p>
+            </div>
+
+            <div className="text-center p-6 bg-rose-50 rounded-xl">
+              <div className="w-16 h-16 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <span className="text-white text-2xl font-bold">3</span>
+              </div>
+              <h3 className="font-semibold mb-3 text-lg">Explore Free Options</h3>
+              <p className="text-gray-600">Most tools offer free trials or freemium plans - test them risk-free</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white px-8 py-4 text-lg shadow-lg"
+              onClick={() => window.print()}
+            >
+              Save My Results
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+            <Link href="/questionnaire">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-rose-300 text-rose-600 hover:bg-rose-50 bg-transparent px-8 py-4 text-lg"
+              >
+                Take Quiz Again
+              </Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
