@@ -2,18 +2,116 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowRight, Sparkles, Users, TrendingUp, Zap, Star, Heart } from "lucide-react"
+import {
+  ArrowRight,
+  Sparkles,
+  Users,
+  TrendingUp,
+  Zap,
+  Star,
+  Heart,
+  PenTool,
+  Video,
+  MessageSquare,
+  ShoppingCart,
+  Settings,
+  BarChart3,
+  Mail,
+  Globe,
+  Headphones,
+  Calculator,
+  Search,
+  Palette,
+} from "lucide-react"
+import { BrandLogo } from "@/components/brand-logo"
 
-// Brand Logo Component
-const BrandLogo = ({ size = "w-8 h-8" }: { size?: string }) => (
-  <div className={`${size} flex items-center justify-center`}>
-    <img
-      src="/images/ai-upscale-sisters-logo.png"
-      alt="AI UP-SCALE Sisters Logo"
-      className={`${size} object-contain`}
-    />
-  </div>
-)
+// AI Tool Categories with matching icons
+const aiToolCategories = [
+  {
+    name: "Writing & Content",
+    icon: PenTool,
+    color: "from-blue-400 to-blue-600",
+    description: "AI writers, editors, and content creators",
+    count: "45+ tools",
+  },
+  {
+    name: "Image & Design",
+    icon: Palette,
+    color: "from-purple-400 to-purple-600",
+    description: "AI image generators and design tools",
+    count: "35+ tools",
+  },
+  {
+    name: "Video & Avatars",
+    icon: Video,
+    color: "from-red-400 to-red-600",
+    description: "AI video creation and avatar tools",
+    count: "25+ tools",
+  },
+  {
+    name: "Social Media",
+    icon: MessageSquare,
+    color: "from-pink-400 to-pink-600",
+    description: "Social media management and marketing",
+    count: "30+ tools",
+  },
+  {
+    name: "E-commerce",
+    icon: ShoppingCart,
+    color: "from-green-400 to-green-600",
+    description: "Online store and sales optimization",
+    count: "20+ tools",
+  },
+  {
+    name: "Automation",
+    icon: Settings,
+    color: "from-orange-400 to-orange-600",
+    description: "Workflow automation and productivity",
+    count: "40+ tools",
+  },
+  {
+    name: "Customer Support",
+    icon: Headphones,
+    color: "from-teal-400 to-teal-600",
+    description: "AI chatbots and support systems",
+    count: "15+ tools",
+  },
+  {
+    name: "Analytics & Data",
+    icon: BarChart3,
+    color: "from-indigo-400 to-indigo-600",
+    description: "Business intelligence and insights",
+    count: "12+ tools",
+  },
+  {
+    name: "Email Marketing",
+    icon: Mail,
+    color: "from-cyan-400 to-cyan-600",
+    description: "Email campaigns and automation",
+    count: "25+ tools",
+  },
+  {
+    name: "Website Building",
+    icon: Globe,
+    color: "from-emerald-400 to-emerald-600",
+    description: "AI-powered website creators",
+    count: "20+ tools",
+  },
+  {
+    name: "Finance & Accounting",
+    icon: Calculator,
+    color: "from-yellow-400 to-yellow-600",
+    description: "Financial management and tracking",
+    count: "15+ tools",
+  },
+  {
+    name: "Research & Learning",
+    icon: Search,
+    color: "from-violet-400 to-violet-600",
+    description: "AI research assistants and learning",
+    count: "20+ tools",
+  },
+]
 
 export default function HomePage() {
   const [copiedEmail, setCopiedEmail] = useState(false)
@@ -82,6 +180,61 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* AI Tool Categories Section - ClickUp Style */}
+      <section className="py-20 bg-white/40 backdrop-blur-sm">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+              AI Tools for Every Part of Your Business
+            </h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              From content creation to customer support, we've curated the best AI tools across all business categories
+            </p>
+          </div>
+
+          {/* Categories Grid - ClickUp Style */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            {aiToolCategories.map((category, index) => {
+              const IconComponent = category.icon
+              return (
+                <Link
+                  key={category.name}
+                  href={`/results?category=${encodeURIComponent(category.name.replace(" & ", " & "))}`}
+                  className="group bg-white/60 backdrop-blur-sm border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-pink-300 transition-all duration-200 hover:scale-105"
+                >
+                  <div className="flex flex-col items-center text-center space-y-3">
+                    <div
+                      className={`w-12 h-12 rounded-lg bg-gradient-to-r ${category.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-200`}
+                    >
+                      <IconComponent className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-800 text-sm mb-1 group-hover:text-pink-600 transition-colors">
+                        {category.name}
+                      </h3>
+                      <p className="text-xs text-gray-600 mb-2 leading-tight">{category.description}</p>
+                      <span className="text-xs font-medium text-pink-600 bg-pink-50 px-2 py-1 rounded-full">
+                        {category.count}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              href="/results?showAll=true"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              <Sparkles className="w-5 h-5" />
+              Explore All Categories
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Stats Section */}
       <section className="py-16 bg-white/50 backdrop-blur-sm">
         <div className="container mx-auto px-4">
@@ -91,8 +244,8 @@ export default function HomePage() {
               <div className="text-gray-700">AI Tools Curated</div>
             </div>
             <div className="p-6">
-              <div className="text-4xl font-bold text-purple-600 mb-2">10K+</div>
-              <div className="text-gray-700">Women Entrepreneurs Helped</div>
+              <div className="text-4xl font-bold text-purple-600 mb-2">12+</div>
+              <div className="text-gray-700">Categories Covered</div>
             </div>
             <div className="p-6">
               <div className="text-4xl font-bold text-pink-600 mb-2">95%</div>

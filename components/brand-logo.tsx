@@ -17,7 +17,7 @@ export const BrandLogo = ({ size = "w-8 h-8", className = "" }: BrandLogoProps) 
         target.style.display = "none"
         const parent = target.parentElement
         if (parent) {
-          parent.innerHTML = `<div class="${size} flex items-center justify-center"><span class="text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent drop-shadow-lg">AS</span></div>`
+          parent.innerHTML = `<div class="${size} bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center"><span class="text-white font-bold text-lg">AS</span></div>`
         }
       }}
     />
