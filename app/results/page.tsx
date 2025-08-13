@@ -93,6 +93,7 @@ export default function ResultsPage() {
   const [selectedRegion, setSelectedRegion] = useState("all")
   const [showVCForm, setShowVCForm] = useState(false)
   const [showAllTools, setShowAllTools] = useState(false)
+  const [copiedEmail, setCopiedEmail] = useState(false)
   const [vcFormData, setVcFormData] = useState({
     name: "",
     email: "",
@@ -105,6 +106,12 @@ export default function ResultsPage() {
   const categories = getUniqueCategories()
   const regions = getUniqueRegions()
   const skillLevels = getUniqueSkillLevels()
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText("hello@aiupscalesisters.com")
+    setCopiedEmail(true)
+    setTimeout(() => setCopiedEmail(false), 2000)
+  }
 
   useEffect(() => {
     const data = localStorage.getItem("questionnaireData")
@@ -804,6 +811,60 @@ Based on all of this context about my business and goals, ${prompt.toLowerCase()
           </div>
         )}
       </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12 px-4">
+        <div className="container mx-auto text-center">
+          <div className="flex items-center justify-center space-x-3 mb-4">
+            <BrandLogo size="w-10 h-10" />
+            <div>
+              <span className="text-xl font-bold">AI UP-SCALE Sisters</span>
+            </div>
+          </div>
+          <p className="text-gray-400 mb-6">Empowering women entrepreneurs with AI tools</p>
+
+          {/* Professional Services Section */}
+          <div className="bg-gray-800 rounded-lg p-6 mb-6 max-w-2xl mx-auto">
+            <h3 className="text-lg font-semibold text-white mb-3">Custom AI Automations & Private Agents</h3>
+            <p className="text-gray-300 mb-4">
+              Get in touch if you want Natasha to build Custom AI automations & private agents, built to your voice and
+              tools—save hours, keep the magic
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/automation-plan"
+                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                ✨ Get My Automation Plan
+              </Link>
+              <a
+                href="https://www.linkedin.com/in/natasha-manning-7bb914205/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 justify-center"
+              >
+                💼 Connect on LinkedIn
+              </a>
+            </div>
+          </div>
+
+          <p className="text-sm text-gray-500 mb-2">
+            © 2024 AI UP-SCALE Sisters. Built with ❤️ for women entrepreneurs.
+          </p>
+          <p className="text-sm text-gray-400">
+            Created by{" "}
+            <a
+              href="https://www.linkedin.com/in/natasha-manning-7bb914205/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-pink-400 hover:text-pink-300 underline font-medium"
+            >
+              Natasha Manning
+            </a>{" "}
+            - Contact: natasha.manning@riseandthrivefamilies.com
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }

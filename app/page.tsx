@@ -1,88 +1,33 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
-import { CheckCircle, Sparkles, Users, Zap } from "lucide-react"
-import { useState, useEffect } from "react"
+import { ArrowRight, Sparkles, Users, TrendingUp, Zap, Star, Heart } from "lucide-react"
 
-const inspirationalQuotes = [
-  {
-    quote: "The way to get started is to quit talking and begin doing.",
-    author: "Sara Blakely, Founder of Spanx",
-  },
-  {
-    quote: "Don't be intimidated by what you don't know. That can be your greatest strength.",
-    author: "Whitney Wolfe Herd, Founder of Bumble",
-  },
-  {
-    quote: "I never dreamed about success. I worked for it.",
-    author: "Estée Lauder, Founder of Estée Lauder Companies",
-  },
-]
-
-const features = [
-  {
-    icon: <Sparkles className="w-6 h-6" />,
-    title: "Personalised Tool Recommendations",
-    description: "Curated specifically for your project type and skill level",
-  },
-  {
-    icon: <Users className="w-6 h-6" />,
-    title: "Beginner-Friendly Explanations",
-    description: "Every tool explained in simple, non-technical language",
-  },
-  {
-    icon: <Zap className="w-6 h-6" />,
-    title: "Direct Links to Try Tools",
-    description: "Click through to start using each recommended tool immediately",
-  },
-]
-
-// Brand Logo Component - Fixed to use actual image
+// Brand Logo Component
 const BrandLogo = ({ size = "w-8 h-8" }: { size?: string }) => (
   <div className={`${size} flex items-center justify-center`}>
     <img
       src="/images/ai-upscale-sisters-logo.png"
       alt="AI UP-SCALE Sisters Logo"
       className={`${size} object-contain`}
-      onError={(e) => {
-        // Fallback if image doesn't load
-        const target = e.currentTarget as HTMLImageElement
-        target.style.display = "none"
-        const parent = target.parentElement
-        if (parent) {
-          parent.innerHTML = `<div class="${size} bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center"><span class="text-white font-bold text-lg">AS</span></div>`
-        }
-      }}
     />
   </div>
 )
 
 export default function HomePage() {
-  const [mounted, setMounted] = useState(false)
-  const [currentQuote, setCurrentQuote] = useState(inspirationalQuotes[0])
+  const [copiedEmail, setCopiedEmail] = useState(false)
 
-  useEffect(() => {
-    setMounted(true)
-    setCurrentQuote(inspirationalQuotes[Math.floor(Math.random() * inspirationalQuotes.length)])
-  }, [])
-
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-pink-50 to-purple-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-            <span className="text-white font-bold text-xl">AS</span>
-          </div>
-          <p className="text-gray-600">Loading AI UP-SCALE SISTERS...</p>
-        </div>
-      </div>
-    )
+  const copyEmail = () => {
+    navigator.clipboard.writeText("hello@aiupscalesisters.com")
+    setCopiedEmail(true)
+    setTimeout(() => setCopiedEmail(false), 2000)
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-pink-50 to-purple-100">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-pink-100 sticky top-0 z-50">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-pink-100">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -91,186 +36,224 @@ export default function HomePage() {
                 <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                   AI UP-SCALE SISTERS
                 </span>
+                <p className="text-sm text-gray-600">Empowering Women Entrepreneurs with AI</p>
               </div>
             </div>
+            <nav className="hidden md:flex space-x-6">
+              <Link href="/services" className="text-gray-700 hover:text-pink-600 transition-colors">
+                Services
+              </Link>
+              <Link href="/results?showAll=true" className="text-gray-700 hover:text-pink-600 transition-colors">
+                All Tools
+              </Link>
+            </nav>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto text-center max-w-4xl">
-          <div className="mb-8">
-            <div className="flex justify-center mb-8">
-              <div className="relative">
-                <BrandLogo size="w-40 h-40 md:w-48 md:h-48" />
-                <div className="absolute -inset-3 bg-gradient-to-r from-pink-200/20 to-purple-200/20 rounded-full blur-lg -z-10"></div>
-              </div>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-500 bg-clip-text text-transparent leading-tight">
-              Ready to Find Your Perfect AI Tools?
+      <section className="py-20">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+              Scale Your Business with AI
             </h1>
-            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
-              It takes less than 2 minutes to get your personalised recommendations from 250+ AI tools
+            <p className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
+              Discover the perfect AI tools to grow your business, save time, and increase revenue. Built specifically
+              for women entrepreneurs who are ready to scale.
             </p>
-
-            {/* Centered Attribution Text */}
-            <div className="flex justify-center mb-8">
-              <div className="text-center">
-                <p className="text-lg text-pink-600 font-semibold mb-1">Built by a Sister, for All my Sisters</p>
-                <p className="text-sm text-purple-600 font-medium">Inspired by Agnes Agyepong - Goddess Table</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Benefits */}
-          <div className="flex flex-wrap justify-center gap-6 mb-12">
-            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200 shadow-lg">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="font-medium text-gray-800">100% Free</span>
-            </div>
-            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200 shadow-lg">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="font-medium text-gray-800">No Sign-up Required</span>
-            </div>
-            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200 shadow-lg">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="font-medium text-gray-800">Instant Results</span>
-            </div>
-            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200 shadow-lg">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="font-medium text-gray-800">250+ AI Tools</span>
-            </div>
-          </div>
-
-          {/* Enhanced CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Link href="/questionnaire">
-              <button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 mx-auto">
-                <Sparkles className="w-5 h-5" />
-                Get My Personalised Tools
-              </button>
-            </Link>
-            <Link href="/results?showAll=true">
-              <button className="bg-white/90 backdrop-blur-sm border-2 border-pink-300 text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 mx-auto">
-                <Users className="w-5 h-5" />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/questionnaire"
+                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105"
+              >
+                Find My AI Tools
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                href="/results?showAll=true"
+                className="border-2 border-pink-500 text-pink-600 hover:bg-pink-50 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2"
+              >
                 Browse All 250+ Tools
-              </button>
-            </Link>
+                <Sparkles className="w-5 h-5" />
+              </Link>
+            </div>
           </div>
+        </div>
+      </section>
 
-          {/* Built by Women Section */}
-          <div className="mt-16 p-8 bg-white/60 backdrop-blur-sm rounded-2xl border border-pink-200 shadow-lg">
-            <div className="text-center mb-6">
-              <p className="text-lg text-pink-600 font-semibold mb-1">Built by a Sister, for All my Sisters</p>
-              <p className="text-sm text-purple-600 font-medium">Inspired by Agnes Agyepong - Goddess Table</p>
+      {/* Stats Section */}
+      <section className="py-16 bg-white/50 backdrop-blur-sm">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            <div className="p-6">
+              <div className="text-4xl font-bold text-pink-600 mb-2">250+</div>
+              <div className="text-gray-700">AI Tools Curated</div>
             </div>
-            <div className="flex justify-center mb-6">
-              <div className="relative">
-                <BrandLogo size="w-20 h-20" />
-                <div className="absolute -inset-2 bg-gradient-to-r from-pink-300/30 to-purple-300/30 rounded-full blur-lg -z-10"></div>
-              </div>
+            <div className="p-6">
+              <div className="text-4xl font-bold text-purple-600 mb-2">10K+</div>
+              <div className="text-gray-700">Women Entrepreneurs Helped</div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full mb-2 flex items-center justify-center">
-                  <Users className="w-8 h-8 text-white" />
-                </div>
-                <span className="text-sm font-medium text-gray-700">Diverse</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full mb-2 flex items-center justify-center">
-                  <Sparkles className="w-8 h-8 text-white" />
-                </div>
-                <span className="text-sm font-medium text-gray-700">Innovative</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full mb-2 flex items-center justify-center">
-                  <Zap className="w-8 h-8 text-white" />
-                </div>
-                <span className="text-sm font-medium text-gray-700">Experienced</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full mb-2 flex items-center justify-center">
-                  <CheckCircle className="w-8 h-8 text-white" />
-                </div>
-                <span className="text-sm font-medium text-gray-700">Empowered</span>
-              </div>
+            <div className="p-6">
+              <div className="text-4xl font-bold text-pink-600 mb-2">95%</div>
+              <div className="text-gray-700">Report Increased Productivity</div>
+            </div>
+            <div className="p-6">
+              <div className="text-4xl font-bold text-purple-600 mb-2">24/7</div>
+              <div className="text-gray-700">AI-Powered Support</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 px-4 bg-white/40 backdrop-blur-sm">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">What You'll Get</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="border border-pink-200 bg-white/60 backdrop-blur-sm hover:shadow-lg transition-shadow rounded-lg p-6 text-center"
-              >
-                <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white">
-                  {feature.icon}
-                </div>
-                <h3 className="text-lg font-semibold mb-2 text-gray-800">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-                <div className="mt-4">
-                  <CheckCircle className="w-5 h-5 text-green-500 mx-auto" />
-                </div>
-              </div>
-            ))}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+              Why Choose AI UP-SCALE SISTERS?
+            </h2>
+            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
+              We understand the unique challenges women entrepreneurs face. Our platform is designed with you in mind.
+            </p>
           </div>
 
-          {/* Additional Features */}
-          <div className="grid md:grid-cols-3 gap-8 mt-8">
-            <div className="border border-pink-200 bg-white/60 backdrop-blur-sm hover:shadow-lg transition-shadow rounded-lg p-6 text-center">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white">
-                <Sparkles className="w-6 h-6" />
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-pink-200 hover:shadow-lg transition-all duration-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mb-6">
+                <Users className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-gray-800">Copy-Paste Prompts</h3>
-              <p className="text-gray-600">Ready-made prompts to get started with each AI tool</p>
-              <div className="mt-4">
-                <CheckCircle className="w-5 h-5 text-green-500 mx-auto" />
-              </div>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Personalized Recommendations</h3>
+              <p className="text-gray-700 leading-relaxed">
+                Our smart questionnaire understands your business stage, goals, and challenges to recommend the perfect
+                AI tools for your unique journey.
+              </p>
             </div>
 
-            <div className="border border-pink-200 bg-white/60 backdrop-blur-sm hover:shadow-lg transition-shadow rounded-lg p-6 text-center">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white">
-                <Users className="w-6 h-6" />
+            <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-pink-200 hover:shadow-lg transition-all duration-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mb-6">
+                <Zap className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-gray-800">Regional Availability</h3>
-              <p className="text-gray-600">Filter tools by region: UK, USA, China, and Global options</p>
-              <div className="mt-4">
-                <CheckCircle className="w-5 h-5 text-green-500 mx-auto" />
-              </div>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Ready-to-Use Prompts</h3>
+              <p className="text-gray-700 leading-relaxed">
+                Skip the learning curve with our pre-written, personalized prompts that get you results immediately.
+                Just copy, paste, and watch the magic happen.
+              </p>
             </div>
 
-            <div className="border border-pink-200 bg-white/60 backdrop-blur-sm hover:shadow-lg transition-shadow rounded-lg p-6 text-center">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white">
-                <Zap className="w-6 h-6" />
+            <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-pink-200 hover:shadow-lg transition-all duration-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mb-6">
+                <TrendingUp className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-gray-800">Optional VC Network Access</h3>
-              <p className="text-gray-600">Share your idea with investors and mentors (completely optional)</p>
-              <div className="mt-4">
-                <CheckCircle className="w-5 h-5 text-green-500 mx-auto" />
-              </div>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Proven Results</h3>
+              <p className="text-gray-700 leading-relaxed">
+                Join thousands of successful women entrepreneurs who have scaled their businesses using our curated AI
+                tools and strategies.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Inspirational Quote */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
-          <div className="bg-gradient-to-r from-pink-500 to-purple-600 p-8 rounded-2xl text-white relative overflow-hidden">
-            <div className="absolute top-4 right-4 opacity-20">
-              <BrandLogo size="w-16 h-16" />
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-pink-500 to-purple-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold mb-6">Ready to Scale Your Business with AI?</h2>
+          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+            Join thousands of successful women entrepreneurs who are already using AI to grow their businesses faster
+            than ever before.
+          </p>
+          <Link
+            href="/questionnaire"
+            className="bg-white text-pink-600 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 inline-flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105"
+          >
+            Start Your AI Journey Now
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Built by Women Section */}
+      <section className="py-16 bg-white/50 backdrop-blur-sm">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            {/* Enhanced Attribution Design */}
+            <div className="relative max-w-3xl mx-auto mb-8">
+              <div className="bg-gradient-to-r from-pink-50 via-purple-50 to-pink-50 border-2 border-pink-200 rounded-2xl p-8 shadow-lg">
+                {/* Decorative elements */}
+                <div className="absolute top-4 left-4 text-pink-300">
+                  <Heart className="w-6 h-6" />
+                </div>
+                <div className="absolute top-4 right-4 text-purple-300">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+
+                {/* Main attribution text */}
+                <div className="space-y-4">
+                  <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent leading-tight">
+                    Built by a Sister, for All my Sisters
+                  </h3>
+
+                  {/* Decorative divider */}
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-8 h-0.5 bg-gradient-to-r from-transparent to-pink-400"></div>
+                    <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
+                    <div className="w-8 h-0.5 bg-gradient-to-r from-pink-400 to-transparent"></div>
+                  </div>
+
+                  {/* Inspiration text */}
+                  <div className="bg-white/70 rounded-lg p-4 border border-pink-100">
+                    <p className="text-lg text-gray-700 font-medium mb-1">Inspired by</p>
+                    <p className="text-xl font-bold text-purple-700">Agnes Agyepong - Goddess Table</p>
+                    <div className="mt-2 flex justify-center">
+                      <div className="flex items-center space-x-1 text-pink-500">
+                        <Star className="w-4 h-4 fill-current" />
+                        <Star className="w-4 h-4 fill-current" />
+                        <Star className="w-4 h-4 fill-current" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <h3 className="text-lg font-semibold mb-4">Wise Words from Successful Women</h3>
-            <blockquote className="text-2xl font-light italic mb-4">"{currentQuote.quote}"</blockquote>
-            <cite className="text-pink-200 font-medium">— {currentQuote.author}</cite>
+
+            <div className="flex justify-center mb-8">
+              <BrandLogo size="w-24 h-24" />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            <div className="p-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-gray-800">Diverse</h3>
+              <p className="text-gray-600">Celebrating women from all backgrounds and industries</p>
+            </div>
+
+            <div className="p-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-gray-800">Innovative</h3>
+              <p className="text-gray-600">Cutting-edge AI solutions for modern entrepreneurs</p>
+            </div>
+
+            <div className="p-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Star className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-gray-800">Experienced</h3>
+              <p className="text-gray-600">Built by entrepreneurs who understand your journey</p>
+            </div>
+
+            <div className="p-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Heart className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-gray-800">Empowered</h3>
+              <p className="text-gray-600">Supporting women to achieve their biggest dreams</p>
+            </div>
           </div>
         </div>
       </section>
