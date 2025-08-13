@@ -20,7 +20,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Minimal CSS to hide v0 elements without breaking layout */}
         <style>{`
           [data-v0-t],
           .v0-watermark,
@@ -31,7 +30,6 @@ export default function RootLayout({
         `}</style>
       </head>
       <body className={inter.className}>
-        {/* Wrap the whole app so a client crash never blanks the screen */}
         <ErrorBoundary>{children}</ErrorBoundary>
       </body>
     </html>

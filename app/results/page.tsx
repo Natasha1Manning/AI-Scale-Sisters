@@ -407,7 +407,7 @@ Based on all of this context about my business and goals, ${prompt.toLowerCase()
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-3">
-              <BrandLogo size="w-10 h-10" />
+              <BrandLogo size="w-12 h-12" />
               <div>
                 <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                   AI UP-SCALE SISTERS
@@ -448,7 +448,7 @@ Based on all of this context about my business and goals, ${prompt.toLowerCase()
         {/* Inspirational Quote */}
         <div className="mb-8">
           <div className="bg-gradient-to-r from-pink-500 to-purple-600 text-white border-0 rounded-lg p-6 text-center relative overflow-hidden">
-            <div className="absolute top-4 right-4 opacity-20">
+            <div className="absolute top-4 right-4 opacity-30">
               <BrandLogo size="w-16 h-16" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Wise Words from Successful Women</h3>

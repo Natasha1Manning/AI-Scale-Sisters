@@ -86,7 +86,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <BrandLogo size="w-10 h-10" />
+              <BrandLogo size="w-12 h-12" />
               <div>
                 <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                   AI UP-SCALE SISTERS
@@ -101,34 +101,43 @@ export default function HomePage() {
       <section className="py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
           <div className="mb-8">
-            <div className="flex justify-center mb-6">
-              <BrandLogo size="w-32 h-32 md:w-40 md:h-40" />
+            <div className="flex justify-center mb-8">
+              <div className="relative">
+                <BrandLogo size="w-40 h-40 md:w-48 md:h-48" />
+                <div className="absolute -inset-3 bg-gradient-to-r from-pink-200/20 to-purple-200/20 rounded-full blur-lg -z-10"></div>
+              </div>
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-500 bg-clip-text text-transparent leading-tight">
               Ready to Find Your Perfect AI Tools?
             </h1>
-            <p className="text-xl text-gray-700 mb-4 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
               It takes less than 2 minutes to get your personalised recommendations from 250+ AI tools
             </p>
-            <p className="text-lg text-pink-600 font-semibold mb-2">Built by a Sister, for All my Sisters</p>
-            <p className="text-sm text-purple-600 font-medium mb-8">Inspired by Agnes Agyepong - Goddess Table</p>
+
+            {/* Centered Attribution Text */}
+            <div className="flex justify-center mb-8">
+              <div className="text-center">
+                <p className="text-lg text-pink-600 font-semibold mb-1">Built by a Sister, for All my Sisters</p>
+                <p className="text-sm text-purple-600 font-medium">Inspired by Agnes Agyepong - Goddess Table</p>
+              </div>
+            </div>
           </div>
 
           {/* Benefits */}
           <div className="flex flex-wrap justify-center gap-6 mb-12">
-            <div className="flex items-center space-x-2 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200">
+            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200 shadow-lg">
               <CheckCircle className="w-5 h-5 text-green-500" />
               <span className="font-medium text-gray-800">100% Free</span>
             </div>
-            <div className="flex items-center space-x-2 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200">
+            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200 shadow-lg">
               <CheckCircle className="w-5 h-5 text-green-500" />
               <span className="font-medium text-gray-800">No Sign-up Required</span>
             </div>
-            <div className="flex items-center space-x-2 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200">
+            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200 shadow-lg">
               <CheckCircle className="w-5 h-5 text-green-500" />
               <span className="font-medium text-gray-800">Instant Results</span>
             </div>
-            <div className="flex items-center space-x-2 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200">
+            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-200 shadow-lg">
               <CheckCircle className="w-5 h-5 text-green-500" />
               <span className="font-medium text-gray-800">250+ AI Tools</span>
             </div>
@@ -143,7 +152,7 @@ export default function HomePage() {
               </button>
             </Link>
             <Link href="/results?showAll=true">
-              <button className="bg-white/80 backdrop-blur-sm border-2 border-pink-300 text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 mx-auto">
+              <button className="bg-white/90 backdrop-blur-sm border-2 border-pink-300 text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 mx-auto">
                 <Users className="w-5 h-5" />
                 Browse All 250+ Tools
               </button>
@@ -151,13 +160,16 @@ export default function HomePage() {
           </div>
 
           {/* Built by Women Section */}
-          <div className="mt-16 p-8 bg-white/60 backdrop-blur-sm rounded-2xl border border-pink-200">
-            <div className="flex flex-col md:flex-row items-center justify-between mb-6">
-              <div className="text-center md:text-left mb-4 md:mb-0">
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">Built by a Sister, for All my Sisters</h3>
-                <p className="text-sm text-purple-600 font-medium">Inspired by Agnes Agyepong - Goddess Table</p>
+          <div className="mt-16 p-8 bg-white/60 backdrop-blur-sm rounded-2xl border border-pink-200 shadow-lg">
+            <div className="text-center mb-6">
+              <p className="text-lg text-pink-600 font-semibold mb-1">Built by a Sister, for All my Sisters</p>
+              <p className="text-sm text-purple-600 font-medium">Inspired by Agnes Agyepong - Goddess Table</p>
+            </div>
+            <div className="flex justify-center mb-6">
+              <div className="relative">
+                <BrandLogo size="w-20 h-20" />
+                <div className="absolute -inset-2 bg-gradient-to-r from-pink-300/30 to-purple-300/30 rounded-full blur-lg -z-10"></div>
               </div>
-              <BrandLogo size="w-16 h-16" />
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="flex flex-col items-center">
@@ -272,18 +284,47 @@ export default function HomePage() {
               <span className="text-xl font-bold">AI UP-SCALE Sisters</span>
             </div>
           </div>
-          <p className="text-gray-400 mb-4">Empowering women entrepreneurs with AI tools</p>
+          <p className="text-gray-400 mb-6">Empowering women entrepreneurs with AI tools</p>
+
+          {/* Professional Services Section */}
+          <div className="bg-gray-800 rounded-lg p-6 mb-6 max-w-2xl mx-auto">
+            <h3 className="text-lg font-semibold text-white mb-3">Custom AI Automations & Private Agents</h3>
+            <p className="text-gray-300 mb-4">
+              Get in touch if you want Natasha to build Custom AI automations & private agents, built to your voice and
+              tools—save hours, keep the magic
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/automation-plan"
+                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                ✨ Get My Automation Plan
+              </Link>
+              <a
+                href="https://www.linkedin.com/in/natasha-manning-7bb914205/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 justify-center"
+              >
+                💼 Connect on LinkedIn
+              </a>
+            </div>
+          </div>
+
           <p className="text-sm text-gray-500 mb-2">
             © 2024 AI UP-SCALE Sisters. Built with ❤️ for women entrepreneurs.
           </p>
           <p className="text-sm text-gray-400">
-            Created by Natasha Manning - If you want to get in contact reach Natasha at{" "}
+            Created by{" "}
             <a
-              href="mailto:natasha.manning@riseandthrivefamilies.com"
-              className="text-pink-400 hover:text-pink-300 underline"
+              href="https://www.linkedin.com/in/natasha-manning-7bb914205/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-pink-400 hover:text-pink-300 underline font-medium"
             >
-              natasha.manning@riseandthrivefamilies.com
-            </a>
+              Natasha Manning
+            </a>{" "}
+            - Contact: natasha.manning@riseandthrivefamilies.com
           </p>
         </div>
       </footer>
