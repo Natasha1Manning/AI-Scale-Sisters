@@ -42,6 +42,14 @@ const BrandLogo = ({ size = "w-8 h-8" }: { size?: string }) => (
       src="/images/ai-upscale-sisters-logo.png"
       alt="AI UP-SCALE Sisters Logo"
       className={`${size} object-contain`}
+      onError={(e) => {
+        const target = e.currentTarget as HTMLImageElement
+        target.style.display = "none"
+        const parent = target.parentElement
+        if (parent) {
+          parent.innerHTML = `<div class="${size} bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center"><span class="text-white font-bold text-lg">AS</span></div>`
+        }
+      }}
     />
   </div>
 )
@@ -64,7 +72,9 @@ export default function QuestionnairePage() {
       setCurrentStep(currentStep + 1)
     } else {
       // Store data and navigate to results
-      localStorage.setItem("questionnaireData", JSON.stringify(formData))
+      if (typeof window !== "undefined") {
+        localStorage.setItem("questionnaireData", JSON.stringify(formData))
+      }
       router.push("/results")
     }
   }

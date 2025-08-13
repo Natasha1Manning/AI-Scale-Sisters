@@ -1,5 +1,8 @@
+"use client"
+
 import Link from "next/link"
 import { CheckCircle, Sparkles, Users, Zap } from "lucide-react"
+import { useState, useEffect } from "react"
 
 const inspirationalQuotes = [
   {
@@ -41,12 +44,40 @@ const BrandLogo = ({ size = "w-8 h-8" }: { size?: string }) => (
       src="/images/ai-upscale-sisters-logo.png"
       alt="AI UP-SCALE Sisters Logo"
       className={`${size} object-contain`}
+      onError={(e) => {
+        // Fallback if image doesn't load
+        const target = e.currentTarget as HTMLImageElement
+        target.style.display = "none"
+        const parent = target.parentElement
+        if (parent) {
+          parent.innerHTML = `<div class="${size} bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center"><span class="text-white font-bold text-lg">AS</span></div>`
+        }
+      }}
     />
   </div>
 )
 
 export default function HomePage() {
-  const currentQuote = inspirationalQuotes[Math.floor(Math.random() * inspirationalQuotes.length)]
+  const [mounted, setMounted] = useState(false)
+  const [currentQuote, setCurrentQuote] = useState(inspirationalQuotes[0])
+
+  useEffect(() => {
+    setMounted(true)
+    setCurrentQuote(inspirationalQuotes[Math.floor(Math.random() * inspirationalQuotes.length)])
+  }, [])
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <span className="text-white font-bold text-xl">AS</span>
+          </div>
+          <p className="text-gray-600">Loading AI UP-SCALE SISTERS...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
@@ -79,7 +110,8 @@ export default function HomePage() {
             <p className="text-xl text-gray-700 mb-4 max-w-2xl mx-auto">
               It takes less than 2 minutes to get your personalised recommendations from 250+ AI tools
             </p>
-            <p className="text-lg text-pink-600 font-semibold mb-8">Built by a Sister for Sisters</p>
+            <p className="text-lg text-pink-600 font-semibold mb-2">Built by a Sister, for All my Sisters</p>
+            <p className="text-sm text-purple-600 font-medium mb-8">Inspired by Agnes Agyepong - Goddess Table</p>
           </div>
 
           {/* Benefits */}
@@ -105,13 +137,13 @@ export default function HomePage() {
           {/* Enhanced CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Link href="/questionnaire">
-              <button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2">
+              <button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 mx-auto">
                 <Sparkles className="w-5 h-5" />
                 Get My Personalised Tools
               </button>
             </Link>
             <Link href="/results?showAll=true">
-              <button className="bg-white/80 backdrop-blur-sm border-2 border-pink-300 text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2">
+              <button className="bg-white/80 backdrop-blur-sm border-2 border-pink-300 text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 mx-auto">
                 <Users className="w-5 h-5" />
                 Browse All 250+ Tools
               </button>
@@ -120,8 +152,11 @@ export default function HomePage() {
 
           {/* Built by Women Section */}
           <div className="mt-16 p-8 bg-white/60 backdrop-blur-sm rounded-2xl border border-pink-200">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-gray-800">Built by a Sister for Sisters</h3>
+            <div className="flex flex-col md:flex-row items-center justify-between mb-6">
+              <div className="text-center md:text-left mb-4 md:mb-0">
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">Built by a Sister, for All my Sisters</h3>
+                <p className="text-sm text-purple-600 font-medium">Inspired by Agnes Agyepong - Goddess Table</p>
+              </div>
               <BrandLogo size="w-16 h-16" />
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
