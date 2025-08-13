@@ -18,6 +18,7 @@ import {
   DollarSign,
   MapPin,
   UserCheck,
+  ArrowLeft,
 } from "lucide-react"
 import Link from "next/link"
 import {
@@ -414,8 +415,17 @@ Based on all of this context about my business and goals, ${prompt.toLowerCase()
                 </span>
               </div>
             </Link>
-            <div className="text-sm text-gray-600">
-              {filteredTools.length} of {aiToolsDatabase.length} AI tools
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-gray-600">
+                {filteredTools.length} of {aiToolsDatabase.length} AI tools
+              </div>
+              <Link
+                href="/"
+                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-4 py-2 rounded-full font-medium transition-all duration-200 flex items-center gap-2"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to Homepage
+              </Link>
             </div>
           </div>
         </div>
