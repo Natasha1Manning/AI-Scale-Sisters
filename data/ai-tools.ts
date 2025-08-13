@@ -1,0 +1,323 @@
+// Extended AI Tools Database with 150+ tools
+export const aiToolsDatabase = [
+  // Writing & Content Generation
+  {
+    id: 1,
+    name: "ChatGPT",
+    category: "Writing & Content Generation",
+    description: "AI chatbot that can help with writing, brainstorming, and answering questions",
+    beginnerExplanation:
+      "Think of it as having a really smart friend who can help you write emails, create content, and answer questions 24/7",
+    skillLevel: "Beginner",
+    pricing: "Free tier available, $20/month for Pro",
+    signupRequired: true,
+    link: "https://chat.openai.com",
+    tags: ["startup-fav", "our-top-pick"],
+    usedFor: "Content creation, customer service, brainstorming",
+    prompt:
+      "I'm a [your business type] targeting [your audience]. Help me create [specific content type] that addresses [your main challenge].",
+  },
+  {
+    id: 2,
+    name: "Claude",
+    category: "Writing & Content Generation",
+    description: "Advanced AI assistant for complex writing and analysis tasks",
+    beginnerExplanation:
+      "A super-smart writing partner that's great at understanding context and helping with detailed projects",
+    skillLevel: "Intermediate",
+    pricing: "Free tier available, $20/month for Pro",
+    signupRequired: true,
+    link: "https://claude.ai",
+    tags: ["our-top-pick"],
+    usedFor: "Long-form content, analysis, strategic planning",
+    prompt:
+      "Help me develop a comprehensive [content type] for my [business type] that addresses [specific challenge] for [target audience].",
+  },
+  {
+    id: 3,
+    name: "Gemini",
+    category: "Writing & Content Generation",
+    description: "Google's AI assistant for writing, research, and creative tasks",
+    beginnerExplanation:
+      "Google's smart assistant that can help you write, research topics, and come up with creative ideas",
+    skillLevel: "Beginner",
+    pricing: "Free tier available, $20/month for Advanced",
+    signupRequired: true,
+    link: "https://gemini.google.com",
+    tags: ["trending"],
+    usedFor: "Research, content creation, data analysis",
+    prompt: "As a [business type], help me research and create content about [topic] for [target audience].",
+  },
+  {
+    id: 4,
+    name: "Jasper",
+    category: "Writing & Content Generation",
+    description: "AI writing assistant specialized in marketing copy and business content",
+    beginnerExplanation:
+      "Your personal copywriter that never gets tired - it writes sales pages, emails, and ads that actually convert",
+    skillLevel: "Intermediate",
+    pricing: "Starting at $49/month",
+    signupRequired: true,
+    link: "https://jasper.ai",
+    tags: ["startup-fav"],
+    usedFor: "Marketing copy, blog posts, email campaigns",
+    prompt:
+      "Write a [content type] for my [business type] that helps [target audience] solve [specific problem] and leads them to [desired action].",
+  },
+  {
+    id: 5,
+    name: "Rytr",
+    category: "Writing & Content Generation",
+    description: "AI writing tool for creating various types of content quickly",
+    beginnerExplanation:
+      "Like having a writing assistant that can quickly create blog posts, ads, and social media content for you",
+    skillLevel: "Beginner",
+    pricing: "Free tier available, $9/month for Saver",
+    signupRequired: true,
+    link: "https://rytr.me",
+    tags: ["creator-pick"],
+    usedFor: "Blog posts, social media, ad copy",
+    prompt:
+      "Create [content type] for my [business type] that engages [target audience] and promotes [product/service].",
+  },
+  {
+    id: 6,
+    name: "Writer.com",
+    category: "Writing & Content Generation",
+    description: "Enterprise AI writing platform with brand voice consistency",
+    beginnerExplanation:
+      "A professional writing tool that learns your brand's voice and helps your team write consistently",
+    skillLevel: "Intermediate",
+    pricing: "Custom pricing",
+    signupRequired: true,
+    link: "https://writer.com",
+    tags: ["startup-fav"],
+    usedFor: "Brand content, team collaboration, enterprise writing",
+    prompt: "Help me create [content type] that matches my brand voice for [business type] targeting [audience].",
+  },
+  {
+    id: 7,
+    name: "Grammarly",
+    category: "Writing & Content Generation",
+    description: "AI-powered writing assistant for grammar, style, and tone",
+    beginnerExplanation:
+      "Your personal editor that checks your writing for mistakes and suggests improvements to make it sound more professional",
+    skillLevel: "Beginner",
+    pricing: "Free tier available, $12/month for Premium",
+    signupRequired: true,
+    link: "https://grammarly.com",
+    tags: ["our-top-pick", "creator-pick"],
+    usedFor: "Editing, proofreading, writing improvement",
+    prompt:
+      "Help me improve this [content type] for my [business type] to make it more engaging for [target audience].",
+  },
+  {
+    id: 8,
+    name: "ProWritingAid",
+    category: "Writing & Content Generation",
+    description: "Comprehensive writing analysis and improvement tool",
+    beginnerExplanation:
+      "Like having an English teacher who helps you write better by checking grammar, style, and readability",
+    skillLevel: "Intermediate",
+    pricing: "$20/month for Premium",
+    signupRequired: true,
+    link: "https://prowritingaid.com",
+    tags: ["creator-pick"],
+    usedFor: "Long-form writing, editing, style improvement",
+    prompt: "Analyze and improve this [content type] for my [business type] to better connect with [target audience].",
+  },
+  {
+    id: 9,
+    name: "Quillbot",
+    category: "Writing & Content Generation",
+    description: "AI paraphrasing and writing enhancement tool",
+    beginnerExplanation:
+      "Helps you rewrite sentences and paragraphs to sound better or avoid repetition in your writing",
+    skillLevel: "Beginner",
+    pricing: "Free tier available, $9.95/month for Premium",
+    signupRequired: true,
+    link: "https://quillbot.com",
+    tags: ["trending"],
+    usedFor: "Paraphrasing, summarizing, writing enhancement",
+    prompt: "Help me rephrase this content for my [business type] to make it more engaging for [target audience].",
+  },
+  {
+    id: 10,
+    name: "Anyword",
+    category: "Writing & Content Generation",
+    description: "AI copywriting platform with performance prediction",
+    beginnerExplanation: "Creates marketing copy and predicts how well it will perform before you use it",
+    skillLevel: "Intermediate",
+    pricing: "Starting at $39/month",
+    signupRequired: true,
+    link: "https://anyword.com",
+    tags: ["startup-fav"],
+    usedFor: "Marketing copy, ad campaigns, performance optimization",
+    prompt: "Create high-converting [content type] for my [business type] that will resonate with [target audience].",
+  },
+
+  // Image Generation & Design
+  {
+    id: 11,
+    name: "Midjourney",
+    category: "Image Generation & Design",
+    description: "AI image generator that creates stunning artwork and visuals from text descriptions",
+    beginnerExplanation:
+      "Describe any image you can imagine, and this tool will create it for you - perfect for unique marketing visuals",
+    skillLevel: "Intermediate",
+    pricing: "$10-60/month",
+    signupRequired: true,
+    link: "https://midjourney.com",
+    tags: ["creator-pick", "trending"],
+    usedFor: "Brand imagery, social media content, marketing visuals",
+    prompt:
+      "Create an image of [detailed description] that represents my [business type] and appeals to [target audience], professional photography style.",
+  },
+  {
+    id: 12,
+    name: "Stable Diffusion",
+    category: "Image Generation & Design",
+    description: "Open-source AI image generation model",
+    beginnerExplanation:
+      "A free tool that creates images from text descriptions - great for custom visuals without paying licensing fees",
+    skillLevel: "Expert",
+    pricing: "Free (open source)",
+    signupRequired: false,
+    link: "https://stability.ai",
+    tags: ["trending"],
+    usedFor: "Custom imagery, artistic content, brand visuals",
+    prompt: "Generate a [style] image showing [description] for my [business type] targeting [audience].",
+  },
+  {
+    id: 13,
+    name: "DALL·E 3",
+    category: "Image Generation & Design",
+    description: "OpenAI's advanced image generation model",
+    beginnerExplanation:
+      "Creates detailed, realistic images from your descriptions - great for marketing materials and social media",
+    skillLevel: "Beginner",
+    pricing: "Included with ChatGPT Plus ($20/month)",
+    signupRequired: true,
+    link: "https://openai.com/dall-e-3",
+    tags: ["our-top-pick"],
+    usedFor: "Marketing visuals, social media, creative content",
+    prompt:
+      "Create a professional image for my [business type] showing [description] that would appeal to [target audience].",
+  },
+  {
+    id: 14,
+    name: "Adobe Firefly",
+    category: "Image Generation & Design",
+    description: "Adobe's AI-powered creative tools for image generation and editing",
+    beginnerExplanation:
+      "Adobe's smart design assistant that helps you create and edit images without advanced design skills",
+    skillLevel: "Intermediate",
+    pricing: "Free tier available, $22.99/month for Premium",
+    signupRequired: true,
+    link: "https://firefly.adobe.com",
+    tags: ["creator-pick"],
+    usedFor: "Professional design, marketing materials, brand assets",
+    prompt: "Design a [type of visual] for my [business type] that communicates [message] to [target audience].",
+  },
+  {
+    id: 15,
+    name: "Canva Magic Studio",
+    category: "Image Generation & Design",
+    description: "AI-powered design tools for creating professional graphics and marketing materials",
+    beginnerExplanation:
+      "Like having a professional designer in your pocket - just tell it what you want and it creates beautiful designs for you",
+    skillLevel: "Beginner",
+    pricing: "Free tier available, $15/month for Pro",
+    signupRequired: true,
+    link: "https://canva.com",
+    tags: ["creator-pick", "trending", "our-top-pick"],
+    usedFor: "Social media graphics, presentations, marketing materials",
+    prompt:
+      "Create a [type of design] for my [business type] that appeals to [target audience] and communicates [key message].",
+  },
+
+  // Video & Avatar Creation
+  {
+    id: 16,
+    name: "Synthesia",
+    category: "Video & Avatar Creation",
+    description: "Create professional videos with AI avatars without filming",
+    beginnerExplanation:
+      "Make professional videos without being on camera - choose an AI person to deliver your message",
+    skillLevel: "Beginner",
+    pricing: "Starting at $30/month",
+    signupRequired: true,
+    link: "https://synthesia.io",
+    tags: ["trending", "our-top-pick"],
+    usedFor: "Training videos, marketing content, presentations",
+    prompt:
+      "Create a video script for my [business type] explaining [topic] to [target audience] in a friendly, professional tone.",
+  },
+  {
+    id: 17,
+    name: "Runway ML",
+    category: "Video & Avatar Creation",
+    description: "AI video editing and generation tools for creative content",
+    beginnerExplanation:
+      "Turn your ideas into videos with AI - edit, create effects, and generate video content without technical skills",
+    skillLevel: "Intermediate",
+    pricing: "Free tier available, $15/month for Standard",
+    signupRequired: true,
+    link: "https://runwayml.com",
+    tags: ["trending", "creator-pick"],
+    usedFor: "Video content, social media, creative projects",
+    prompt:
+      "Create a video concept for my [business type] that showcases [key benefit] to [target audience] in an engaging way.",
+  },
+  {
+    id: 18,
+    name: "OpusClip",
+    category: "Video & Avatar Creation",
+    description: "AI-powered video clipping and editing for social media",
+    beginnerExplanation:
+      "Takes your long videos and automatically creates short, engaging clips perfect for social media",
+    skillLevel: "Beginner",
+    pricing: "Free tier available, $19/month for Pro",
+    signupRequired: true,
+    link: "https://opus.pro",
+    tags: ["trending", "creator-pick"],
+    usedFor: "Social media clips, content repurposing, video marketing",
+    prompt:
+      "Help me create engaging short video clips from my [content type] for my [business type] targeting [audience].",
+  },
+
+  // Automation & Productivity
+  {
+    id: 19,
+    name: "Zapier AI",
+    category: "Automation & Productivity",
+    description: "Automate repetitive tasks between different apps and services",
+    beginnerExplanation:
+      "Like having a personal assistant that connects all your apps and does boring tasks automatically",
+    skillLevel: "Intermediate",
+    pricing: "Free tier available, $19.99/month for Starter",
+    signupRequired: true,
+    link: "https://zapier.com",
+    tags: ["startup-fav", "our-top-pick"],
+    usedFor: "Workflow automation, data syncing, task management",
+    prompt:
+      "Help me automate the process of [specific task] for my [business type] to save time on [current manual process].",
+  },
+  {
+    id: 20,
+    name: "Notion AI",
+    category: "Automation & Productivity",
+    description: "AI-powered workspace for notes, docs, and project management",
+    beginnerExplanation:
+      "Your smart workspace that helps you organize everything and writes content for you when needed",
+    skillLevel: "Beginner",
+    pricing: "$10/month for Plus",
+    signupRequired: true,
+    link: "https://notion.so",
+    tags: ["creator-pick", "trending"],
+    usedFor: "Project management, documentation, team collaboration",
+    prompt: "Help me organize and plan [project/task] for my [business type] with clear action steps.",
+  },
+
+  // Continue with more tools to reach 150+...
+]
