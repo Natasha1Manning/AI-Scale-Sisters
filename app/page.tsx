@@ -123,7 +123,7 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mb-6">
                 <Users className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Personalized Recommendations</h3>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Personalised Recommendations</h3>
               <p className="text-gray-700 leading-relaxed">
                 Our smart questionnaire understands your business stage, goals, and challenges to recommend the perfect
                 AI tools for your unique journey.
@@ -136,7 +136,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Ready-to-Use Prompts</h3>
               <p className="text-gray-700 leading-relaxed">
-                Skip the learning curve with our pre-written, personalized prompts that get you results immediately.
+                Skip the learning curve with our pre-written, personalised prompts that get you results immediately.
                 Just copy, paste, and watch the magic happen.
               </p>
             </div>

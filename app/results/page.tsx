@@ -83,6 +83,37 @@ const BrandLogo = ({ size = "w-8 h-8" }: { size?: string }) => (
   </div>
 )
 
+const calculateRelevanceScore = (tool: any, questionnaireData: any) => {
+  if (!questionnaireData) return 0
+
+  let score = 0
+  const businessTypes = questionnaireData.businessTypes || []
+  const challenge = questionnaireData.challenge?.toLowerCase() || ""
+  const inspiration = questionnaireData.inspiration?.toLowerCase() || ""
+
+  // Category relevance
+  businessTypes.forEach((type) => {
+    if (type.includes("Website") && tool.category.includes("Website")) score += 3
+    if (type.includes("E-commerce") && tool.category.includes("E-commerce")) score += 3
+    if (type.includes("Social Media") && tool.category.includes("Social Media")) score += 3
+    if (type.includes("Video") && tool.category.includes("Video")) score += 3
+    if (type.includes("Content") && tool.category.includes("Writing")) score += 3
+  })
+
+  // Challenge relevance
+  if (challenge.includes("time") && tool.category.includes("Automation")) score += 2
+  if (challenge.includes("content") && tool.category.includes("Writing")) score += 2
+  if (challenge.includes("design") && tool.category.includes("Image")) score += 2
+  if (challenge.includes("customer") && tool.category.includes("Customer")) score += 2
+
+  // Tag bonuses
+  if (tool.tags.includes("our-top-pick")) score += 2
+  if (tool.tags.includes("startup-fav")) score += 1
+  if (tool.tags.includes("trending")) score += 1
+
+  return score
+}
+
 export default function ResultsPage() {
   const [questionnaireData, setQuestionnaireData] = useState<any>(null)
   const [filteredTools, setFilteredTools] = useState(aiToolsDatabase)
@@ -136,73 +167,114 @@ export default function ResultsPage() {
 
     // If not showing all tools and we have questionnaire data, filter based on responses
     if (!showAllTools && questionnaireData) {
-      // Smart filtering based on questionnaire responses
+      // Enhanced smart filtering based on questionnaire responses
       const businessTypes = questionnaireData.businessTypes || []
       const businessStage = questionnaireData.businessStage || ""
+      const challenge = questionnaireData.challenge?.toLowerCase() || ""
+      const inspiration = questionnaireData.inspiration?.toLowerCase() || ""
+      const audience = questionnaireData.audience?.toLowerCase() || ""
 
-      // Filter by relevant categories based on business type
+      // More precise category matching based on business type
+      const relevantCategories: string[] = []
+
       if (businessTypes.includes("Website") || businessTypes.includes("E-commerce Store")) {
-        filtered = filtered.filter(
-          (tool) =>
-            tool.category.includes("Website") ||
-            tool.category.includes("Images") ||
-            tool.category.includes("Writing") ||
-            tool.category.includes("E-commerce") ||
-            tool.category.includes("E-commerce & Sales") ||
-            tool.category.includes("Social Media & Marketing"),
+        relevantCategories.push(
+          "Image Generation & Design",
+          "Writing & Content Generation",
+          "E-commerce & Sales",
+          "Website Building",
         )
       }
 
-      if (businessTypes.includes("Social Media Posts") || businessTypes.includes("Video Content")) {
-        filtered = filtered.filter(
-          (tool) =>
-            tool.category.includes("Images") ||
-            tool.category.includes("Video") ||
-            tool.category.includes("Writing") ||
-            tool.category.includes("Social Media & Marketing"),
+      if (
+        businessTypes.includes("Social Media Posts") ||
+        businessTypes.includes("Video Content") ||
+        businessTypes.includes("YouTube Channel")
+      ) {
+        relevantCategories.push(
+          "Image Generation & Design",
+          "Video & Avatar Creation",
+          "Social Media & Marketing",
+          "Writing & Content Generation",
         )
       }
 
-      if (businessTypes.includes("Online Course") || businessTypes.includes("E-book/Guide")) {
-        filtered = filtered.filter(
-          (tool) =>
-            tool.category.includes("Writing & Content Generation") || tool.category.includes("Video & Avatar Creation"),
-        )
+      if (
+        businessTypes.includes("Online Course") ||
+        businessTypes.includes("E-book/Guide") ||
+        businessTypes.includes("Podcast")
+      ) {
+        relevantCategories.push("Writing & Content Generation", "Video & Avatar Creation", "Email Marketing")
       }
 
-      if (businessTypes.includes("Consulting Services")) {
-        filtered = filtered.filter(
-          (tool) =>
-            tool.category.includes("Customer Service & Support") || tool.category.includes("Automation & Productivity"),
-        )
+      if (businessTypes.includes("Consulting Services") || businessTypes.includes("Service Business")) {
+        relevantCategories.push("Customer Service & Support", "Automation & Productivity", "Email Marketing")
       }
 
-      // Filter by skill level based on business stage
-      if (businessStage === "Just an idea" || businessStage === "Planning stage") {
-        filtered = filtered.filter((tool) => tool.skillLevel === "Beginner" || tool.skillLevel === "Intermediate")
+      if (businessTypes.includes("SaaS Product") || businessTypes.includes("Mobile App")) {
+        relevantCategories.push("Automation & Productivity", "Customer Service & Support", "Analytics & Data")
+      }
+
+      // Filter by challenge-specific needs
+      if (challenge.includes("time") || challenge.includes("automat") || challenge.includes("productiv")) {
+        relevantCategories.push("Automation & Productivity")
+      }
+
+      if (challenge.includes("content") || challenge.includes("writing") || challenge.includes("blog")) {
+        relevantCategories.push("Writing & Content Generation")
+      }
+
+      if (challenge.includes("customer") || challenge.includes("support") || challenge.includes("service")) {
+        relevantCategories.push("Customer Service & Support")
+      }
+
+      if (challenge.includes("market") || challenge.includes("social") || challenge.includes("promot")) {
+        relevantCategories.push("Social Media & Marketing")
+      }
+
+      // Apply category filtering if we have relevant categories
+      if (relevantCategories.length > 0) {
+        filtered = filtered.filter((tool) => relevantCategories.some((category) => tool.category.includes(category)))
+      }
+
+      // Enhanced skill level filtering based on business stage
+      if (
+        businessStage === "Just an idea" ||
+        businessStage === "Planning stage" ||
+        businessStage === "Just exploring options"
+      ) {
+        filtered = filtered.filter((tool) => tool.skillLevel === "Beginner")
       } else if (businessStage === "Building/Developing") {
-        filtered = filtered.filter(
-          (tool) =>
-            tool.skillLevel === "Beginner" || tool.skillLevel === "Intermediate" || tool.skillLevel === "Expert",
-        )
+        filtered = filtered.filter((tool) => tool.skillLevel === "Beginner" || tool.skillLevel === "Intermediate")
       } else if (businessStage === "Launched but early stage") {
         filtered = filtered.filter((tool) => tool.skillLevel === "Intermediate" || tool.skillLevel === "Expert")
-      } else if (businessStage === "Growing and scaling" || businessStage === "Established business") {
-        filtered = filtered.filter(
-          (tool) =>
-            tool.skillLevel === "Beginner" || tool.skillLevel === "Intermediate" || tool.skillLevel === "Expert",
-        )
       }
+
+      // Prioritize tools with relevant tags
+      filtered = filtered.sort((a, b) => {
+        const aRelevant = a.tags.includes("our-top-pick") || a.tags.includes("startup-fav") ? 1 : 0
+        const bRelevant = b.tags.includes("our-top-pick") || b.tags.includes("startup-fav") ? 1 : 0
+        return bRelevant - aRelevant
+      })
     }
 
-    // Apply search filter
+    // Apply search filter - Enhanced matching
     if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase()
       filtered = filtered.filter(
         (tool) =>
-          tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          tool.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          tool.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          tool.usedFor.toLowerCase().includes(searchTerm.toLowerCase()),
+          tool.name.toLowerCase().includes(searchLower) ||
+          tool.description.toLowerCase().includes(searchLower) ||
+          tool.beginnerExplanation.toLowerCase().includes(searchLower) ||
+          tool.category.toLowerCase().includes(searchLower) ||
+          tool.usedFor.toLowerCase().includes(searchLower) ||
+          tool.tags.some((tag) => tag.toLowerCase().includes(searchLower)) ||
+          tool.skillLevel.toLowerCase().includes(searchLower) ||
+          tool.pricing.toLowerCase().includes(searchLower) ||
+          // Search in prompt content too
+          tool.prompt
+            .toLowerCase()
+            .includes(searchLower),
       )
     }
 
@@ -248,6 +320,15 @@ export default function ResultsPage() {
       }
     }
 
+    // Sort by relevance if we have questionnaire data
+    if (!showAllTools && questionnaireData) {
+      filtered = filtered.sort((a, b) => {
+        const scoreA = calculateRelevanceScore(a, questionnaireData)
+        const scoreB = calculateRelevanceScore(b, questionnaireData)
+        return scoreB - scoreA
+      })
+    }
+
     setFilteredTools(filtered)
   }, [searchTerm, selectedCategory, selectedSkillLevel, selectedRegion, questionnaireData, showAllTools])
 
@@ -255,71 +336,91 @@ export default function ResultsPage() {
     let personalizedPrompt = prompt
 
     if (questionnaireData) {
-      // Create a comprehensive context from all questionnaire responses
-      const contextualIntro = `Hi! I'm a woman entrepreneur and I need your help with my project. Let me give you some background:
+      // Create a more targeted context based on the specific tool and user needs
+      const businessContext = questionnaireData.businessTypes?.join(" and ") || "business"
+      const targetAudience = questionnaireData.audience || "target customers"
+      const mainChallenge = questionnaireData.challenge || "business challenges"
+      const currentStage = questionnaireData.businessStage || "current stage"
+      const goals = questionnaireData.goals || "business goals"
+      const inspiration = questionnaireData.inspiration || "current project"
 
-🚀 WHAT I'M WORKING ON:
-${questionnaireData.inspiration || "I'm exploring new business opportunities"}
+      // Tool-specific context enhancement
+      let toolSpecificContext = ""
 
-🎯 THE CHALLENGE I'M SOLVING:
-${questionnaireData.challenge || "I want to grow my business and reach more people"}
+      if (toolName.toLowerCase().includes("chatgpt") || toolName.toLowerCase().includes("claude")) {
+        toolSpecificContext = `As an AI assistant helping with ${businessContext}, I need you to understand my specific context:`
+      } else if (toolName.toLowerCase().includes("canva") || toolName.toLowerCase().includes("midjourney")) {
+        toolSpecificContext = `As a design tool for ${businessContext}, help me create visuals that:`
+      } else if (toolName.toLowerCase().includes("shopify") || toolName.toLowerCase().includes("ecommerce")) {
+        toolSpecificContext = `For my ${businessContext} e-commerce needs:`
+      } else if (toolName.toLowerCase().includes("social") || toolName.toLowerCase().includes("instagram")) {
+        toolSpecificContext = `For my ${businessContext} social media strategy:`
+      }
 
-👥 WHO I'M TARGETING:
-${questionnaireData.audience || "My ideal customers who need what I'm offering"}
+      const contextualIntro = `${toolSpecificContext}
 
-💼 WHAT I WANT TO BUILD:
-${questionnaireData.businessTypes?.join(", ") || "Something impactful for my audience"}
+🎯 MY BUSINESS: ${businessContext}
+📍 CURRENT STAGE: ${currentStage}
+👥 TARGET AUDIENCE: ${targetAudience}
+🚀 MAIN PROJECT: ${inspiration}
+💡 KEY CHALLENGE: ${mainChallenge}
+✨ ULTIMATE GOAL: ${goals}
 
-📈 WHERE I AM RIGHT NOW:
-I'm currently at the "${questionnaireData.businessStage || "planning"}" stage
+Based on this specific context, ${prompt.toLowerCase()}`
 
-💫 MY DEEPER PURPOSE:
-${questionnaireData.goals || "I want to make a positive impact and build something meaningful"}
-
-Based on all of this context about my business and goals, ${prompt.toLowerCase()}`
-
-      // Replace placeholders with actual user data
+      // More precise placeholder replacement
       personalizedPrompt = contextualIntro
-        .replace(/\[your business type\]/g, questionnaireData.businessTypes?.join(", ") || "[your business type]")
-        .replace(/\[business type\]/g, questionnaireData.businessTypes?.join(", ") || "[business type]")
-        .replace(/\[target audience\]/g, questionnaireData.audience || "[target audience]")
-        .replace(/\[your audience\]/g, questionnaireData.audience || "[your audience]")
-        .replace(/\[audience\]/g, questionnaireData.audience || "[audience]")
-        .replace(/\[your main challenge\]/g, questionnaireData.challenge || "[your main challenge]")
-        .replace(/\[specific challenge\]/g, questionnaireData.challenge || "[specific challenge]")
-        .replace(/\[current manual process\]/g, questionnaireData.inspiration || "[current manual process]")
-        .replace(/\[project\/task\]/g, questionnaireData.inspiration || "[project/task]")
-        .replace(/\[specific task\]/g, questionnaireData.inspiration || "[specific task]")
-        .replace(/\[topic\]/g, questionnaireData.inspiration || "[topic]")
-        .replace(/\[key message\]/g, questionnaireData.goals || "[key message]")
-        .replace(/\[desired action\]/g, questionnaireData.goals || "[desired action]")
-        .replace(/\[specific problem\]/g, questionnaireData.challenge || "[specific problem]")
-        .replace(/\[key benefit\]/g, questionnaireData.goals || "[key benefit]")
-        .replace(/\[content type\]/g, "content for your " + (questionnaireData.businessTypes?.join(", ") || "business"))
+        .replace(/\[your business type\]/gi, businessContext)
+        .replace(/\[business type\]/gi, businessContext)
+        .replace(/\[target audience\]/gi, targetAudience)
+        .replace(/\[your audience\]/gi, targetAudience)
+        .replace(/\[audience\]/gi, targetAudience)
+        .replace(/\[your main challenge\]/gi, mainChallenge)
+        .replace(/\[specific challenge\]/gi, mainChallenge)
+        .replace(/\[current manual process\]/gi, inspiration)
+        .replace(/\[project\/task\]/gi, inspiration)
+        .replace(/\[specific task\]/gi, inspiration)
+        .replace(/\[topic\]/gi, inspiration)
+        .replace(/\[key message\]/gi, goals)
+        .replace(/\[desired action\]/gi, goals)
+        .replace(/\[specific problem\]/gi, mainChallenge)
+        .replace(/\[key benefit\]/gi, goals)
+        .replace(/\[content type\]/gi, `content for ${businessContext}`)
+        .replace(/\[type of content\]/gi, `content for ${businessContext}`)
+        .replace(/\[product\/service\]/gi, inspiration)
+        .replace(/\[service\]/gi, inspiration)
+        .replace(/\[products\]/gi, inspiration)
+        .replace(/\[project type\]/gi, businessContext)
+        .replace(/\[meeting type\]/gi, `${businessContext} meetings`)
+        .replace(/\[specific goal\]/gi, goals)
+        .replace(/\[digital product\]/gi, inspiration)
+        .replace(/\[creative business type\]/gi, businessContext)
+        .replace(/\[customer type\]/gi, targetAudience)
+        .replace(/\[common questions\]/gi, `questions about ${mainChallenge}`)
+        .replace(/\[keywords\]/gi, `${businessContext} ${mainChallenge}`)
+        .replace(/\[brand values\]/gi, goals)
+        .replace(/\[industry\]/gi, businessContext)
+        .replace(/\[platforms\]/gi, "social media platforms")
+        .replace(/\[style\]/gi, "professional and engaging")
+        .replace(/\[theme\]/gi, businessContext)
+        .replace(/\[description\]/gi, `${businessContext} focused on ${goals}`)
         .replace(
-          /\[type of content\]/g,
-          "content for your " + (questionnaireData.businessTypes?.join(", ") || "business"),
+          /\[detailed description\]/gi,
+          `professional ${businessContext} that helps ${targetAudience} with ${mainChallenge}`,
         )
-        .replace(/\[product\/service\]/g, questionnaireData.inspiration || "[product/service]")
-        .replace(/\[service\]/g, questionnaireData.inspiration || "[service]")
-        .replace(/\[products\]/g, questionnaireData.inspiration || "[products]")
-        .replace(/\[project type\]/g, questionnaireData.businessTypes?.join(", ") || "[project type]")
-        .replace(
-          /\[meeting type\]/g,
-          "meetings for your " + (questionnaireData.businessTypes?.join(", ") || "business"),
-        )
-        .replace(/\[specific goal\]/g, questionnaireData.goals || "[specific goal]")
-        .replace(/\[digital product\]/g, questionnaireData.inspiration || "[digital product]")
-        .replace(
-          /\[creative business type\]/g,
-          questionnaireData.businessTypes?.join(", ") || "[creative business type]",
-        )
-        .replace(/\[customer type\]/g, questionnaireData.audience || "[customer type]")
-        .replace(/\[common questions\]/g, "questions about " + (questionnaireData.challenge || "[common questions]"))
+    } else {
+      // Fallback for users without questionnaire data
+      personalizedPrompt = `Please help me with ${toolName}. Here's what I need:\n\n${prompt}`
     }
 
     navigator.clipboard.writeText(personalizedPrompt)
-    alert(`Comprehensive prompt with your full business context copied for ${toolName}!`)
+
+    // Show success message with tool-specific context
+    const successMessage = questionnaireData
+      ? `✨ Personalized prompt copied for ${toolName}! This prompt includes your specific business context: ${questionnaireData.businessTypes?.join(", ") || "your business"} targeting ${questionnaireData.audience || "your audience"}.`
+      : `Prompt copied for ${toolName}!`
+
+    alert(successMessage)
   }
 
   const getTagIcon = (tag: string) => {
