@@ -4,16 +4,16 @@ export interface AITool {
   category: string
   description: string
   pricing: string
-  skillLevel: string
+  skillLevel: "Beginner" | "Intermediate" | "Expert"
   beginnerExplanation: string
   personalizedPrompt: string
   regions: string[]
-  tags?: string[]
   link: string
+  tags: string[]
 }
 
 export const aiToolsDatabase: AITool[] = [
-  // Writing & Content Generation (50+ tools)
+  // Writing & Content Generation (45+ tools)
   {
     id: 1,
     name: "ChatGPT",
@@ -22,27 +22,27 @@ export const aiToolsDatabase: AITool[] = [
     pricing: "Free tier available, Plus at $20/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "ChatGPT is like having a smart writing assistant that can help you write emails, blog posts, social media content, and answer questions. Just type what you need help with!",
+      "ChatGPT is like having a smart writing assistant that can help you write emails, blog posts, social media content, and answer questions. Just type what you need and it responds in seconds.",
     personalizedPrompt:
-      "As a woman entrepreneur, use ChatGPT to draft professional emails, create social media captions for your business, brainstorm product names, or get help writing website copy that speaks to your target audience.",
+      "Write engaging social media posts for your business, draft professional emails to clients, brainstorm content ideas for your blog, and get help with copywriting that converts visitors into customers.",
     regions: ["Global"],
-    tags: ["our-top-pick", "startup-fav"],
     link: "https://chat.openai.com",
+    tags: ["writing", "content", "ai-assistant", "beginner-friendly"],
   },
   {
     id: 2,
     name: "Jasper AI",
     category: "Writing & Content Generation",
-    description: "AI writing assistant specialised in marketing copy and long-form content",
+    description: "AI writing assistant specialized in marketing copy and long-form content",
     pricing: "Starting at $39/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Jasper is like having a professional copywriter on your team. It helps create marketing materials, blog posts, and sales copy that converts visitors into customers.",
+      "Jasper AI specializes in creating marketing content like ads, emails, and blog posts. It's trained specifically for business writing and can match your brand voice.",
     personalizedPrompt:
-      "Use Jasper to create compelling product descriptions, write email marketing campaigns, develop blog content that establishes your expertise, and craft sales pages that convert.",
-    regions: ["North America", "Europe", "Asia", "Australia"],
-    tags: ["creator-pick"],
+      "Create compelling ad copy that drives sales, write blog posts that establish your expertise, craft email sequences that nurture leads, and develop content strategies that grow your audience.",
+    regions: ["Global"],
     link: "https://www.jasper.ai",
+    tags: ["marketing", "copywriting", "content-strategy", "business"],
   },
   {
     id: 3,
@@ -52,113 +52,117 @@ export const aiToolsDatabase: AITool[] = [
     pricing: "Free tier available, Pro at $36/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Copy.ai helps you write marketing content quickly. It's perfect for creating social media posts, ad copy, and website text when you're not sure what to write.",
+      "Copy.ai helps you write marketing copy quickly. It has templates for social media posts, ads, emails, and more. Perfect for entrepreneurs who need content fast.",
     personalizedPrompt:
-      "Generate Instagram captions for your products, create Facebook ad copy that targets your ideal customers, write compelling headlines for your website, and develop email subject lines that get opened.",
+      "Generate social media captions that engage your audience, write product descriptions that sell, create email subject lines that get opened, and develop ad copy that converts.",
     regions: ["Global"],
-    tags: ["trending"],
     link: "https://www.copy.ai",
+    tags: ["copywriting", "social-media", "marketing", "templates"],
   },
   {
     id: 4,
+    name: "Writesonic",
+    category: "Writing & Content Generation",
+    description: "AI writing platform for articles, ads, and website copy",
+    pricing: "Free tier available, paid plans from $12/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Writesonic creates various types of content from blog articles to Facebook ads. It's user-friendly and great for small business owners who need quality content quickly.",
+    personalizedPrompt:
+      "Write SEO-optimized blog posts that rank on Google, create landing page copy that converts visitors, develop social media content calendars, and craft compelling product descriptions.",
+    regions: ["Global"],
+    link: "https://writesonic.com",
+    tags: ["seo", "blog-writing", "landing-pages", "content-calendar"],
+  },
+  {
+    id: 5,
     name: "Grammarly",
     category: "Writing & Content Generation",
     description: "AI-powered writing assistant for grammar, style, and tone",
     pricing: "Free tier available, Premium at $12/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Grammarly is like having an English teacher check your writing. It fixes grammar mistakes and helps you sound more professional in all your business communications.",
+      "Grammarly checks your writing for grammar mistakes, suggests better words, and helps you write more clearly. It works in your browser and most apps.",
     personalizedPrompt:
-      "Use Grammarly to polish your business proposals, ensure your website copy is error-free, improve the tone of your customer emails, and make your social media posts more engaging.",
+      "Polish your business communications to sound professional, improve your website copy for better engagement, ensure your marketing materials are error-free, and maintain consistent brand voice across all content.",
     regions: ["Global"],
-    tags: ["startup-fav"],
     link: "https://www.grammarly.com",
-  },
-  {
-    id: 5,
-    name: "Writesonic",
-    category: "Writing & Content Generation",
-    description: "AI writing platform for articles, ads, and website copy",
-    pricing: "Free tier available, Pro at $12.67/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Writesonic is an easy-to-use writing tool that helps create professional content for your business, from blog posts to product descriptions.",
-    personalizedPrompt:
-      "Create SEO-optimised blog posts about your industry, write product descriptions that highlight benefits for women, develop landing page copy that converts, and craft press releases for your business milestones.",
-    regions: ["Global"],
-    link: "https://writesonic.com",
+    tags: ["grammar", "editing", "professional-writing", "browser-extension"],
   },
   {
     id: 6,
-    name: "Claude",
-    category: "Writing & Content Generation",
-    description: "Advanced AI assistant by Anthropic for complex writing and analysis",
-    pricing: "Free tier available, Pro at $20/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Claude is excellent at understanding context and helping with detailed writing projects, research, and complex analysis tasks.",
-    personalizedPrompt:
-      "Use Claude for in-depth market research, writing comprehensive business plans, creating detailed content strategies, and developing complex marketing campaigns.",
-    regions: ["Global"],
-    tags: ["trending"],
-    link: "https://claude.ai",
-  },
-  {
-    id: 7,
     name: "Notion AI",
     category: "Writing & Content Generation",
     description: "AI writing assistant integrated into Notion workspace",
-    pricing: "$10/month per user (add-on)",
+    pricing: "$8/month per user (add-on to Notion)",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Notion AI works inside your Notion workspace to help write, edit, and organize content. Perfect if you already use Notion for business planning and note-taking.",
+    personalizedPrompt:
+      "Organize your business ideas into actionable plans, write and edit content directly in your workspace, create meeting summaries and action items, and develop comprehensive business documentation.",
+    regions: ["Global"],
+    link: "https://www.notion.so/product/ai",
+    tags: ["workspace", "organization", "business-planning", "productivity"],
+  },
+  {
+    id: 7,
+    name: "Rytr",
+    category: "Writing & Content Generation",
+    description: "AI writing assistant for various content types and tones",
+    pricing: "Free tier available, paid plans from $9/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Notion AI helps you write and organise content directly in your Notion workspace, perfect for business documentation and planning.",
+      "Rytr helps you write different types of content in various tones and styles. It's affordable and easy to use, making it perfect for small business owners on a budget.",
     personalizedPrompt:
-      "Organise your business processes, create content for marketing campaigns, summarise meeting notes, and develop comprehensive business documentation.",
+      "Create blog posts that showcase your expertise, write compelling product descriptions, develop email campaigns that nurture relationships, and craft social media content that builds community.",
     regions: ["Global"],
-    tags: ["startup-fav"],
-    link: "https://www.notion.so",
+    link: "https://rytr.me",
+    tags: ["affordable", "versatile", "small-business", "content-variety"],
   },
   {
     id: 8,
-    name: "Rytr",
-    category: "Writing & Content Generation",
-    description: "AI writing tool for creating various types of content quickly",
-    pricing: "Free tier available, Premium at $9/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Rytr is a simple AI writing tool that helps create blog posts, social media content, and marketing copy quickly and affordably.",
-    personalizedPrompt:
-      "Generate blog post ideas and outlines, create social media captions, write product descriptions, and develop email newsletters.",
-    regions: ["Global"],
-    link: "https://rytr.me",
-  },
-  {
-    id: 9,
     name: "Wordtune",
     category: "Writing & Content Generation",
     description: "AI writing companion that rewrites and improves your text",
-    pricing: "Free tier available, Premium at $13.99/month",
+    pricing: "Free tier available, Premium at $9.99/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Wordtune helps you rewrite sentences to sound more professional, clear, and engaging. Perfect for improving existing content.",
+      "Wordtune helps you rewrite sentences to sound better, clearer, or more professional. It's like having an editor that suggests improvements to your writing.",
     personalizedPrompt:
-      "Improve your website copy, rewrite emails to sound more professional, enhance your social media captions, and refine your marketing messages.",
+      "Improve your email communication to sound more professional, enhance your website copy for better clarity, refine your social media posts for maximum engagement, and polish your business proposals.",
     regions: ["Global"],
     link: "https://www.wordtune.com",
+    tags: ["editing", "rewriting", "clarity", "professional-communication"],
   },
   {
-    id: 10,
+    id: 9,
     name: "QuillBot",
     category: "Writing & Content Generation",
     description: "AI paraphrasing and writing enhancement tool",
-    pricing: "Free tier available, Premium at $9.95/month",
+    pricing: "Free tier available, Premium at $8.33/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "QuillBot helps you paraphrase and improve your writing to avoid repetition and sound more professional.",
+      "QuillBot helps you rewrite text in different ways while keeping the same meaning. It's useful for avoiding repetition and improving the flow of your writing.",
     personalizedPrompt:
-      "Paraphrase content for your website, improve the flow of your writing, create multiple versions of marketing messages, and enhance your blog posts.",
+      "Rephrase your content to avoid repetition, improve the readability of your business documents, create multiple versions of your marketing messages, and enhance your writing style.",
     regions: ["Global"],
     link: "https://quillbot.com",
+    tags: ["paraphrasing", "readability", "writing-improvement", "content-variation"],
+  },
+  {
+    id: 10,
+    name: "Longshot AI",
+    category: "Writing & Content Generation",
+    description: "AI content generator focused on factual, research-backed writing",
+    pricing: "Starting at $19/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Longshot AI creates content based on real facts and research. It's perfect for businesses that need accurate, well-researched articles and blog posts.",
+    personalizedPrompt:
+      "Create authoritative blog posts that establish your expertise, develop fact-based content that builds trust with your audience, write research-backed articles that rank well on Google, and produce credible business content.",
+    regions: ["Global"],
+    link: "https://www.longshot.ai",
+    tags: ["research", "factual-content", "seo", "authority-building"],
   },
   {
     id: 11,
@@ -168,3014 +172,2425 @@ export const aiToolsDatabase: AITool[] = [
     pricing: "Starting at $39/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Anyword creates marketing copy and predicts how well it will perform, helping you choose the best content for your campaigns.",
+      "Anyword not only writes copy but predicts how well it will perform. It's great for businesses that want data-driven content creation.",
     personalizedPrompt:
-      "Create high-converting ad copy, write email campaigns that drive sales, develop website copy that converts visitors, and test different marketing messages.",
+      "Create high-converting ad copy with performance predictions, write email campaigns that maximize open rates, develop social media content that drives engagement, and optimize your marketing messages for better results.",
     regions: ["Global"],
     link: "https://anyword.com",
+    tags: ["performance-prediction", "conversion-optimization", "data-driven", "marketing"],
   },
   {
     id: 12,
-    name: "Peppertype",
+    name: "Peppertype AI",
     category: "Writing & Content Generation",
-    description: "AI content marketing platform for teams",
+    description: "AI content creation platform for marketing teams",
     pricing: "Starting at $35/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Peppertype helps teams create consistent, high-quality content across all marketing channels.",
+      "Peppertype AI helps marketing teams create consistent, on-brand content quickly. It's designed for businesses that need to produce a lot of marketing content.",
     personalizedPrompt:
-      "Coordinate content creation across your team, maintain brand voice consistency, create content calendars, and develop integrated marketing campaigns.",
+      "Maintain consistent brand voice across all marketing materials, create content calendars that engage your audience, develop multi-channel marketing campaigns, and produce high-quality content at scale.",
     regions: ["Global"],
     link: "https://www.peppertype.ai",
+    tags: ["brand-consistency", "marketing-teams", "content-scale", "multi-channel"],
   },
   {
     id: 13,
-    name: "ContentBot",
+    name: "Simplified AI Writer",
     category: "Writing & Content Generation",
-    description: "AI writer for blog posts, ads, and social media content",
-    pricing: "Starting at $29/month",
+    description: "All-in-one content creation and design platform with AI writing",
+    pricing: "Free tier available, paid plans from $12/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "ContentBot specializes in creating blog posts and marketing content that ranks well in search engines.",
+      "Simplified combines AI writing with design tools, so you can create both the text and visuals for your content in one place. Perfect for solo entrepreneurs.",
     personalizedPrompt:
-      "Create SEO-optimized blog content, write engaging social media posts, develop ad copy for different platforms, and generate content ideas.",
+      "Create complete social media posts with text and visuals, develop branded content that stands out, produce marketing materials without hiring designers, and maintain visual consistency across platforms.",
     regions: ["Global"],
-    link: "https://contentbot.ai",
+    link: "https://simplified.com",
+    tags: ["all-in-one", "design-integration", "social-media", "visual-content"],
   },
   {
     id: 14,
-    name: "Frase",
+    name: "ContentBot",
     category: "Writing & Content Generation",
-    description: "AI-powered content optimization and research tool",
-    pricing: "Starting at $44.99/month",
+    description: "AI content automation for blogs and marketing",
+    pricing: "Starting at $19/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Frase helps you research topics and create content that ranks higher in Google search results.",
+      "ContentBot automates content creation for blogs and marketing. It can generate ideas, write drafts, and even publish content automatically.",
     personalizedPrompt:
-      "Research trending topics in your industry, optimize your blog posts for search engines, create comprehensive content briefs, and analyze competitor content.",
+      "Automate your blog content creation process, generate endless content ideas for your niche, create consistent publishing schedules, and maintain active online presence without constant manual work.",
     regions: ["Global"],
-    link: "https://www.frase.io",
+    link: "https://contentbot.ai",
+    tags: ["automation", "blog-content", "content-ideas", "publishing"],
   },
   {
     id: 15,
-    name: "Surfer SEO",
+    name: "Hypotenuse AI",
     category: "Writing & Content Generation",
-    description: "AI content editor for SEO-optimized writing",
-    pricing: "Starting at $59/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Surfer SEO helps you write content that ranks higher in Google by analyzing top-performing articles in your niche.",
-    personalizedPrompt:
-      "Optimize your blog posts for search engines, research keywords that your customers use, analyze competitor content strategies, and improve your website's search rankings.",
-    regions: ["Global"],
-    link: "https://surferseo.com",
-  },
-
-  // Image Generation & Design (60+ tools)
-  {
-    id: 16,
-    name: "DALL-E 3",
-    category: "Image Generation & Design",
-    description: "OpenAI's advanced AI image generator",
-    pricing: "Included with ChatGPT Plus ($20/month)",
+    description: "AI writing tool for ecommerce and content marketing",
+    pricing: "Starting at $15/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "DALL-E 3 creates stunning, realistic images from your text descriptions. Perfect for creating unique visuals for your business.",
+      "Hypotenuse AI specializes in ecommerce content like product descriptions and marketing copy. It's perfect for online store owners who need compelling product content.",
     personalizedPrompt:
-      "Generate custom product mockups, create social media graphics that reflect your brand, design unique illustrations for your website, and produce marketing visuals.",
+      "Write compelling product descriptions that increase sales, create category pages that improve SEO, develop email campaigns for your online store, and produce content that converts browsers into buyers.",
     regions: ["Global"],
-    tags: ["our-top-pick"],
-    link: "https://openai.com/dall-e-3",
+    link: "https://www.hypotenuse.ai",
+    tags: ["ecommerce", "product-descriptions", "online-store", "conversion"],
   },
+
+  // Image Generation & Design (40+ tools)
   {
-    id: 17,
+    id: 16,
     name: "Midjourney",
     category: "Image Generation & Design",
-    description: "AI art generator known for high-quality, artistic images",
+    description: "AI art generator creating stunning, artistic images from text prompts",
     pricing: "Starting at $10/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Midjourney creates beautiful, artistic images that look professionally designed. Great for creating stunning brand visuals.",
+      "Midjourney creates beautiful, artistic images from your text descriptions. It's perfect for creating unique visuals for your brand, social media, or marketing materials.",
     personalizedPrompt:
-      "Create artistic brand imagery, generate unique product photography concepts, design eye-catching social media visuals, and produce professional graphics.",
+      "Create unique brand imagery that sets you apart, design eye-catching social media visuals, develop artistic elements for your website, and produce professional-looking graphics without hiring a designer.",
     regions: ["Global"],
-    tags: ["creator-pick", "trending"],
     link: "https://www.midjourney.com",
+    tags: ["artistic", "brand-imagery", "social-media", "unique-visuals"],
+  },
+  {
+    id: 17,
+    name: "DALL-E 2",
+    category: "Image Generation & Design",
+    description: "OpenAI's image generation tool for realistic and creative images",
+    pricing: "Pay per image, starting at $0.02 per image",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "DALL-E 2 creates realistic images from text descriptions. It's user-friendly and great for creating specific images for your business needs.",
+    personalizedPrompt:
+      "Generate custom images for your blog posts, create product mockups and concepts, design unique social media graphics, and produce visual content that perfectly matches your brand message.",
+    regions: ["Global"],
+    link: "https://openai.com/dall-e-2",
+    tags: ["realistic-images", "custom-content", "product-mockups", "brand-matching"],
   },
   {
     id: 18,
-    name: "Canva AI",
+    name: "Stable Diffusion",
     category: "Image Generation & Design",
-    description: "AI-powered design tools integrated into Canva",
-    pricing: "Free tier available, Pro at $12.99/month",
-    skillLevel: "Beginner",
+    description: "Open-source AI image generator with high customization",
+    pricing: "Free (open source), various hosting options available",
+    skillLevel: "Expert",
     beginnerExplanation:
-      "Canva AI adds smart features to Canva's easy-to-use design platform, helping you create professional graphics quickly.",
+      "Stable Diffusion is a powerful, free AI image generator. While it requires more technical knowledge, it offers unlimited image generation and complete control over the process.",
     personalizedPrompt:
-      "Design social media posts, create professional presentations, generate custom graphics for your website, and produce marketing materials.",
+      "Generate unlimited custom images for your business, create consistent brand visuals, develop unique product imagery, and produce professional graphics without ongoing subscription costs.",
     regions: ["Global"],
-    tags: ["startup-fav", "our-top-pick"],
-    link: "https://www.canva.com",
+    link: "https://stability.ai/stable-diffusion",
+    tags: ["open-source", "unlimited", "customization", "cost-effective"],
   },
   {
     id: 19,
-    name: "Adobe Firefly",
+    name: "Canva AI",
     category: "Image Generation & Design",
-    description: "Adobe's AI image generator integrated with Creative Suite",
-    pricing: "Free tier available, Premium features with Creative Cloud",
-    skillLevel: "Intermediate",
-    beginnerExplanation: "Adobe Firefly brings AI image generation to Adobe's professional design tools.",
+    description: "AI-powered design tools integrated into Canva's platform",
+    pricing: "Free tier available, Pro at $12.99/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Canva AI combines easy design tools with AI image generation. Perfect for entrepreneurs who want to create professional designs quickly without design experience.",
     personalizedPrompt:
-      "Enhance your existing designs, create custom backgrounds for product photos, generate textures and patterns, and produce high-quality print materials.",
+      "Design professional marketing materials in minutes, create consistent brand visuals across all platforms, generate custom images that fit your designs perfectly, and produce high-quality graphics for social media and print.",
     regions: ["Global"],
-    link: "https://www.adobe.com/products/firefly.html",
+    link: "https://www.canva.com",
+    tags: ["design-templates", "brand-consistency", "marketing-materials", "user-friendly"],
   },
   {
     id: 20,
-    name: "Stable Diffusion",
+    name: "Adobe Firefly",
     category: "Image Generation & Design",
-    description: "Open-source AI image generator",
-    pricing: "Free (open source)",
-    skillLevel: "Expert",
+    description: "Adobe's AI image generator integrated with Creative Cloud",
+    pricing: "Included with Creative Cloud subscriptions, starting at $20.99/month",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "Stable Diffusion is a powerful, free image generator that requires some technical knowledge but offers complete control.",
+      "Adobe Firefly is built into Adobe's design tools, making it easy to generate and edit images within professional design software.",
     personalizedPrompt:
-      "Generate unlimited custom images, create product variations for testing, design unique brand assets, and produce marketing materials without ongoing costs.",
+      "Create professional-grade images for your brand, seamlessly integrate AI-generated elements into your designs, produce high-resolution graphics for print and digital use, and maintain Adobe's quality standards.",
     regions: ["Global"],
-    link: "https://stability.ai/stable-diffusion",
+    link: "https://www.adobe.com/products/firefly.html",
+    tags: ["professional-grade", "creative-cloud", "high-resolution", "design-integration"],
   },
   {
     id: 21,
     name: "Leonardo AI",
     category: "Image Generation & Design",
-    description: "AI image generator focused on consistency and control",
+    description: "AI image generator focused on consistent character and style creation",
     pricing: "Free tier available, paid plans from $10/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Leonardo AI excels at creating consistent character designs and maintaining visual coherence across multiple images.",
+      "Leonardo AI excels at creating consistent characters and maintaining specific art styles across multiple images. Great for building brand mascots or consistent visual themes.",
     personalizedPrompt:
-      "Create consistent brand mascots, design character illustrations for your business, generate product mockups, and develop visual brand guidelines.",
+      "Develop a consistent brand mascot or character, create cohesive visual themes for your content, generate product imagery with consistent styling, and build recognizable visual brand elements.",
     regions: ["Global"],
-    tags: ["trending"],
     link: "https://leonardo.ai",
+    tags: ["character-consistency", "brand-mascot", "visual-themes", "style-consistency"],
   },
   {
     id: 22,
     name: "Playground AI",
     category: "Image Generation & Design",
-    description: "User-friendly AI image generator with templates",
+    description: "User-friendly AI image generator with editing capabilities",
     pricing: "Free tier available, Pro at $15/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Playground AI offers an easy-to-use interface with templates and styles that make creating professional images simple.",
+      "Playground AI makes image generation simple with an intuitive interface and built-in editing tools. Perfect for beginners who want to create and modify AI images easily.",
     personalizedPrompt:
-      "Generate social media graphics, create website banners, design product images, and produce marketing visuals using professional templates.",
+      "Create and edit custom images for your business, experiment with different visual styles for your brand, generate social media graphics with easy modifications, and produce unique visuals without complex software.",
     regions: ["Global"],
     link: "https://playgroundai.com",
+    tags: ["user-friendly", "editing-tools", "experimentation", "beginner-friendly"],
   },
   {
     id: 23,
-    name: "Artbreeder",
+    name: "Runway ML",
     category: "Image Generation & Design",
-    description: "Collaborative AI image creation platform",
-    pricing: "Free tier available, paid plans from $8.99/month",
+    description: "AI creative suite for image, video, and audio generation",
+    pricing: "Free tier available, paid plans from $12/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Artbreeder lets you blend and evolve images to create unique visuals, perfect for exploring different design concepts.",
+      "Runway ML offers various AI creative tools including image generation, video editing, and more. It's like a creative studio powered by AI.",
     personalizedPrompt:
-      "Create unique character designs, explore different visual styles for your brand, generate landscape and background images, and develop creative concepts.",
+      "Create multimedia content for your brand, generate images and videos for social media, experiment with creative AI tools for unique content, and produce professional-looking creative materials.",
     regions: ["Global"],
-    link: "https://www.artbreeder.com",
+    link: "https://runwayml.com",
+    tags: ["multimedia", "creative-suite", "video-editing", "experimental"],
   },
   {
     id: 24,
-    name: "NightCafe",
+    name: "Artbreeder",
     category: "Image Generation & Design",
-    description: "AI art generator with multiple algorithms",
-    pricing: "Free tier available, paid plans from $5.99/month",
-    skillLevel: "Beginner",
+    description: "AI tool for blending and evolving images collaboratively",
+    pricing: "Free tier available, paid plans from $8.99/month",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "NightCafe offers various AI art styles and algorithms, making it easy to create different types of artistic images.",
+      "Artbreeder lets you blend different images together to create new ones. It's great for creating unique portraits, landscapes, or abstract art for your brand.",
     personalizedPrompt:
-      "Create artistic social media content, design unique brand visuals, generate creative illustrations, and produce eye-catching marketing graphics.",
+      "Create unique brand imagery by blending different visual elements, develop custom portraits for your team or brand personas, generate abstract art for your website backgrounds, and experiment with visual concepts.",
     regions: ["Global"],
-    link: "https://nightcafe.studio",
+    link: "https://www.artbreeder.com",
+    tags: ["image-blending", "unique-imagery", "portraits", "abstract-art"],
   },
   {
     id: 25,
-    name: "RunwayML",
+    name: "NightCafe",
     category: "Image Generation & Design",
-    description: "AI-powered creative tools for image and video",
-    pricing: "Free tier available, Pro at $12/month",
-    skillLevel: "Intermediate",
+    description: "AI art generator with multiple algorithms and styles",
+    pricing: "Free tier available, paid plans from $5.99/month",
+    skillLevel: "Beginner",
     beginnerExplanation:
-      "RunwayML offers various AI tools for creative projects, including image generation, editing, and enhancement.",
+      "NightCafe offers multiple AI art styles and algorithms in one platform. It's user-friendly and great for creating artistic images for your brand or social media.",
     personalizedPrompt:
-      "Edit and enhance product photos, create artistic visuals, generate unique graphics, and develop creative marketing content.",
+      "Explore different artistic styles for your brand visuals, create eye-catching social media art, generate unique backgrounds and textures, and produce artistic content that reflects your brand personality.",
     regions: ["Global"],
-    link: "https://runwayml.com",
+    link: "https://creator.nightcafe.studio",
+    tags: ["multiple-styles", "artistic", "social-media-art", "brand-personality"],
   },
   {
     id: 26,
-    name: "Krita AI",
+    name: "Photosonic",
     category: "Image Generation & Design",
-    description: "AI-powered digital painting and design software",
-    pricing: "Free (open source)",
-    skillLevel: "Intermediate",
+    description: "AI image generator by Writesonic for realistic photos",
+    pricing: "Included with Writesonic plans, starting at $12/month",
+    skillLevel: "Beginner",
     beginnerExplanation:
-      "Krita AI combines traditional digital art tools with AI assistance for creating custom illustrations and designs.",
+      "Photosonic creates realistic photos from text descriptions. It's integrated with Writesonic, making it easy to create both content and images in one workflow.",
     personalizedPrompt:
-      "Create custom illustrations for your brand, design unique graphics, develop artistic content, and produce original visual assets.",
+      "Generate realistic photos for your blog posts and articles, create authentic-looking product images, produce lifestyle photos that match your brand aesthetic, and develop visual content that complements your written content.",
     regions: ["Global"],
-    link: "https://krita.org",
+    link: "https://photosonic.writesonic.com",
+    tags: ["realistic-photos", "content-integration", "product-images", "lifestyle-photos"],
   },
   {
     id: 27,
-    name: "Photosonic",
+    name: "DeepAI",
     category: "Image Generation & Design",
-    description: "AI image generator by Writesonic",
-    pricing: "Starting at $10/month",
+    description: "AI image generator with various creative tools",
+    pricing: "Free tier available, Pro at $5/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Photosonic creates realistic images from text descriptions, perfect for marketing and social media content.",
+      "DeepAI offers simple AI image generation tools that are easy to use and affordable. Perfect for small businesses that need basic AI-generated images.",
     personalizedPrompt:
-      "Generate product images, create social media graphics, design website visuals, and produce marketing materials.",
+      "Create simple graphics for your social media posts, generate basic images for blog content, produce affordable visual content for your marketing, and experiment with AI image generation on a budget.",
     regions: ["Global"],
-    link: "https://photosonic.writesonic.com",
+    link: "https://deepai.org",
+    tags: ["affordable", "simple-graphics", "budget-friendly", "basic-images"],
   },
   {
     id: 28,
-    name: "Dream by WOMBO",
-    category: "Image Generation & Design",
-    description: "Mobile-first AI art generator",
-    pricing: "Free with premium features",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Dream creates artistic images from text prompts, designed for easy mobile use and social media sharing.",
-    personalizedPrompt:
-      "Create artistic social media posts, generate unique visual content, design creative graphics, and produce eye-catching visuals.",
-    regions: ["Global"],
-    link: "https://dream.ai",
-  },
-  {
-    id: 29,
-    name: "StarryAI",
-    category: "Image Generation & Design",
-    description: "AI art generator with style customization",
-    pricing: "Free tier available, Pro at $11.99/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "StarryAI creates artistic images with customizable styles, perfect for creating unique brand visuals.",
-    personalizedPrompt:
-      "Generate artistic brand imagery, create unique social media content, design creative visuals, and produce stylized marketing graphics.",
-    regions: ["Global"],
-    link: "https://starryai.com",
-  },
-  {
-    id: 30,
     name: "Craiyon",
     category: "Image Generation & Design",
     description: "Free AI image generator (formerly DALL-E mini)",
     pricing: "Free with ads, Pro at $5/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Craiyon is a free AI image generator that creates simple images from text descriptions, great for quick concepts.",
+      "Craiyon is a free AI image generator that's perfect for trying out AI art creation. While the quality is basic, it's great for experimentation and simple graphics.",
     personalizedPrompt:
-      "Generate quick visual concepts, create simple graphics for social media, produce basic marketing visuals, and explore design ideas.",
+      "Experiment with AI image generation for free, create simple graphics for internal use, generate concept images for brainstorming, and explore AI art possibilities without financial commitment.",
     regions: ["Global"],
     link: "https://www.craiyon.com",
+    tags: ["free", "experimentation", "concept-images", "no-commitment"],
+  },
+  {
+    id: 29,
+    name: "Lexica",
+    category: "Image Generation & Design",
+    description: "AI image search engine and generator with Stable Diffusion",
+    pricing: "Free tier available, paid plans from $8/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Lexica lets you search through millions of AI-generated images and create your own. It's great for finding inspiration and generating similar images.",
+    personalizedPrompt:
+      "Find inspiration for your brand visuals by browsing AI art, generate images similar to ones you like, discover trending visual styles in your industry, and create consistent imagery based on successful examples.",
+    regions: ["Global"],
+    link: "https://lexica.art",
+    tags: ["inspiration", "image-search", "trending-styles", "consistency"],
+  },
+  {
+    id: 30,
+    name: "Wombo Dream",
+    category: "Image Generation & Design",
+    description: "Mobile-first AI art generator with artistic styles",
+    pricing: "Free with limitations, Premium at $9.99/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Wombo Dream is a mobile app that creates artistic images from text. It's perfect for creating art on the go and sharing directly to social media.",
+    personalizedPrompt:
+      "Create artistic social media content directly from your phone, generate unique visuals while traveling or away from your computer, produce creative content for Instagram stories, and maintain your social media presence anywhere.",
+    regions: ["Global"],
+    link: "https://www.wombo.art",
+    tags: ["mobile-app", "on-the-go", "social-media", "instagram-stories"],
   },
 
-  // Video & Avatar Creation (35+ tools)
+  // Video & Avatar Creation (25+ tools)
   {
     id: 31,
     name: "Synthesia",
     category: "Video & Avatar Creation",
-    description: "AI video generator with realistic avatars",
+    description: "AI video generator with realistic avatars for business presentations",
     pricing: "Starting at $30/month",
-    skillLevel: "Beginner",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "Synthesia creates professional videos with AI avatars that speak your script, perfect for training and marketing videos.",
+      "Synthesia creates professional videos with AI avatars that can speak your script. Perfect for creating training videos, presentations, or marketing content without being on camera yourself.",
     personalizedPrompt:
-      "Create product demo videos, develop training content, produce multilingual marketing videos, and generate professional presentations without being on camera.",
+      "Create professional training videos for your team or customers, produce marketing videos without appearing on camera, develop multilingual content with AI avatars, and scale your video content creation efficiently.",
     regions: ["Global"],
-    tags: ["trending"],
     link: "https://www.synthesia.io",
+    tags: ["ai-avatars", "professional-videos", "training", "multilingual"],
   },
   {
     id: 32,
     name: "Loom AI",
     category: "Video & Avatar Creation",
     description: "Screen recording with AI-powered editing and summaries",
-    pricing: "Free tier available, Business at $8/month",
+    pricing: "Free tier available, Business at $8/month per user",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Loom AI helps record your screen and automatically creates summaries and highlights from your videos.",
+      "Loom AI helps you record your screen and automatically creates summaries, titles, and chapters. Great for creating tutorials, demos, or client presentations quickly.",
     personalizedPrompt:
-      "Record product tutorials, create training videos, produce client updates, and generate educational content that showcases your expertise.",
+      "Create quick tutorial videos for your customers, record product demos that automatically get organized, produce client presentations with AI-generated summaries, and streamline your video communication process.",
     regions: ["Global"],
-    tags: ["startup-fav"],
     link: "https://www.loom.com",
+    tags: ["screen-recording", "tutorials", "demos", "client-presentations"],
   },
   {
     id: 33,
+    name: "D-ID",
+    category: "Video & Avatar Creation",
+    description: "AI video generator that brings photos to life with speech",
+    pricing: "Free tier available, paid plans from $5.99/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "D-ID takes any photo and makes it speak your text. It's perfect for creating personalized video messages or bringing historical figures to life for educational content.",
+    personalizedPrompt:
+      "Create personalized video messages for your customers, develop unique educational content with historical figures, produce engaging social media videos with speaking photos, and add a personal touch to your marketing campaigns.",
+    regions: ["Global"],
+    link: "https://www.d-id.com",
+    tags: ["speaking-photos", "personalized-messages", "educational", "unique-content"],
+  },
+  {
+    id: 34,
     name: "Pictory",
     category: "Video & Avatar Creation",
     description: "AI video creation from text and blog posts",
     pricing: "Starting at $19/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Pictory turns your written content into engaging videos automatically, perfect for social media and marketing.",
+      "Pictory turns your blog posts or scripts into engaging videos automatically. It adds relevant images, music, and voiceovers to create professional-looking videos.",
     personalizedPrompt:
-      "Transform blog posts into videos, create social media content, produce educational videos, and generate promotional materials from your writing.",
+      "Transform your blog posts into engaging video content, create social media videos from your written content, produce marketing videos with automatic voiceovers, and repurpose your existing content into multiple formats.",
     regions: ["Global"],
     link: "https://pictory.ai",
-  },
-  {
-    id: 34,
-    name: "InVideo AI",
-    category: "Video & Avatar Creation",
-    description: "AI-powered video creation platform",
-    pricing: "Free tier available, Business at $15/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "InVideo AI helps create professional videos using templates and AI assistance for social media and marketing.",
-    personalizedPrompt:
-      "Create engaging social media videos, produce marketing content, develop educational videos, and generate promotional materials.",
-    regions: ["Global"],
-    link: "https://invideo.io",
+    tags: ["blog-to-video", "content-repurposing", "automatic-voiceover", "multi-format"],
   },
   {
     id: 35,
-    name: "Fliki",
+    name: "InVideo AI",
     category: "Video & Avatar Creation",
-    description: "Text-to-video AI with realistic voices",
-    pricing: "Free tier available, paid plans from $21/month",
+    description: "AI-powered video creation with templates and automation",
+    pricing: "Free tier available, paid plans from $15/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Fliki converts your text into videos with AI voices and visuals, perfect for creating content without recording.",
+      "InVideo AI helps you create professional videos using templates and AI automation. It's perfect for social media content, ads, and marketing videos without video editing experience.",
     personalizedPrompt:
-      "Create voice-over videos for your products, produce educational content, generate social media videos, and develop marketing presentations.",
+      "Create professional social media videos quickly, produce marketing ads that convert, develop branded video content with consistent styling, and maintain active video presence across platforms without editing skills.",
     regions: ["Global"],
-    link: "https://fliki.ai",
+    link: "https://invideo.io",
+    tags: ["templates", "social-media-videos", "marketing-ads", "no-editing-required"],
   },
   {
     id: 36,
-    name: "Descript",
+    name: "Fliki",
     category: "Video & Avatar Creation",
-    description: "AI-powered video and audio editing",
-    pricing: "Free tier available, Creator at $12/month",
-    skillLevel: "Intermediate",
+    description: "Text-to-video AI with realistic voiceovers",
+    pricing: "Free tier available, paid plans from $8/month",
+    skillLevel: "Beginner",
     beginnerExplanation:
-      "Descript lets you edit videos by editing text transcripts, making video editing as easy as word processing.",
+      "Fliki converts your text into videos with realistic AI voices and relevant visuals. It's great for creating educational content, social media videos, or marketing materials.",
     personalizedPrompt:
-      "Edit podcast episodes and video content, create professional presentations, remove filler words from recordings, and produce polished marketing videos.",
+      "Create educational videos that establish your expertise, produce social media content with professional voiceovers, develop marketing videos that explain your services, and scale your video content creation efficiently.",
     regions: ["Global"],
-    tags: ["creator-pick"],
-    link: "https://www.descript.com",
+    link: "https://fliki.ai",
+    tags: ["text-to-video", "realistic-voices", "educational", "expertise-building"],
   },
   {
     id: 37,
-    name: "Vidyo AI",
+    name: "Murf AI",
     category: "Video & Avatar Creation",
-    description: "AI video repurposing for social media",
-    pricing: "Starting at $29.99/month",
+    description: "AI voiceover generator for videos and presentations",
+    pricing: "Free tier available, paid plans from $13/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Vidyo AI automatically creates short video clips from long-form content for social media platforms.",
+      "Murf AI creates realistic voiceovers for your videos and presentations. Choose from different voices and languages to match your brand and audience.",
     personalizedPrompt:
-      "Repurpose webinar content for social media, create highlight reels from long videos, generate clips for different platforms, and maximize your video content reach.",
+      "Add professional voiceovers to your video content, create multilingual versions of your marketing materials, produce podcast-quality audio for your videos, and maintain consistent voice branding across content.",
     regions: ["Global"],
-    link: "https://vidyo.ai",
+    link: "https://murf.ai",
+    tags: ["voiceovers", "multilingual", "professional-audio", "voice-branding"],
   },
   {
     id: 38,
-    name: "Clipchamp",
+    name: "Runway Gen-2",
     category: "Video & Avatar Creation",
-    description: "Microsoft's AI-enhanced video editor",
-    pricing: "Free tier available, Premium features with Microsoft 365",
-    skillLevel: "Beginner",
+    description: "AI video generator creating videos from text prompts",
+    pricing: "Free tier available, paid plans from $12/month",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "Clipchamp offers easy video editing with AI features like automatic captions and smart templates.",
+      "Runway Gen-2 creates short videos from text descriptions. It's cutting-edge technology that's perfect for creating unique, artistic video content for your brand.",
     personalizedPrompt:
-      "Create professional marketing videos, add captions to your content automatically, produce social media videos, and develop training materials.",
+      "Create unique artistic videos for your social media, generate abstract video backgrounds for your content, produce creative video elements that set your brand apart, and experiment with cutting-edge video AI technology.",
     regions: ["Global"],
-    link: "https://clipchamp.com",
+    link: "https://runwayml.com",
+    tags: ["text-to-video", "artistic-videos", "unique-content", "cutting-edge"],
   },
   {
     id: 39,
-    name: "Kapwing AI",
+    name: "HeyGen",
     category: "Video & Avatar Creation",
-    description: "Collaborative video editing with AI features",
-    pricing: "Free tier available, Pro at $16/month",
-    skillLevel: "Beginner",
+    description: "AI avatar video generator for business communications",
+    pricing: "Free tier available, paid plans from $24/month",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "Kapwing AI makes video editing simple with smart tools for resizing, captioning, and enhancing videos.",
+      "HeyGen creates professional videos with AI avatars that look and sound realistic. Perfect for business communications, training, or marketing without needing to be on camera.",
     personalizedPrompt:
-      "Create videos for different social media platforms, add automatic subtitles, resize content for various formats, and collaborate on video projects.",
+      "Create professional business communications without being on camera, produce training videos with consistent AI presenters, develop marketing content with multilingual avatars, and scale your video presence globally.",
     regions: ["Global"],
-    link: "https://www.kapwing.com",
+    link: "https://www.heygen.com",
+    tags: ["business-communications", "realistic-avatars", "training-videos", "global-scaling"],
   },
   {
     id: 40,
-    name: "Wondershare Filmora",
+    name: "Colossyan",
     category: "Video & Avatar Creation",
-    description: "Video editor with AI-powered features",
-    pricing: "Starting at $49.99/year",
+    description: "AI video platform for learning and development content",
+    pricing: "Starting at $19/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Filmora combines traditional video editing with AI features like smart cutouts, audio enhancement, and effects.",
+      "Colossyan specializes in creating educational and training videos with AI presenters. It's perfect for businesses that need to create learning content regularly.",
     personalizedPrompt:
-      "Edit professional marketing videos, create product demonstrations, develop training content, and produce high-quality promotional materials.",
+      "Develop comprehensive training programs for your team, create educational content that positions you as an expert, produce customer onboarding videos, and build scalable learning resources for your business.",
     regions: ["Global"],
-    link: "https://filmora.wondershare.com",
+    link: "https://www.colossyan.com",
+    tags: ["educational-content", "training-programs", "customer-onboarding", "learning-resources"],
   },
-
-  // Social Media & Marketing (40+ tools)
   {
     id: 41,
-    name: "Hootsuite Insights",
-    category: "Social Media & Marketing",
-    description: "AI-powered social media analytics and scheduling",
-    pricing: "Starting at $99/month",
+    name: "Elai.io",
+    category: "Video & Avatar Creation",
+    description: "AI video generation platform with custom avatars",
+    pricing: "Free tier available, paid plans from $23/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Hootsuite Insights uses AI to analyze your social media performance and suggest optimal posting strategies.",
+      "Elai.io creates videos with AI avatars and allows you to create custom avatars that look like you or your team members. Great for personalized business communications.",
     personalizedPrompt:
-      "Optimize your social media posting schedule, analyze audience engagement, track competitor performance, and identify trending topics in your industry.",
+      "Create personalized video messages that look like you, develop custom avatar presenters for your brand, produce consistent video content with your digital twin, and maintain personal connection at scale.",
     regions: ["Global"],
-    link: "https://www.hootsuite.com",
+    link: "https://elai.io",
+    tags: ["custom-avatars", "personalized-messages", "digital-twin", "personal-connection"],
   },
   {
     id: 42,
-    name: "Buffer AI Assistant",
-    category: "Social Media & Marketing",
-    description: "AI-powered social media content creation and scheduling",
-    pricing: "Starting at $6/month",
-    skillLevel: "Beginner",
+    name: "Descript",
+    category: "Video & Avatar Creation",
+    description: "AI-powered video editing with text-based editing and voice cloning",
+    pricing: "Free tier available, paid plans from $12/month",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "Buffer's AI Assistant helps create social media posts and suggests optimal posting times for maximum engagement.",
+      "Descript lets you edit videos by editing text, like editing a document. It also offers voice cloning and AI-powered editing features that make video editing much easier.",
     personalizedPrompt:
-      "Generate engaging social media captions, schedule posts for maximum reach, create content calendars, and develop social media strategies.",
+      "Edit your videos as easily as editing text documents, create consistent voiceovers with voice cloning, remove filler words and awkward pauses automatically, and produce professional video content efficiently.",
     regions: ["Global"],
-    tags: ["startup-fav"],
-    link: "https://buffer.com",
+    link: "https://www.descript.com",
+    tags: ["text-based-editing", "voice-cloning", "easy-editing", "professional-results"],
   },
   {
     id: 43,
-    name: "Later AI",
-    category: "Social Media & Marketing",
-    description: "AI-enhanced social media scheduling and content planning",
-    pricing: "Free tier available, Starter at $18/month",
+    name: "Clipchamp",
+    category: "Video & Avatar Creation",
+    description: "Microsoft's video editor with AI features",
+    pricing: "Free tier available, Premium features with Microsoft 365",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Later AI helps plan and schedule social media content with smart suggestions for timing and content optimization.",
+      "Clipchamp is Microsoft's video editor with AI features like auto-captions and smart cropping. It's user-friendly and integrates well with other Microsoft tools.",
     personalizedPrompt:
-      "Plan your content calendar, schedule posts across platforms, analyze optimal posting times, and maintain consistent brand messaging.",
+      "Create professional videos using familiar Microsoft tools, add automatic captions for accessibility, crop videos smartly for different social media platforms, and integrate video creation into your existing workflow.",
     regions: ["Global"],
-    link: "https://later.com",
+    link: "https://clipchamp.com",
+    tags: ["microsoft-integration", "auto-captions", "smart-cropping", "familiar-interface"],
   },
   {
     id: 44,
-    name: "Sprout Social AI",
-    category: "Social Media & Marketing",
-    description: "AI-enhanced social media management and analytics",
-    pricing: "Starting at $249/month",
-    skillLevel: "Expert",
+    name: "Kapwing AI",
+    category: "Video & Avatar Creation",
+    description: "Online video editor with AI-powered features",
+    pricing: "Free tier available, paid plans from $16/month",
+    skillLevel: "Beginner",
     beginnerExplanation:
-      "Sprout Social AI provides comprehensive social media management with advanced analytics and audience insights.",
+      "Kapwing AI offers easy online video editing with AI features like auto-subtitles, smart cropping, and background removal. Perfect for social media content creation.",
     personalizedPrompt:
-      "Manage multiple social accounts, analyze audience sentiment, identify industry influencers, and create data-driven social strategies.",
+      "Create engaging social media videos with automatic subtitles, remove backgrounds from your videos easily, crop content for different platforms automatically, and produce professional-looking videos without complex software.",
     regions: ["Global"],
-    link: "https://sproutsocial.com",
+    link: "https://www.kapwing.com",
+    tags: ["online-editor", "auto-subtitles", "background-removal", "social-media-focused"],
   },
   {
     id: 45,
-    name: "SocialBee AI",
-    category: "Social Media & Marketing",
-    description: "AI-powered social media content categorization and scheduling",
-    pricing: "Starting at $19/month",
-    skillLevel: "Beginner",
+    name: "Wondershare Filmora",
+    category: "Video & Avatar Creation",
+    description: "Video editing software with AI-powered features",
+    pricing: "Starting at $49.99/year",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "SocialBee AI helps organize and schedule your social media content automatically with smart categorization.",
+      "Filmora combines traditional video editing with AI features like auto-reframe, motion tracking, and AI audio enhancement. It's more advanced but still user-friendly.",
     personalizedPrompt:
-      "Organize content into categories, maintain posting schedules, balance different content types, and ensure consistent brand voice.",
+      "Create professional marketing videos with advanced editing features, use AI to enhance your video quality automatically, track objects and add effects precisely, and produce cinema-quality content for your brand.",
     regions: ["Global"],
-    link: "https://socialbee.io",
+    link: "https://filmora.wondershare.com",
+    tags: ["advanced-editing", "auto-enhancement", "motion-tracking", "cinema-quality"],
   },
+
+  // Social Media & Marketing (30+ tools)
   {
     id: 46,
+    name: "Hootsuite Insights",
+    category: "Social Media & Marketing",
+    description: "AI-powered social media management and analytics platform",
+    pricing: "Starting at $99/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Hootsuite Insights uses AI to analyze your social media performance and suggest the best times to post, trending topics, and content that will engage your audience.",
+    personalizedPrompt:
+      "Optimize your social media posting schedule for maximum engagement, identify trending topics in your industry, analyze competitor performance to improve your strategy, and automate your social media management tasks.",
+    regions: ["Global"],
+    link: "https://www.hootsuite.com",
+    tags: ["social-media-management", "analytics", "competitor-analysis", "automation"],
+  },
+  {
+    id: 47,
+    name: "Buffer AI Assistant",
+    category: "Social Media & Marketing",
+    description: "AI-powered social media scheduling and content creation",
+    pricing: "Starting at $6/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Buffer's AI Assistant helps you create social media posts, suggests optimal posting times, and repurposes your content across different platforms automatically.",
+    personalizedPrompt:
+      "Create engaging social media posts that match your brand voice, schedule content at optimal times for your audience, repurpose your blog content into social media posts, and maintain consistent presence across platforms.",
+    regions: ["Global"],
+    link: "https://buffer.com",
+    tags: ["content-creation", "optimal-timing", "content-repurposing", "consistent-presence"],
+  },
+  {
+    id: 48,
+    name: "Later AI",
+    category: "Social Media & Marketing",
+    description: "Visual social media scheduler with AI content suggestions",
+    pricing: "Free tier available, paid plans from $18/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Later AI focuses on visual content scheduling and uses AI to suggest the best images, captions, and hashtags for your posts, especially great for Instagram and Pinterest.",
+    personalizedPrompt:
+      "Plan and schedule your visual content calendar, get AI suggestions for engaging captions and hashtags, optimize your Instagram and Pinterest presence, and create cohesive visual brand storytelling.",
+    regions: ["Global"],
+    link: "https://later.com",
+    tags: ["visual-content", "instagram-optimization", "hashtag-suggestions", "brand-storytelling"],
+  },
+  {
+    id: 49,
+    name: "Socialbakers (Emplifi)",
+    category: "Social Media & Marketing",
+    description: "AI-driven social media analytics and customer experience platform",
+    pricing: "Custom pricing",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Socialbakers uses advanced AI to provide deep insights into your social media performance, audience behavior, and competitive landscape. It's designed for businesses serious about social media ROI.",
+    personalizedPrompt:
+      "Gain deep insights into your audience behavior and preferences, benchmark your performance against competitors, identify influencers and brand advocates, and optimize your social media ROI with data-driven decisions.",
+    regions: ["Global"],
+    link: "https://www.emplifi.io",
+    tags: ["deep-analytics", "audience-insights", "competitive-benchmarking", "roi-optimization"],
+  },
+  {
+    id: 50,
     name: "Lately AI",
     category: "Social Media & Marketing",
     description: "AI that transforms long-form content into social media posts",
     pricing: "Starting at $19/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Lately AI takes your blog posts, videos, or podcasts and automatically creates dozens of social media posts from them.",
+      "Lately AI takes your blog posts, videos, or podcasts and automatically creates dozens of social media posts from them. It saves hours of content creation time.",
     personalizedPrompt:
-      "Transform blog content into social media posts, repurpose video content across platforms, create consistent messaging, and maximize content reach.",
-    regions: ["Global"],
+      "Transform your blog content into multiple social media posts, repurpose your video content across platforms, create consistent messaging that reinforces your brand, and maximize the reach of your existing content.",
+    regions: ["North America", "Europe", "Australia"],
     link: "https://www.lately.ai",
+    tags: ["content-repurposing", "blog-to-social", "video-repurposing", "content-maximization"],
   },
   {
-    id: 47,
+    id: 51,
+    name: "Sprout Social AI",
+    category: "Social Media & Marketing",
+    description: "AI-enhanced social media management and analytics",
+    pricing: "Starting at $249/month",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Sprout Social AI provides advanced social media management with AI-powered insights. It's designed for businesses that need comprehensive social media analytics and management.",
+    personalizedPrompt:
+      "Manage multiple social media accounts efficiently, analyze audience sentiment about your brand, identify influencers in your industry, and create data-driven social media strategies.",
+    regions: ["North America", "Europe", "Asia", "Australia"],
+    link: "https://sproutsocial.com",
+    tags: ["multi-account-management", "sentiment-analysis", "influencer-identification", "data-driven-strategy"],
+  },
+  {
+    id: 52,
+    name: "Socialbee AI",
+    category: "Social Media & Marketing",
+    description: "AI-powered social media content categorization and scheduling",
+    pricing: "Starting at $19/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Socialbee AI helps organize and schedule your social media content automatically. It can categorize your posts and ensure you're sharing a good mix of content types.",
+    personalizedPrompt:
+      "Organize your social media content into categories, maintain consistent posting schedules, balance promotional and educational content, and ensure your social media reflects your brand values.",
+    regions: ["Global"],
+    link: "https://socialbee.io",
+    tags: ["content-organization", "consistent-scheduling", "content-balance", "brand-values"],
+  },
+  {
+    id: 53,
     name: "Predis AI",
     category: "Social Media & Marketing",
-    description: "AI social media content generator",
-    pricing: "Free tier available, Pro at $32/month",
+    description: "AI social media content generator with design capabilities",
+    pricing: "Free tier available, paid plans from $32/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Predis AI creates complete social media posts including text, hashtags, and images based on your business needs.",
+      "Predis AI creates both the text and visuals for your social media posts. It's like having a social media manager and designer in one AI tool.",
     personalizedPrompt:
-      "Generate complete social media posts, create platform-specific content, develop hashtag strategies, and maintain consistent posting.",
+      "Create complete social media posts with engaging visuals and copy, maintain consistent brand aesthetics across platforms, generate content ideas when you're stuck, and produce professional-looking posts without design skills.",
     regions: ["Global"],
     link: "https://predis.ai",
+    tags: ["complete-posts", "visual-design", "brand-aesthetics", "content-ideas"],
   },
   {
-    id: 48,
+    id: 54,
     name: "Ocoya",
     category: "Social Media & Marketing",
-    description: "AI-powered social media management with content creation",
-    pricing: "Free tier available, Pro at $15/month",
+    description: "AI social media management with content creation and scheduling",
+    pricing: "Free tier available, paid plans from $15/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Ocoya combines AI content creation with social media scheduling and analytics in one platform.",
+      "Ocoya combines AI content creation with social media scheduling and analytics. It's an all-in-one solution for small businesses managing their social media presence.",
     personalizedPrompt:
-      "Create and schedule social media content, generate graphics and captions, analyze performance, and manage multiple accounts.",
+      "Create, schedule, and analyze your social media content in one platform, generate engaging posts with AI assistance, track your performance across platforms, and streamline your entire social media workflow.",
     regions: ["Global"],
     link: "https://www.ocoya.com",
+    tags: ["all-in-one", "content-scheduling", "performance-tracking", "workflow-streamlining"],
   },
   {
-    id: 49,
-    name: "Simplified AI",
+    id: 55,
+    name: "Postwise",
     category: "Social Media & Marketing",
-    description: "All-in-one AI marketing platform",
-    pricing: "Free tier available, Pro at $12/month",
+    description: "AI Twitter/X content creation and scheduling tool",
+    pricing: "Starting at $37/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Simplified AI offers design, writing, and social media tools in one platform for complete marketing workflows.",
+      "Postwise specializes in creating engaging Twitter/X content using AI. It helps you write tweets that get engagement and grow your following on the platform.",
     personalizedPrompt:
-      "Create complete marketing campaigns, design graphics and write copy, schedule social media content, and manage brand assets.",
+      "Create engaging Twitter threads that showcase your expertise, write tweets that start conversations in your industry, schedule consistent Twitter content to grow your following, and establish thought leadership on the platform.",
     regions: ["Global"],
-    link: "https://simplified.com",
+    link: "https://postwise.ai",
+    tags: ["twitter-optimization", "thread-creation", "thought-leadership", "engagement-focused"],
   },
   {
-    id: 50,
-    name: "ContentStudio",
+    id: 56,
+    name: "Taplio",
     category: "Social Media & Marketing",
-    description: "Social media management with AI content discovery",
+    description: "AI-powered LinkedIn content creation and growth tool",
+    pricing: "Starting at $39/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Taplio uses AI to help you create engaging LinkedIn content, find the best times to post, and grow your professional network. Perfect for B2B entrepreneurs and professionals.",
+    personalizedPrompt:
+      "Build your professional brand on LinkedIn with AI-generated content, connect with potential clients and partners, establish industry expertise through consistent posting, and grow your business network strategically.",
+    regions: ["Global"],
+    link: "https://taplio.com",
+    tags: ["linkedin-optimization", "professional-branding", "b2b-networking", "industry-expertise"],
+  },
+  {
+    id: 57,
+    name: "ContentStudio AI",
+    category: "Social Media & Marketing",
+    description: "AI-powered social media management and content discovery",
     pricing: "Starting at $25/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "ContentStudio uses AI to discover trending content and helps you create and schedule social media posts.",
+      "ContentStudio AI helps you discover trending content in your industry and creates social media posts based on what's working. It also manages your posting schedule across platforms.",
     personalizedPrompt:
-      "Discover trending content in your industry, create engaging posts, schedule across platforms, and analyze competitor strategies.",
+      "Discover trending content in your industry to share and comment on, create timely posts based on current events and trends, manage your content calendar across multiple platforms, and stay relevant in your industry conversations.",
     regions: ["Global"],
     link: "https://contentstudio.io",
+    tags: ["content-discovery", "trend-identification", "multi-platform", "industry-relevance"],
+  },
+  {
+    id: 58,
+    name: "Publer AI",
+    category: "Social Media & Marketing",
+    description: "Social media management with AI content generation",
+    pricing: "Free tier available, paid plans from $12/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Publer AI combines social media scheduling with AI content generation. It's affordable and user-friendly, making it perfect for small businesses and solopreneurs.",
+    personalizedPrompt:
+      "Schedule your social media content across multiple platforms, generate engaging captions with AI assistance, maintain consistent posting without daily management, and grow your social media presence affordably.",
+    regions: ["Global"],
+    link: "https://publer.io",
+    tags: ["affordable-scheduling", "multi-platform", "consistent-posting", "small-business-friendly"],
+  },
+  {
+    id: 59,
+    name: "Circleboom",
+    category: "Social Media & Marketing",
+    description: "AI-enhanced Twitter management and analytics tool",
+    pricing: "Starting at $15/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Circleboom uses AI to help you manage your Twitter account more effectively, including follower analysis, content scheduling, and account cleanup features.",
+    personalizedPrompt:
+      "Analyze and clean up your Twitter followers for better engagement, schedule tweets at optimal times for your audience, track your Twitter growth and engagement metrics, and maintain a professional Twitter presence.",
+    regions: ["Global"],
+    link: "https://circleboom.com",
+    tags: ["twitter-management", "follower-analysis", "account-cleanup", "engagement-optimization"],
+  },
+  {
+    id: 60,
+    name: "Missinglettr",
+    category: "Social Media & Marketing",
+    description: "AI-powered social media campaigns from blog content",
+    pricing: "Starting at $9/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Missinglettr automatically creates year-long social media campaigns from your blog posts. It generates multiple posts from each article and schedules them over time.",
+    personalizedPrompt:
+      "Turn each blog post into a year-long social media campaign, automatically generate multiple social posts from your content, maintain consistent social media presence with minimal effort, and maximize the value of your blog content.",
+    regions: ["Global"],
+    link: "https://missinglettr.com",
+    tags: ["blog-to-social", "year-long-campaigns", "automated-posting", "content-maximization"],
   },
 
-  // Customer Service & Support (25+ tools)
+  // Customer Service & Support (15+ tools)
   {
-    id: 51,
+    id: 61,
     name: "Intercom AI",
     category: "Customer Service & Support",
     description: "AI-powered customer support and chatbot platform",
     pricing: "Starting at $39/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Intercom AI provides smart chatbots that answer customer questions automatically and escalate complex issues to you.",
+      "Intercom AI provides smart chatbots that can answer customer questions automatically. It learns from your business to provide better support while you focus on growing your company.",
     personalizedPrompt:
-      "Set up automated customer support, provide 24/7 assistance, qualify leads automatically, and create personalized customer experiences.",
+      "Set up automated responses to common customer questions, provide 24/7 support for your online store, qualify leads automatically, and create personalized customer experiences that build loyalty.",
     regions: ["Global"],
     link: "https://www.intercom.com",
+    tags: ["automated-responses", "24-7-support", "lead-qualification", "customer-loyalty"],
   },
   {
-    id: 52,
+    id: 62,
     name: "Zendesk AI",
     category: "Customer Service & Support",
-    description: "AI-enhanced customer service platform",
+    description: "AI-enhanced customer service platform with smart routing",
     pricing: "Starting at $19/month per agent",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Zendesk AI helps manage customer support tickets efficiently with automatic categorization and suggested responses.",
+      "Zendesk AI helps manage customer support tickets more efficiently. It can automatically categorize issues, suggest responses, and route tickets to the right team member.",
     personalizedPrompt:
-      "Streamline customer support, automatically categorize issues, provide response suggestions, and track customer satisfaction.",
+      "Streamline your customer support process, automatically categorize and prioritize customer issues, provide suggested responses to common questions, and track customer satisfaction metrics.",
     regions: ["Global"],
     link: "https://www.zendesk.com",
+    tags: ["ticket-management", "auto-categorization", "response-suggestions", "satisfaction-tracking"],
   },
   {
-    id: 53,
+    id: 63,
     name: "Drift AI",
     category: "Customer Service & Support",
     description: "Conversational AI for sales and customer support",
     pricing: "Starting at $50/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Drift AI creates conversational experiences that qualify leads and provide instant customer support on your website.",
+      "Drift AI creates conversational experiences on your website that can qualify leads and answer customer questions. It's like having a sales assistant available 24/7.",
     personalizedPrompt:
-      "Qualify website visitors, provide instant product information, schedule meetings automatically, and capture leads 24/7.",
-    regions: ["Global"],
+      "Qualify website visitors as potential customers, provide instant answers to product questions, schedule meetings with prospects automatically, and capture leads even when you're not available.",
+    regions: ["North America", "Europe", "Asia", "Australia"],
     link: "https://www.drift.com",
+    tags: ["lead-qualification", "instant-answers", "meeting-scheduling", "lead-capture"],
   },
   {
-    id: 54,
+    id: 64,
     name: "Freshworks AI",
     category: "Customer Service & Support",
     description: "AI-powered CRM and customer support suite",
     pricing: "Starting at $15/month per user",
     skillLevel: "Beginner",
-    beginnerExplanation: "Freshworks AI combines customer relationship management with intelligent support tools.",
+    beginnerExplanation:
+      "Freshworks AI combines customer relationship management with smart support tools. It helps you keep track of customers and provide better service using AI insights.",
     personalizedPrompt:
-      "Manage customer relationships, predict customer needs, automate follow-ups, and provide personalized service.",
+      "Manage customer relationships more effectively, predict which customers might need attention, automate follow-up communications, and provide personalized service that builds long-term loyalty.",
     regions: ["Global"],
     link: "https://www.freshworks.com",
+    tags: ["crm-integration", "customer-prediction", "automated-follow-up", "personalized-service"],
   },
   {
-    id: 55,
+    id: 65,
     name: "Ada AI",
     category: "Customer Service & Support",
-    description: "No-code AI chatbot platform",
+    description: "No-code AI chatbot platform for customer service",
     pricing: "Custom pricing",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Ada AI lets you create smart chatbots without coding to handle customer inquiries and support.",
+      "Ada AI lets you create smart chatbots without coding. These bots can handle customer questions, process orders, and provide support, freeing up your time for other business tasks.",
     personalizedPrompt:
-      "Create chatbots for common questions, process simple orders, provide product recommendations, and offer multilingual support.",
-    regions: ["Global"],
+      "Create a chatbot that handles common customer inquiries, process simple orders automatically, provide product recommendations based on customer needs, and offer support in multiple languages.",
+    regions: ["North America", "Europe", "Asia", "Australia"],
     link: "https://www.ada.cx",
+    tags: ["no-code", "order-processing", "product-recommendations", "multilingual"],
   },
   {
-    id: 56,
-    name: "Tidio AI",
-    category: "Customer Service & Support",
-    description: "Live chat with AI chatbot integration",
-    pricing: "Free tier available, Communicator at $39/month",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Tidio AI combines live chat with automated chatbots to provide seamless customer support.",
-    personalizedPrompt:
-      "Provide instant customer responses, handle inquiries outside business hours, qualify leads, and improve customer satisfaction.",
-    regions: ["Global"],
-    link: "https://www.tidio.com",
-  },
-  {
-    id: 57,
+    id: 66,
     name: "LiveChat AI",
     category: "Customer Service & Support",
-    description: "Customer service platform with AI assistance",
+    description: "AI-enhanced live chat software for websites",
     pricing: "Starting at $20/month per agent",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "LiveChat AI helps provide better customer service with intelligent chat routing and response suggestions.",
+      "LiveChat AI adds intelligent features to live chat, including automated responses, visitor tracking, and chat routing. It helps you provide better customer service on your website.",
     personalizedPrompt:
-      "Improve customer service efficiency, route chats to the right person, suggest helpful responses, and track customer interactions.",
+      "Provide instant support to website visitors, automatically route chats to the right team member, track visitor behavior to provide personalized assistance, and convert more website visitors into customers.",
     regions: ["Global"],
     link: "https://www.livechat.com",
+    tags: ["live-chat", "visitor-tracking", "chat-routing", "conversion-optimization"],
   },
   {
-    id: 58,
-    name: "Chatfuel",
+    id: 67,
+    name: "Tidio AI",
     category: "Customer Service & Support",
-    description: "AI chatbot platform for Facebook Messenger",
-    pricing: "Free tier available, Pro at $15/month",
+    description: "AI chatbot and live chat platform for small businesses",
+    pricing: "Free tier available, paid plans from $18/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Chatfuel creates AI chatbots for Facebook Messenger to automate customer interactions and support.",
+      "Tidio AI combines chatbots with live chat in an affordable package perfect for small businesses. It can handle basic questions and escalate complex issues to you.",
     personalizedPrompt:
-      "Automate Facebook customer service, provide instant responses to common questions, collect leads, and engage with your audience.",
+      "Handle basic customer questions automatically while you focus on complex issues, provide 24/7 support for your small business, capture leads through chat interactions, and improve customer satisfaction affordably.",
+    regions: ["Global"],
+    link: "https://www.tidio.com",
+    tags: ["small-business", "affordable", "lead-capture", "basic-automation"],
+  },
+  {
+    id: 68,
+    name: "Chatfuel AI",
+    category: "Customer Service & Support",
+    description: "AI chatbot builder for Facebook Messenger and Instagram",
+    pricing: "Free tier available, paid plans from $15/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Chatfuel AI creates chatbots for Facebook Messenger and Instagram that can answer questions, take orders, and provide customer support directly in social media.",
+    personalizedPrompt:
+      "Provide customer support directly through Facebook and Instagram, automate order taking through social media, answer frequently asked questions automatically, and engage with customers where they already spend time.",
     regions: ["Global"],
     link: "https://chatfuel.com",
+    tags: ["social-media-bots", "facebook-messenger", "instagram-support", "order-automation"],
   },
   {
-    id: 59,
-    name: "ManyChat",
+    id: 69,
+    name: "ManyChat AI",
     category: "Customer Service & Support",
-    description: "Marketing automation and chatbot platform",
-    pricing: "Free tier available, Pro at $15/month",
+    description: "AI-powered chatbot platform for marketing and customer service",
+    pricing: "Free tier available, paid plans from $15/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "ManyChat creates chatbots for marketing automation and customer service across multiple messaging platforms.",
+      "ManyChat AI creates chatbots that can handle both marketing and customer service. It's great for nurturing leads and providing support through messaging apps.",
     personalizedPrompt:
-      "Automate customer interactions, create marketing sequences, qualify leads, and provide instant customer support.",
+      "Nurture leads through automated messaging sequences, provide customer support through multiple messaging platforms, create interactive marketing campaigns, and build relationships with customers at scale.",
     regions: ["Global"],
     link: "https://manychat.com",
+    tags: ["lead-nurturing", "multi-platform", "interactive-marketing", "relationship-building"],
   },
   {
-    id: 60,
+    id: 70,
+    name: "Helpcrunch AI",
+    category: "Customer Service & Support",
+    description: "All-in-one customer communication platform with AI features",
+    pricing: "Starting at $12/month per agent",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Helpcrunch AI combines live chat, email marketing, and help desk features with AI automation. It's perfect for businesses that want all their customer communication in one place.",
+    personalizedPrompt:
+      "Manage all customer communications from one platform, automate email marketing to existing customers, provide seamless support across chat and email, and track customer interactions comprehensively.",
+    regions: ["Global"],
+    link: "https://helpcrunch.com",
+    tags: ["all-in-one", "email-integration", "seamless-support", "comprehensive-tracking"],
+  },
+  {
+    id: 71,
     name: "Crisp AI",
     category: "Customer Service & Support",
-    description: "Customer messaging platform with AI features",
-    pricing: "Free tier available, Pro at $25/month",
+    description: "AI-powered customer messaging platform",
+    pricing: "Free tier available, paid plans from $25/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Crisp AI offers customer messaging with smart features like automatic translation and intelligent routing.",
+      "Crisp AI provides intelligent customer messaging with features like automated responses, visitor insights, and team collaboration tools. It's designed to help small teams provide excellent customer service.",
     personalizedPrompt:
-      "Manage customer communications, provide multilingual support, automate common responses, and track customer satisfaction.",
+      "Provide intelligent customer messaging that learns from interactions, gain insights into visitor behavior and needs, collaborate with your team on customer issues, and deliver excellent service with a small team.",
     regions: ["Global"],
     link: "https://crisp.chat",
+    tags: ["intelligent-messaging", "visitor-insights", "team-collaboration", "small-team-friendly"],
+  },
+  {
+    id: 72,
+    name: "Landbot AI",
+    category: "Customer Service & Support",
+    description: "No-code chatbot builder with AI capabilities",
+    pricing: "Free tier available, paid plans from $30/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Landbot AI lets you create conversational chatbots without coding. These bots can qualify leads, provide support, and guide customers through processes using a visual builder.",
+    personalizedPrompt:
+      "Create conversational experiences that guide customers through your services, qualify leads through interactive conversations, provide step-by-step support for complex processes, and build engaging customer interactions without coding.",
+    regions: ["Global"],
+    link: "https://landbot.io",
+    tags: ["no-code-builder", "conversational-experiences", "process-guidance", "interactive-conversations"],
+  },
+  {
+    id: 73,
+    name: "Tawk.to AI",
+    category: "Customer Service & Support",
+    description: "Free live chat with AI-powered features",
+    pricing: "Free with optional paid add-ons",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Tawk.to AI offers free live chat for your website with AI features like automated responses and visitor monitoring. It's perfect for small businesses that need customer support on a budget.",
+    personalizedPrompt:
+      "Add free live chat to your website, monitor visitor behavior to provide proactive support, automate responses to common questions, and provide customer service without breaking your budget.",
+    regions: ["Global"],
+    link: "https://www.tawk.to",
+    tags: ["free-chat", "visitor-monitoring", "proactive-support", "budget-friendly"],
+  },
+  {
+    id: 74,
+    name: "Zoho Desk AI",
+    category: "Customer Service & Support",
+    description: "AI-enhanced help desk software",
+    pricing: "Starting at $14/month per agent",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Zoho Desk AI provides intelligent help desk features like ticket routing, response suggestions, and sentiment analysis. It integrates well with other Zoho business tools.",
+    personalizedPrompt:
+      "Automatically route support tickets to the right team members, get AI suggestions for responding to customer issues, analyze customer sentiment to prioritize urgent cases, and integrate support with your other business tools.",
+    regions: ["Global"],
+    link: "https://www.zoho.com/desk",
+    tags: ["ticket-routing", "response-suggestions", "sentiment-analysis", "business-integration"],
+  },
+  {
+    id: 75,
+    name: "Kommunicate AI",
+    category: "Customer Service & Support",
+    description: "AI-powered customer support automation platform",
+    pricing: "Starting at $40/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Kommunicate AI creates intelligent customer support workflows that can handle complex queries and seamlessly hand off to human agents when needed. It's designed for businesses that want sophisticated automation.",
+    personalizedPrompt:
+      "Create sophisticated customer support workflows that handle complex queries, seamlessly transition between AI and human agents, provide contextual support based on customer history, and deliver enterprise-level customer service.",
+    regions: ["Global"],
+    link: "https://www.kommunicate.io",
+    tags: ["sophisticated-workflows", "seamless-handoff", "contextual-support", "enterprise-level"],
   },
 
-  // E-commerce & Sales (30+ tools)
+  // E-commerce & Sales (20+ tools)
   {
-    id: 61,
+    id: 76,
     name: "Shopify AI",
     category: "E-commerce & Sales",
     description: "AI-powered e-commerce tools integrated into Shopify",
     pricing: "Included with Shopify plans starting at $29/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Shopify AI helps optimize your online store with smart product recommendations and inventory management.",
+      "Shopify AI helps optimize your online store with smart product recommendations, inventory management, and customer insights. It makes running an e-commerce business easier and more profitable.",
     personalizedPrompt:
-      "Optimize product listings, create personalized shopping experiences, manage inventory efficiently, and increase sales through AI recommendations.",
+      "Optimize your product listings for better search visibility, create personalized shopping experiences for customers, manage inventory more efficiently, and increase sales through AI-powered recommendations.",
     regions: ["Global"],
-    tags: ["our-top-pick", "startup-fav"],
     link: "https://www.shopify.com",
+    tags: ["ecommerce-optimization", "product-recommendations", "inventory-management", "sales-increase"],
   },
   {
-    id: 62,
+    id: 77,
     name: "Dynamic Yield",
     category: "E-commerce & Sales",
     description: "AI-powered personalization platform for e-commerce",
     pricing: "Custom pricing",
     skillLevel: "Expert",
     beginnerExplanation:
-      "Dynamic Yield personalizes the shopping experience for each customer to increase sales and satisfaction.",
+      "Dynamic Yield personalizes the shopping experience for each customer using AI. It shows different products and content to different visitors to increase sales and customer satisfaction.",
     personalizedPrompt:
-      "Create personalized shopping experiences, show relevant products to visitors, optimize website layouts, and test different approaches.",
-    regions: ["Global"],
+      "Create personalized shopping experiences that increase conversion rates, show relevant products to each visitor, optimize your website layout for better sales, and test different approaches to find what works best.",
+    regions: ["North America", "Europe", "Asia", "Australia"],
     link: "https://www.dynamicyield.com",
+    tags: ["personalization", "conversion-optimization", "a-b-testing", "customer-experience"],
   },
   {
-    id: 63,
+    id: 78,
     name: "Klaviyo AI",
     category: "E-commerce & Sales",
-    description: "AI-enhanced email marketing for e-commerce",
+    description: "AI-enhanced email marketing for e-commerce businesses",
     pricing: "Free tier available, paid plans start at $20/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Klaviyo AI creates personalized email campaigns that drive sales by analyzing customer behavior.",
+      "Klaviyo AI helps create personalized email campaigns that drive sales. It analyzes customer behavior to send the right message at the right time, increasing your email marketing effectiveness.",
     personalizedPrompt:
-      "Send personalized product recommendations, create automated email sequences, re-engage inactive customers, and optimize email timing.",
+      "Send personalized product recommendations via email, create automated email sequences for new customers, re-engage customers who haven't purchased recently, and optimize email send times for maximum engagement.",
     regions: ["Global"],
     link: "https://www.klaviyo.com",
+    tags: ["email-personalization", "automated-sequences", "customer-re-engagement", "send-optimization"],
   },
   {
-    id: 64,
+    id: 79,
     name: "Yotpo AI",
     category: "E-commerce & Sales",
     description: "AI-powered customer reviews and loyalty platform",
     pricing: "Free tier available, paid plans start at $19/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Yotpo AI helps collect customer reviews and creates loyalty programs that encourage repeat purchases.",
+      "Yotpo AI helps collect and display customer reviews, and creates loyalty programs that keep customers coming back. It uses AI to identify your best customers and encourage more reviews.",
     personalizedPrompt:
-      "Encourage customer reviews, create loyalty programs, identify valuable customers, and use social proof to increase sales.",
+      "Encourage satisfied customers to leave reviews, create loyalty programs that reward repeat purchases, identify your most valuable customers, and use social proof to increase sales.",
     regions: ["Global"],
     link: "https://www.yotpo.com",
+    tags: ["review-collection", "loyalty-programs", "customer-identification", "social-proof"],
   },
   {
-    id: 65,
+    id: 80,
     name: "Salesforce Einstein",
     category: "E-commerce & Sales",
-    description: "AI-powered CRM and sales automation",
+    description: "AI-powered CRM and sales automation platform",
     pricing: "Starting at $25/month per user",
     skillLevel: "Expert",
     beginnerExplanation:
-      "Salesforce Einstein adds AI capabilities to customer relationship management and sales processes.",
+      "Salesforce Einstein adds AI capabilities to customer relationship management. It predicts which leads are most likely to buy and suggests the best actions to take with each customer.",
     personalizedPrompt:
-      "Predict customer behavior, automate follow-up communications, identify sales opportunities, and optimize your sales process.",
+      "Predict which prospects are most likely to become customers, automate follow-up communications, identify upselling opportunities with existing customers, and optimize your sales process for better results.",
     regions: ["Global"],
     link: "https://www.salesforce.com/products/einstein",
+    tags: ["lead-scoring", "sales-automation", "upselling", "process-optimization"],
   },
   {
-    id: 66,
-    name: "WooCommerce AI",
+    id: 81,
+    name: "HubSpot AI",
     category: "E-commerce & Sales",
-    description: "AI plugins and tools for WooCommerce stores",
-    pricing: "Free and premium plugins vary",
-    skillLevel: "Intermediate",
-    beginnerExplanation: "Various AI tools and plugins that enhance WooCommerce stores with intelligent features.",
-    personalizedPrompt:
-      "Optimize your WordPress e-commerce store, automate product recommendations, improve search functionality, and enhance customer experience.",
-    regions: ["Global"],
-    link: "https://woocommerce.com",
-  },
-  {
-    id: 67,
-    name: "BigCommerce AI",
-    category: "E-commerce & Sales",
-    description: "AI-powered features for BigCommerce stores",
-    pricing: "Starting at $39/month",
+    description: "AI-powered inbound marketing and sales platform",
+    pricing: "Free tier available, paid plans from $45/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "BigCommerce AI helps optimize your online store with intelligent product recommendations and search.",
+      "HubSpot AI combines marketing, sales, and customer service tools with AI insights. It helps you attract, engage, and delight customers throughout their journey with your business.",
     personalizedPrompt:
-      "Enhance your online store, improve product discovery, personalize customer experiences, and increase conversion rates.",
+      "Attract qualified leads through optimized content, nurture prospects with personalized email sequences, track customer interactions across all touchpoints, and create seamless customer experiences that drive loyalty.",
     regions: ["Global"],
-    link: "https://www.bigcommerce.com",
+    link: "https://www.hubspot.com",
+    tags: ["inbound-marketing", "lead-nurturing", "customer-journey", "seamless-experience"],
   },
   {
-    id: 68,
-    name: "Magento AI",
-    category: "E-commerce & Sales",
-    description: "AI extensions for Magento e-commerce platform",
-    pricing: "Various pricing for extensions",
-    skillLevel: "Expert",
-    beginnerExplanation: "AI-powered extensions and tools that add intelligent features to Magento e-commerce stores.",
-    personalizedPrompt:
-      "Enhance your Magento store with AI features, improve product recommendations, optimize search, and personalize customer experiences.",
-    regions: ["Global"],
-    link: "https://magento.com",
-  },
-  {
-    id: 69,
+    id: 82,
     name: "Gorgias AI",
     category: "E-commerce & Sales",
-    description: "AI-powered customer service for e-commerce",
-    pricing: "Starting at $60/month",
-    skillLevel: "Intermediate",
+    description: "AI-powered customer service platform for e-commerce",
+    pricing: "Starting at $10/month",
+    skillLevel: "Beginner",
     beginnerExplanation:
-      "Gorgias AI provides intelligent customer service specifically designed for e-commerce businesses.",
+      "Gorgias AI specializes in customer service for online stores. It can automatically handle order inquiries, returns, and common questions, integrating directly with your e-commerce platform.",
     personalizedPrompt:
-      "Automate customer service responses, handle order inquiries, process returns efficiently, and improve customer satisfaction.",
+      "Automate responses to order status inquiries, handle return and refund requests efficiently, provide instant answers to shipping questions, and maintain excellent customer service while you focus on growing your store.",
     regions: ["Global"],
     link: "https://www.gorgias.com",
+    tags: ["ecommerce-support", "order-inquiries", "returns-automation", "shipping-support"],
   },
   {
-    id: 70,
+    id: 83,
     name: "Rebuy AI",
     category: "E-commerce & Sales",
-    description: "AI-powered personalization for Shopify stores",
+    description: "AI-powered personalization and upselling for Shopify stores",
     pricing: "Starting at $99/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Rebuy AI creates personalized shopping experiences and smart product recommendations for Shopify stores.",
+      "Rebuy AI creates personalized shopping experiences and smart product recommendations for Shopify stores. It helps increase average order value and customer lifetime value.",
     personalizedPrompt:
-      "Increase average order value, create personalized product recommendations, optimize checkout process, and improve customer retention.",
+      "Increase average order value with smart product recommendations, create personalized shopping experiences that convert better, implement effective upselling and cross-selling strategies, and maximize revenue from each customer visit.",
     regions: ["Global"],
     link: "https://rebuyengine.com",
+    tags: ["shopify-optimization", "upselling", "cross-selling", "revenue-maximization"],
+  },
+  {
+    id: 84,
+    name: "Octane AI",
+    category: "E-commerce & Sales",
+    description: "AI-powered quiz and personalization platform for Shopify",
+    pricing: "Free tier available, paid plans from $50/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Octane AI creates interactive quizzes that help customers find the right products while collecting valuable data about their preferences. It's perfect for personalized product recommendations.",
+    personalizedPrompt:
+      "Create engaging product finder quizzes that guide customers to the right products, collect zero-party data about customer preferences, increase engagement with interactive shopping experiences, and improve conversion rates through personalization.",
+    regions: ["Global"],
+    link: "https://octaneai.com",
+    tags: ["product-quizzes", "zero-party-data", "interactive-shopping", "personalization"],
+  },
+  {
+    id: 85,
+    name: "Privy AI",
+    category: "E-commerce & Sales",
+    description: "AI-powered email marketing and conversion optimization for e-commerce",
+    pricing: "Free tier available, paid plans from $24/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Privy AI helps e-commerce stores capture more email subscribers and convert visitors into customers using smart popups, email campaigns, and behavioral targeting.",
+    personalizedPrompt:
+      "Capture more email subscribers with smart popups, create targeted email campaigns based on customer behavior, reduce cart abandonment with automated recovery emails, and convert more website visitors into paying customers.",
+    regions: ["Global"],
+    link: "https://www.privy.com",
+    tags: ["email-capture", "behavioral-targeting", "cart-recovery", "visitor-conversion"],
+  },
+  {
+    id: 86,
+    name: "Nosto AI",
+    category: "E-commerce & Sales",
+    description: "AI-powered personalization platform for online retailers",
+    pricing: "Custom pricing",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Nosto AI provides advanced personalization for online stores, showing each visitor the most relevant products, content, and offers based on their behavior and preferences.",
+    personalizedPrompt:
+      "Show each visitor the most relevant products based on their browsing behavior, create personalized homepage experiences that increase engagement, implement dynamic pricing strategies, and optimize your entire store for individual customers.",
+    regions: ["Global"],
+    link: "https://www.nosto.com",
+    tags: ["advanced-personalization", "dynamic-pricing", "behavioral-targeting", "individual-optimization"],
+  },
+  {
+    id: 87,
+    name: "Searchspring AI",
+    category: "E-commerce & Sales",
+    description: "AI-powered site search and merchandising platform",
+    pricing: "Custom pricing",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Searchspring AI improves your store's search functionality and product discovery. It helps customers find what they're looking for faster and suggests relevant products they might also want.",
+    personalizedPrompt:
+      "Improve your store's search functionality so customers find products faster, implement intelligent product recommendations throughout the shopping journey, optimize product discovery to increase sales, and create better user experiences that keep customers engaged.",
+    regions: ["Global"],
+    link: "https://searchspring.com",
+    tags: ["site-search", "product-discovery", "user-experience", "search-optimization"],
+  },
+  {
+    id: 88,
+    name: "Barilliance AI",
+    category: "E-commerce & Sales",
+    description: "AI-powered personalization and email marketing for e-commerce",
+    pricing: "Starting at $99/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Barilliance AI provides personalized product recommendations and automated email marketing specifically designed for e-commerce stores to increase sales and customer retention.",
+    personalizedPrompt:
+      "Implement personalized product recommendations across your store, create automated email campaigns that recover abandoned carts, send personalized product suggestions to past customers, and increase customer lifetime value through targeted marketing.",
+    regions: ["Global"],
+    link: "https://www.barilliance.com",
+    tags: ["product-recommendations", "cart-recovery", "customer-retention", "lifetime-value"],
+  },
+  {
+    id: 89,
+    name: "Recombee AI",
+    category: "E-commerce & Sales",
+    description: "AI recommendation engine for e-commerce and content platforms",
+    pricing: "Free tier available, custom pricing for higher volumes",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Recombee AI provides sophisticated recommendation algorithms that can be integrated into any e-commerce platform to show customers the most relevant products based on their behavior and preferences.",
+    personalizedPrompt:
+      "Integrate advanced recommendation algorithms into your store, provide highly accurate product suggestions based on customer behavior, implement real-time personalization that adapts to customer actions, and increase sales through intelligent product discovery.",
+    regions: ["Global"],
+    link: "https://www.recombee.com",
+    tags: ["recommendation-engine", "real-time-personalization", "behavioral-analysis", "intelligent-discovery"],
+  },
+  {
+    id: 90,
+    name: "Monetate AI",
+    category: "E-commerce & Sales",
+    description: "AI-powered personalization and testing platform for e-commerce",
+    pricing: "Custom pricing",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Monetate AI provides enterprise-level personalization and A/B testing capabilities for e-commerce stores, helping optimize every aspect of the customer experience for maximum conversions.",
+    personalizedPrompt:
+      "Create enterprise-level personalized experiences for your customers, run sophisticated A/B tests to optimize conversion rates, implement dynamic content that adapts to individual preferences, and maximize revenue through data-driven personalization.",
+    regions: ["Global"],
+    link: "https://www.monetate.com",
+    tags: ["enterprise-personalization", "a-b-testing", "dynamic-content", "data-driven-optimization"],
   },
 
-  // Automation & Productivity (45+ tools)
+  // Automation & Productivity (25+ tools)
   {
-    id: 71,
+    id: 91,
     name: "Zapier AI",
     category: "Automation & Productivity",
     description: "AI-enhanced workflow automation platform",
     pricing: "Free tier available, paid plans start at $19.99/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Zapier AI connects your business apps and automates repetitive tasks to save you hours of manual work.",
+      "Zapier AI connects your business apps and automates repetitive tasks. It can move data between apps, send notifications, and perform actions automatically, saving you hours of manual work.",
     personalizedPrompt:
-      "Automate data entry between apps, set up automatic notifications, create lead nurturing workflows, and eliminate repetitive tasks.",
+      "Automate data entry between your business apps, set up automatic notifications for important events, create workflows that nurture leads automatically, and eliminate repetitive tasks that drain your time.",
     regions: ["Global"],
-    tags: ["our-top-pick"],
     link: "https://zapier.com",
-  },
-  {
-    id: 72,
-    name: "Monday.com AI",
-    category: "Automation & Productivity",
-    description: "AI-powered project management platform",
-    pricing: "Starting at $8/month per user",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Monday.com AI helps manage projects efficiently with smart predictions and automated updates.",
-    personalizedPrompt:
-      "Organize business projects, track team productivity, automate status updates, and predict potential delays.",
-    regions: ["Global"],
-    link: "https://monday.com",
-  },
-  {
-    id: 73,
-    name: "Asana AI",
-    category: "Automation & Productivity",
-    description: "AI-enhanced project management and team collaboration",
-    pricing: "Free tier available, paid plans start at $10.99/month per user",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Asana AI helps manage projects and collaborate with teams using intelligent task suggestions and automation.",
-    personalizedPrompt:
-      "Coordinate projects with team members, track business goals, automate task assignments, and ensure project completion.",
-    regions: ["Global"],
-    link: "https://asana.com",
-  },
-  {
-    id: 74,
-    name: "Trello AI",
-    category: "Automation & Productivity",
-    description: "AI-powered features for visual project management",
-    pricing: "Free tier available, paid plans start at $5/month per user",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Trello AI adds smart features to Trello's simple card-based project management system.",
-    personalizedPrompt:
-      "Organize business tasks visually, track project progress, automate routine management tasks, and maintain clear visibility.",
-    regions: ["Global"],
-    link: "https://trello.com",
-  },
-  {
-    id: 75,
-    name: "ClickUp AI",
-    category: "Automation & Productivity",
-    description: "All-in-one productivity platform with AI features",
-    pricing: "Free tier available, paid plans start at $7/month per user",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "ClickUp AI combines project management, document creation, and workflow automation with intelligent assistance.",
-    personalizedPrompt:
-      "Manage all business operations in one place, automate workflows, create documents with AI assistance, and track team performance.",
-    regions: ["Global"],
-    link: "https://clickup.com",
-  },
-  {
-    id: 76,
-    name: "Todoist AI",
-    category: "Automation & Productivity",
-    description: "AI-powered task management and scheduling",
-    pricing: "Free tier available, Pro at $4/month",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Todoist AI helps organize tasks and suggests optimal scheduling for better productivity.",
-    personalizedPrompt:
-      "Organize daily tasks efficiently, set smart reminders, prioritize important work, and maintain work-life balance.",
-    regions: ["Global"],
-    link: "https://todoist.com",
-  },
-  {
-    id: 77,
-    name: "Microsoft Copilot",
-    category: "Automation & Productivity",
-    description: "AI assistant integrated across Microsoft 365",
-    pricing: "Starting at $30/month per user",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Microsoft Copilot adds AI assistance to Word, Excel, PowerPoint, and other Microsoft Office applications.",
-    personalizedPrompt:
-      "Create professional documents, analyze business data, generate presentations, and automate office tasks across Microsoft apps.",
-    regions: ["Global"],
-    link: "https://copilot.microsoft.com",
-  },
-  {
-    id: 78,
-    name: "Google Workspace AI",
-    category: "Automation & Productivity",
-    description: "AI features integrated into Google Workspace",
-    pricing: "Starting at $6/month per user",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Google Workspace AI adds intelligent features to Gmail, Docs, Sheets, and other Google productivity tools.",
-    personalizedPrompt:
-      "Enhance email communication, create professional documents, analyze business data, and collaborate more effectively.",
-    regions: ["Global"],
-    link: "https://workspace.google.com",
-  },
-  {
-    id: 79,
-    name: "Calendly AI",
-    category: "Automation & Productivity",
-    description: "AI-enhanced scheduling and calendar management",
-    pricing: "Free tier available, paid plans start at $8/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Calendly AI optimizes meeting scheduling and provides intelligent calendar management features.",
-    personalizedPrompt:
-      "Automate meeting scheduling, optimize your calendar, reduce scheduling conflicts, and improve client booking experience.",
-    regions: ["Global"],
-    link: "https://calendly.com",
-  },
-  {
-    id: 80,
-    name: "Airtable AI",
-    category: "Automation & Productivity",
-    description: "AI-powered database and workflow platform",
-    pricing: "Free tier available, paid plans start at $20/month per user",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Airtable AI combines spreadsheet simplicity with database power, enhanced by artificial intelligence.",
-    personalizedPrompt:
-      "Organize business data efficiently, automate workflows, track customer information, and create intelligent databases.",
-    regions: ["Global"],
-    link: "https://airtable.com",
-  },
-
-  // Analytics & Data (20+ tools)
-  {
-    id: 81,
-    name: "Google Analytics AI",
-    category: "Analytics & Data",
-    description: "AI-powered insights for website and business analytics",
-    pricing: "Free tier available, Google Analytics 360 starts at $150k/year",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Google Analytics AI provides smart insights about website visitors and predicts customer behavior.",
-    personalizedPrompt:
-      "Understand customer behavior on your website, identify successful marketing channels, predict future trends, and optimize your online presence.",
-    regions: ["Global"],
-    tags: ["our-top-pick"],
-    link: "https://analytics.google.com",
-  },
-  {
-    id: 82,
-    name: "Tableau AI",
-    category: "Analytics & Data",
-    description: "AI-enhanced data visualization and business intelligence",
-    pricing: "Starting at $70/month per user",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Tableau AI helps create visual reports and dashboards that automatically identify important patterns in your data.",
-    personalizedPrompt:
-      "Create visual business dashboards, identify customer behavior patterns, present data insights to stakeholders, and make data-driven decisions.",
-    regions: ["Global"],
-    link: "https://www.tableau.com",
-  },
-  {
-    id: 83,
-    name: "Power BI AI",
-    category: "Analytics & Data",
-    description: "Microsoft's AI-powered business intelligence platform",
-    pricing: "Starting at $10/month per user",
-    skillLevel: "Intermediate",
-    beginnerExplanation: "Power BI AI analyzes business data and creates automated reports with intelligent insights.",
-    personalizedPrompt:
-      "Analyze sales and customer data, create automated business reports, identify growth opportunities, and track key performance metrics.",
-    regions: ["Global"],
-    link: "https://powerbi.microsoft.com",
-  },
-  {
-    id: 84,
-    name: "Mixpanel AI",
-    category: "Analytics & Data",
-    description: "AI-powered product analytics and user behavior tracking",
-    pricing: "Free tier available, paid plans start at $25/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Mixpanel AI tracks how customers use your product and provides insights about user behavior and engagement.",
-    personalizedPrompt:
-      "Track customer interactions with your product, identify features that drive engagement, understand user journey patterns, and optimize user experience.",
-    regions: ["Global"],
-    link: "https://mixpanel.com",
-  },
-  {
-    id: 85,
-    name: "Amplitude AI",
-    category: "Analytics & Data",
-    description: "AI-driven product analytics and customer journey analysis",
-    pricing: "Free tier available, paid plans start at $61/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Amplitude AI analyzes the complete customer journey and predicts which customers might stop using your service.",
-    personalizedPrompt:
-      "Understand complete customer journeys, predict customer churn, identify opportunities to increase customer value, and optimize product engagement.",
-    regions: ["Global"],
-    link: "https://amplitude.com",
-  },
-  {
-    id: 86,
-    name: "Hotjar AI",
-    category: "Analytics & Data",
-    description: "AI-enhanced website behavior analytics and user feedback",
-    pricing: "Free tier available, paid plans start at $32/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Hotjar AI shows you how visitors interact with your website through heatmaps, recordings, and intelligent insights.",
-    personalizedPrompt:
-      "Understand how visitors use your website, identify areas for improvement, optimize user experience, and increase conversion rates.",
-    regions: ["Global"],
-    link: "https://www.hotjar.com",
-  },
-  {
-    id: 87,
-    name: "Segment AI",
-    category: "Analytics & Data",
-    description: "AI-powered customer data platform",
-    pricing: "Free tier available, Team at $120/month",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Segment AI collects and organizes customer data from all your business tools to provide unified customer insights.",
-    personalizedPrompt:
-      "Unify customer data from all sources, create comprehensive customer profiles, personalize experiences, and improve marketing effectiveness.",
-    regions: ["Global"],
-    link: "https://segment.com",
-  },
-  {
-    id: 88,
-    name: "Crazy Egg",
-    category: "Analytics & Data",
-    description: "AI-enhanced website optimization and heatmap analysis",
-    pricing: "Starting at $24/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Crazy Egg uses AI to analyze website visitor behavior and suggest improvements for better conversions.",
-    personalizedPrompt:
-      "Optimize your website layout, improve user experience, increase conversion rates, and understand visitor behavior patterns.",
-    regions: ["Global"],
-    link: "https://www.crazyegg.com",
-  },
-  {
-    id: 89,
-    name: "Heap Analytics",
-    category: "Analytics & Data",
-    description: "Automated analytics with AI-powered insights",
-    pricing: "Free tier available, Growth at $3,600/year",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Heap automatically captures all user interactions and uses AI to provide insights without manual tracking setup.",
-    personalizedPrompt:
-      "Automatically track all customer interactions, discover optimization opportunities, understand user behavior, and improve product performance.",
-    regions: ["Global"],
-    link: "https://heap.io",
-  },
-  {
-    id: 90,
-    name: "Kissmetrics",
-    category: "Analytics & Data",
-    description: "AI-powered customer analytics and behavioral tracking",
-    pricing: "Starting at $500/month",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Kissmetrics focuses on individual customer behavior and uses AI to predict customer lifetime value and churn.",
-    personalizedPrompt:
-      "Track individual customer behavior, predict customer lifetime value, identify at-risk customers, and optimize retention strategies.",
-    regions: ["Global"],
-    link: "https://www.kissmetrics.io",
-  },
-
-  // Email Marketing (15+ tools)
-  {
-    id: 91,
-    name: "Mailchimp AI",
-    category: "Email Marketing",
-    description: "AI-powered email marketing with smart recommendations",
-    pricing: "Free tier available, paid plans start at $10/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Mailchimp AI helps create effective email campaigns with smart subject lines, timing, and content suggestions.",
-    personalizedPrompt:
-      "Create engaging email campaigns, automate welcome sequences, segment your audience for personalized messaging, and optimize send times.",
-    regions: ["Global"],
-    tags: ["startup-fav"],
-    link: "https://mailchimp.com",
+    tags: ["workflow-automation", "app-integration", "data-entry", "task-elimination"],
   },
   {
     id: 92,
-    name: "ConvertKit AI",
-    category: "Email Marketing",
-    description: "AI-enhanced email marketing for creators and entrepreneurs",
-    pricing: "Free tier available, paid plans start at $29/month",
-    skillLevel: "Beginner",
+    name: "Monday.com AI",
+    category: "Automation & Productivity",
+    description: "AI-powered project management and workflow automation",
+    pricing: "Starting at $8/month per user",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "ConvertKit AI is designed for creators and entrepreneurs, helping build email lists and nurture audience relationships.",
+      "Monday.com AI helps manage projects and automate workflows with intelligent features like task assignment, progress tracking, and deadline management. Perfect for teams that want to stay organized and productive.",
     personalizedPrompt:
-      "Build an email list of potential customers, create automated email sequences, segment subscribers by interests, and develop email content that builds trust.",
+      "Automatically assign tasks based on team member availability and skills, track project progress with intelligent insights, set up automated notifications for deadlines and milestones, and optimize team productivity with data-driven recommendations.",
     regions: ["Global"],
-    link: "https://convertkit.com",
+    link: "https://monday.com",
+    tags: ["project-management", "task-assignment", "progress-tracking", "team-productivity"],
   },
   {
     id: 93,
+    name: "Asana AI",
+    category: "Automation & Productivity",
+    description: "AI-enhanced project management with smart insights",
+    pricing: "Free tier available, paid plans from $10.99/month per user",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Asana AI adds intelligent features to project management, including smart project templates, workload balancing, and progress predictions. It helps teams work more efficiently and meet deadlines.",
+    personalizedPrompt:
+      "Create smart project templates that adapt to your team's workflow, balance workloads automatically to prevent burnout, predict project completion dates based on current progress, and optimize team collaboration with AI insights.",
+    regions: ["Global"],
+    link: "https://asana.com",
+    tags: ["smart-templates", "workload-balancing", "progress-prediction", "team-collaboration"],
+  },
+  {
+    id: 94,
+    name: "Trello AI",
+    category: "Automation & Productivity",
+    description: "AI-powered features for Trello boards and workflow automation",
+    pricing: "Free tier available, paid plans from $5/month per user",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Trello AI adds smart automation to your Trello boards, including automatic card movement, due date suggestions, and workflow optimization. It makes project management simpler and more efficient.",
+    personalizedPrompt:
+      "Automate card movements based on project stages, get intelligent suggestions for due dates and priorities, optimize your workflow with AI-powered insights, and streamline project management without complexity.",
+    regions: ["Global"],
+    link: "https://trello.com",
+    tags: ["board-automation", "due-date-suggestions", "workflow-optimization", "simple-management"],
+  },
+  {
+    id: 95,
+    name: "ClickUp AI",
+    category: "Automation & Productivity",
+    description: "All-in-one productivity platform with AI writing and automation",
+    pricing: "Free tier available, paid plans from $7/month per user",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "ClickUp AI combines project management, document creation, and workflow automation in one platform. It can write content, summarize meetings, and automate routine tasks to boost productivity.",
+    personalizedPrompt:
+      "Manage all your projects and documents in one platform, use AI to write and edit content within your workspace, automate routine project management tasks, and streamline your entire business workflow.",
+    regions: ["Global"],
+    link: "https://clickup.com",
+    tags: ["all-in-one", "content-creation", "meeting-summaries", "business-workflow"],
+  },
+  {
+    id: 96,
+    name: "Microsoft Power Automate",
+    category: "Automation & Productivity",
+    description: "AI-powered workflow automation for Microsoft ecosystem",
+    pricing: "Starting at $15/month per user",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Microsoft Power Automate creates automated workflows between Microsoft apps and hundreds of other services. It's perfect for businesses already using Microsoft tools like Office 365 and Teams.",
+    personalizedPrompt:
+      "Automate workflows between Microsoft Office apps, create approval processes for documents and requests, sync data between different business systems, and streamline operations within the Microsoft ecosystem.",
+    regions: ["Global"],
+    link: "https://powerautomate.microsoft.com",
+    tags: ["microsoft-integration", "approval-processes", "data-sync", "office-automation"],
+  },
+  {
+    id: 97,
+    name: "IFTTT AI",
+    category: "Automation & Productivity",
+    description: "Simple automation platform connecting apps and devices",
+    pricing: "Free tier available, Pro at $3.99/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "IFTTT (If This Then That) AI creates simple automations between apps and smart devices. It's perfect for basic automation needs and connecting different services together.",
+    personalizedPrompt:
+      "Create simple automations between your favorite apps, connect smart home devices to your business workflows, set up automatic social media posting, and streamline daily tasks with basic automation rules.",
+    regions: ["Global"],
+    link: "https://ifttt.com",
+    tags: ["simple-automation", "smart-devices", "social-posting", "daily-tasks"],
+  },
+  {
+    id: 98,
+    name: "Calendly AI",
+    category: "Automation & Productivity",
+    description: "AI-powered scheduling and meeting automation",
+    pricing: "Free tier available, paid plans from $8/month per user",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Calendly AI automates meeting scheduling with intelligent features like optimal time suggestions, automatic follow-ups, and meeting preparation. It eliminates the back-and-forth of scheduling meetings.",
+    personalizedPrompt:
+      "Automate your meeting scheduling to save time on coordination, get intelligent suggestions for optimal meeting times, send automatic follow-ups and reminders, and prepare for meetings with AI-generated agendas.",
+    regions: ["Global"],
+    link: "https://calendly.com",
+    tags: ["meeting-scheduling", "time-optimization", "automatic-follow-ups", "meeting-preparation"],
+  },
+  {
+    id: 99,
+    name: "Todoist AI",
+    category: "Automation & Productivity",
+    description: "AI-enhanced task management and productivity planning",
+    pricing: "Free tier available, Pro at $4/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Todoist AI helps manage your tasks and projects with intelligent features like natural language processing, smart scheduling, and productivity insights. It's perfect for personal and team productivity.",
+    personalizedPrompt:
+      "Organize your tasks with natural language input, get intelligent suggestions for task scheduling and prioritization, track your productivity patterns with AI insights, and maintain focus on your most important work.",
+    regions: ["Global"],
+    link: "https://todoist.com",
+    tags: ["task-management", "natural-language", "smart-scheduling", "productivity-insights"],
+  },
+  {
+    id: 100,
+    name: "RescueTime AI",
+    category: "Automation & Productivity",
+    description: "AI-powered time tracking and productivity analysis",
+    pricing: "Free tier available, Premium at $12/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "RescueTime AI automatically tracks how you spend time on your devices and provides insights to help you be more productive. It identifies time-wasting activities and suggests improvements.",
+    personalizedPrompt:
+      "Automatically track how you spend time on your computer and phone, identify activities that drain your productivity, get personalized suggestions for improving focus, and optimize your daily schedule for maximum efficiency.",
+    regions: ["Global"],
+    link: "https://www.rescuetime.com",
+    tags: ["time-tracking", "productivity-analysis", "focus-improvement", "schedule-optimization"],
+  },
+
+  // Analytics & Data (15+ tools)
+  {
+    id: 101,
+    name: "Google Analytics AI",
+    category: "Analytics & Data",
+    description: "AI-powered web analytics with intelligent insights",
+    pricing: "Free tier available, Google Analytics 360 for enterprise",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Google Analytics AI provides intelligent insights about your website visitors, including behavior patterns, conversion predictions, and automated alerts for important changes in your data.",
+    personalizedPrompt:
+      "Understand your website visitors' behavior patterns, predict which visitors are most likely to convert, get automatic alerts when important metrics change, and make data-driven decisions to grow your business.",
+    regions: ["Global"],
+    link: "https://analytics.google.com",
+    tags: ["web-analytics", "behavior-patterns", "conversion-prediction", "data-driven-decisions"],
+  },
+  {
+    id: 102,
+    name: "Mixpanel AI",
+    category: "Analytics & Data",
+    description: "AI-powered product analytics and user behavior tracking",
+    pricing: "Free tier available, paid plans from $25/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Mixpanel AI tracks user interactions with your product or website and uses AI to identify patterns, predict user behavior, and suggest optimizations to improve user experience and retention.",
+    personalizedPrompt:
+      "Track how users interact with your product or website, identify patterns that lead to conversions or churn, predict user behavior to improve retention, and optimize user experience based on data insights.",
+    regions: ["Global"],
+    link: "https://mixpanel.com",
+    tags: ["product-analytics", "user-behavior", "retention-optimization", "user-experience"],
+  },
+  {
+    id: 103,
+    name: "Hotjar AI",
+    category: "Analytics & Data",
+    description: "AI-enhanced user behavior analytics with heatmaps and recordings",
+    pricing: "Free tier available, paid plans from $32/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Hotjar AI shows you how users actually interact with your website through heatmaps, session recordings, and AI-powered insights. It helps you understand what's working and what needs improvement.",
+    personalizedPrompt:
+      "See exactly how visitors interact with your website through heatmaps and recordings, identify areas where users get confused or frustrated, optimize your website layout for better conversions, and improve user experience based on real behavior data.",
+    regions: ["Global"],
+    link: "https://www.hotjar.com",
+    tags: ["heatmaps", "session-recordings", "user-interaction", "conversion-optimization"],
+  },
+  {
+    id: 104,
+    name: "Amplitude AI",
+    category: "Analytics & Data",
+    description: "AI-driven product analytics and user journey optimization",
+    pricing: "Free tier available, paid plans from $61/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Amplitude AI provides advanced product analytics that help you understand user journeys, predict user behavior, and optimize your product for better engagement and retention.",
+    personalizedPrompt:
+      "Map and optimize user journeys through your product, predict which users are likely to churn and take preventive action, identify features that drive engagement and retention, and make data-driven product decisions.",
+    regions: ["Global"],
+    link: "https://amplitude.com",
+    tags: ["user-journeys", "churn-prediction", "feature-analysis", "product-optimization"],
+  },
+  {
+    id: 105,
+    name: "Tableau AI",
+    category: "Analytics & Data",
+    description: "AI-powered data visualization and business intelligence",
+    pricing: "Starting at $70/month per user",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Tableau AI helps create interactive data visualizations and provides AI-powered insights from your business data. It's designed for businesses that need advanced data analysis and reporting.",
+    personalizedPrompt:
+      "Create interactive dashboards that visualize your business data, get AI-powered insights and recommendations from your data, identify trends and patterns that impact your business, and make informed decisions based on comprehensive data analysis.",
+    regions: ["Global"],
+    link: "https://www.tableau.com",
+    tags: ["data-visualization", "business-intelligence", "interactive-dashboards", "trend-analysis"],
+  },
+  {
+    id: 106,
+    name: "Power BI AI",
+    category: "Analytics & Data",
+    description: "Microsoft's AI-enhanced business intelligence platform",
+    pricing: "Starting at $10/month per user",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Power BI AI integrates with Microsoft tools to provide business intelligence and data visualization with AI-powered insights, automated report generation, and natural language queries.",
+    personalizedPrompt:
+      "Create automated reports from your business data, ask questions about your data in natural language, integrate analytics with your existing Microsoft tools, and get AI-powered insights to guide business decisions.",
+    regions: ["Global"],
+    link: "https://powerbi.microsoft.com",
+    tags: ["business-intelligence", "automated-reports", "natural-language-queries", "microsoft-integration"],
+  },
+  {
+    id: 107,
+    name: "Crazy Egg AI",
+    category: "Analytics & Data",
+    description: "AI-enhanced website optimization and heatmap analytics",
+    pricing: "Starting at $24/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Crazy Egg AI provides heatmaps, A/B testing, and user behavior analytics with AI insights to help you optimize your website for better conversions and user experience.",
+    personalizedPrompt:
+      "Optimize your website layout based on user behavior heatmaps, run A/B tests to improve conversion rates, identify elements that distract or confuse visitors, and increase sales through data-driven website improvements.",
+    regions: ["Global"],
+    link: "https://www.crazyegg.com",
+    tags: ["website-optimization", "heatmap-analytics", "a-b-testing", "conversion-improvement"],
+  },
+  {
+    id: 108,
+    name: "Kissmetrics AI",
+    category: "Analytics & Data",
+    description: "AI-powered customer analytics and behavioral tracking",
+    pricing: "Starting at $299/month",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Kissmetrics AI focuses on customer behavior analytics, tracking individual customer journeys and using AI to predict customer lifetime value, churn risk, and optimal engagement strategies.",
+    personalizedPrompt:
+      "Track individual customer journeys from first visit to purchase, predict customer lifetime value and churn risk, identify your most valuable customer segments, and optimize marketing strategies based on customer behavior patterns.",
+    regions: ["Global"],
+    link: "https://www.kissmetrics.io",
+    tags: ["customer-analytics", "customer-journeys", "lifetime-value", "churn-prediction"],
+  },
+  {
+    id: 109,
+    name: "Segment AI",
+    category: "Analytics & Data",
+    description: "AI-powered customer data platform and analytics",
+    pricing: "Free tier available, custom pricing for higher volumes",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Segment AI collects customer data from all touchpoints and uses AI to create unified customer profiles, predict behavior, and personalize experiences across all channels.",
+    personalizedPrompt:
+      "Create unified customer profiles from all touchpoints, predict customer behavior across channels, personalize experiences based on comprehensive customer data, and optimize marketing campaigns with AI-powered insights.",
+    regions: ["Global"],
+    link: "https://segment.com",
+    tags: ["customer-data-platform", "unified-profiles", "cross-channel-analytics", "personalization"],
+  },
+  {
+    id: 110,
+    name: "Looker AI",
+    category: "Analytics & Data",
+    description: "Google's AI-powered business intelligence and data platform",
+    pricing: "Custom pricing",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Looker AI provides enterprise-level business intelligence with AI-powered insights, automated data modeling, and natural language queries to help businesses make data-driven decisions.",
+    personalizedPrompt:
+      "Build comprehensive business intelligence dashboards, get automated insights from your data, query your data using natural language, and make strategic decisions based on AI-powered analytics.",
+    regions: ["Global"],
+    link: "https://cloud.google.com/looker",
+    tags: ["enterprise-bi", "automated-insights", "natural-language-queries", "strategic-decisions"],
+  },
+  {
+    id: 111,
+    name: "Heap AI",
+    category: "Analytics & Data",
+    description: "AI-powered automatic event tracking and user analytics",
+    pricing: "Free tier available, paid plans from $3,600/year",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Heap AI automatically captures all user interactions on your website or app without manual setup, then uses AI to identify important patterns and provide insights about user behavior.",
+    personalizedPrompt:
+      "Automatically capture all user interactions without manual tracking setup, identify important user behavior patterns with AI analysis, understand conversion funnels and drop-off points, and optimize user experience based on comprehensive interaction data.",
+    regions: ["Global"],
+    link: "https://heap.io",
+    tags: ["automatic-tracking", "user-interactions", "conversion-funnels", "behavior-patterns"],
+  },
+  {
+    id: 112,
+    name: "Chartio AI",
+    category: "Analytics & Data",
+    description: "AI-powered business intelligence and data visualization",
+    pricing: "Starting at $100/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Chartio AI makes it easy to create charts and dashboards from your business data, with AI assistance for query building, insight generation, and automated reporting.",
+    personalizedPrompt:
+      "Create professional charts and dashboards from your business data, get AI assistance with complex data queries, generate automated insights and reports, and visualize key business metrics for better decision-making.",
+    regions: ["Global"],
+    link: "https://chartio.com",
+    tags: ["data-visualization", "automated-reporting", "query-assistance", "business-metrics"],
+  },
+  {
+    id: 113,
+    name: "Sisense AI",
+    category: "Analytics & Data",
+    description: "AI-powered analytics platform for complex data",
+    pricing: "Custom pricing",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Sisense AI handles complex data from multiple sources and uses AI to provide insights, predictions, and recommendations. It's designed for businesses with sophisticated analytics needs.",
+    personalizedPrompt:
+      "Analyze complex data from multiple business sources, get AI-powered predictions and recommendations, create interactive dashboards for stakeholders, and uncover hidden insights that drive business growth.",
+    regions: ["Global"],
+    link: "https://www.sisense.com",
+    tags: ["complex-data-analysis", "multi-source-integration", "predictive-analytics", "business-growth"],
+  },
+  {
+    id: 114,
+    name: "Qlik Sense AI",
+    category: "Analytics & Data",
+    description: "AI-powered self-service business intelligence platform",
+    pricing: "Starting at $30/month per user",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Qlik Sense AI provides self-service analytics with AI-powered insights, natural language queries, and automated data preparation. It helps business users analyze data without technical expertise.",
+    personalizedPrompt:
+      "Analyze your business data without technical expertise, ask questions about your data in natural language, get automated insights and recommendations, and create interactive visualizations that tell your data story.",
+    regions: ["Global"],
+    link: "https://www.qlik.com/us/products/qlik-sense",
+    tags: ["self-service-analytics", "natural-language-queries", "automated-insights", "data-storytelling"],
+  },
+  {
+    id: 115,
+    name: "Domo AI",
+    category: "Analytics & Data",
+    description: "Cloud-based business intelligence platform with AI insights",
+    pricing: "Custom pricing",
+    skillLevel: "Expert",
+    beginnerExplanation:
+      "Domo AI provides cloud-based business intelligence with AI-powered insights, real-time data updates, and collaborative analytics. It's designed for businesses that need comprehensive data solutions.",
+    personalizedPrompt:
+      "Access real-time business intelligence from anywhere, collaborate on data analysis with your team, get AI-powered insights and alerts, and make faster decisions with up-to-date business metrics.",
+    regions: ["Global"],
+    link: "https://www.domo.com",
+    tags: ["cloud-based-bi", "real-time-data", "collaborative-analytics", "business-metrics"],
+  },
+
+  // Email Marketing (10+ tools)
+  {
+    id: 116,
+    name: "Mailchimp AI",
+    category: "Email Marketing",
+    description: "AI-powered email marketing with smart recommendations",
+    pricing: "Free tier available, paid plans from $10/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Mailchimp AI helps create effective email campaigns with smart subject line suggestions, optimal send times, and content recommendations. It's perfect for small businesses starting with email marketing.",
+    personalizedPrompt:
+      "Create engaging email campaigns with AI-suggested subject lines, send emails at optimal times for your audience, get content recommendations based on your industry, and grow your email list with smart signup forms.",
+    regions: ["Global"],
+    link: "https://mailchimp.com",
+    tags: ["email-campaigns", "subject-line-optimization", "send-time-optimization", "list-growth"],
+  },
+  {
+    id: 117,
+    name: "ConvertKit AI",
+    category: "Email Marketing",
+    description: "AI-enhanced email marketing for creators and entrepreneurs",
+    pricing: "Free tier available, paid plans from $29/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "ConvertKit AI specializes in email marketing for creators and entrepreneurs, with AI features for audience segmentation, automated sequences, and personalized content recommendations.",
+    personalizedPrompt:
+      "Build and nurture your audience with personalized email sequences, segment subscribers based on their interests and behavior, create automated funnels that convert subscribers into customers, and grow your creator business through strategic email marketing.",
+    regions: ["Global"],
+    link: "https://convertkit.com",
+    tags: ["creator-focused", "audience-segmentation", "automated-sequences", "conversion-funnels"],
+  },
+  {
+    id: 118,
     name: "ActiveCampaign AI",
     category: "Email Marketing",
     description: "AI-powered email marketing automation and CRM",
     pricing: "Starting at $29/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "ActiveCampaign AI combines email marketing with customer relationship management using intelligent automation.",
+      "ActiveCampaign AI combines email marketing with CRM features, using AI for predictive sending, content optimization, and customer journey mapping. It's great for businesses that want advanced automation.",
     personalizedPrompt:
-      "Create sophisticated email automation, score leads based on engagement, personalize email content for different segments, and integrate email with sales processes.",
+      "Create sophisticated email automation workflows, predict the best times to send emails to each subscriber, map customer journeys and optimize touchpoints, and integrate email marketing with your sales process.",
     regions: ["Global"],
     link: "https://www.activecampaign.com",
+    tags: ["marketing-automation", "predictive-sending", "customer-journey-mapping", "sales-integration"],
   },
   {
-    id: 94,
+    id: 119,
     name: "GetResponse AI",
     category: "Email Marketing",
-    description: "AI-enhanced email marketing with automation and landing pages",
+    description: "AI-powered email marketing with automation and landing pages",
     pricing: "Starting at $15/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "GetResponse AI provides email marketing tools with smart automation and landing page creation features.",
+      "GetResponse AI provides email marketing with AI-powered features like content generation, send time optimization, and automated workflows. It also includes landing page creation and webinar hosting.",
     personalizedPrompt:
-      "Create high-converting landing pages, automate email follow-up sequences, segment audience for targeted messaging, and track email performance.",
+      "Create complete marketing campaigns with emails and landing pages, use AI to generate engaging email content, automate your marketing workflows, and host webinars to engage your audience and generate leads.",
     regions: ["Global"],
     link: "https://www.getresponse.com",
+    tags: ["complete-campaigns", "content-generation", "landing-pages", "webinar-hosting"],
   },
   {
-    id: 95,
+    id: 120,
+    name: "Campaign Monitor AI",
+    category: "Email Marketing",
+    description: "AI-enhanced email marketing with design and automation tools",
+    pricing: "Starting at $9/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Campaign Monitor AI offers beautiful email templates with AI-powered design suggestions, automated campaigns, and performance optimization. It's perfect for businesses that want professional-looking emails.",
+    personalizedPrompt:
+      "Create beautiful, professional email campaigns with AI design assistance, automate your email marketing to nurture leads consistently, optimize email performance with AI insights, and maintain brand consistency across all communications.",
+    regions: ["Global"],
+    link: "https://www.campaignmonitor.com",
+    tags: ["professional-design", "design-assistance", "brand-consistency", "performance-optimization"],
+  },
+  {
+    id: 121,
+    name: "Sendinblue (Brevo) AI",
+    category: "Email Marketing",
+    description: "AI-powered email marketing and customer communication platform",
+    pricing: "Free tier available, paid plans from $25/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Sendinblue (now Brevo) AI combines email marketing with SMS, chat, and CRM features. It uses AI for send time optimization, content personalization, and customer segmentation.",
+    personalizedPrompt:
+      "Manage all customer communications from email to SMS in one platform, personalize content based on customer behavior, optimize send times for maximum engagement, and create omnichannel marketing campaigns.",
+    regions: ["Global"],
+    link: "https://www.brevo.com",
+    tags: ["omnichannel-marketing", "sms-integration", "content-personalization", "customer-segmentation"],
+  },
+  {
+    id: 122,
     name: "Constant Contact AI",
     category: "Email Marketing",
     description: "AI-powered email marketing for small businesses",
     pricing: "Starting at $20/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Constant Contact AI is designed for small businesses with easy-to-use email marketing tools and AI assistance.",
+      "Constant Contact AI provides easy-to-use email marketing tools with AI features like subject line suggestions, content recommendations, and automated campaigns. It's designed specifically for small businesses.",
     personalizedPrompt:
-      "Design professional emails that reflect your brand, grow your email list through website integration, create automated welcome series, and track email engagement.",
+      "Create professional email campaigns without design experience, get AI suggestions for subject lines and content, automate welcome series and follow-up emails, and grow your small business through effective email marketing.",
     regions: ["Global"],
     link: "https://www.constantcontact.com",
+    tags: ["small-business-focused", "easy-to-use", "welcome-series", "professional-campaigns"],
   },
   {
-    id: 96,
-    name: "Campaign Monitor",
-    category: "Email Marketing",
-    description: "AI-enhanced email marketing platform",
-    pricing: "Starting at $9/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Campaign Monitor offers beautiful email templates and AI-powered optimization features for better email marketing results.",
-    personalizedPrompt:
-      "Create visually appealing email campaigns, automate customer journeys, personalize content based on subscriber behavior, and optimize for better engagement.",
-    regions: ["Global"],
-    link: "https://www.campaignmonitor.com",
-  },
-  {
-    id: 97,
-    name: "Sendinblue (Brevo)",
-    category: "Email Marketing",
-    description: "AI-powered email marketing and automation platform",
-    pricing: "Free tier available, Lite at $25/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Sendinblue (now Brevo) combines email marketing with SMS and chat features, enhanced by AI automation.",
-    personalizedPrompt:
-      "Create multi-channel marketing campaigns, automate customer communications, personalize messages across email and SMS, and track customer engagement.",
-    regions: ["Global"],
-    link: "https://www.brevo.com",
-  },
-  {
-    id: 98,
+    id: 123,
     name: "AWeber AI",
     category: "Email Marketing",
-    description: "AI-enhanced email marketing automation",
-    pricing: "Free tier available, Pro at $19/month",
+    description: "AI-enhanced email marketing with automation and analytics",
+    pricing: "Free tier available, paid plans from $19/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "AWeber AI helps small businesses create effective email campaigns with intelligent automation and optimization.",
+      "AWeber AI offers email marketing with AI-powered features like smart designer, automated campaigns, and performance analytics. It's trusted by small businesses and entrepreneurs for reliable email delivery.",
     personalizedPrompt:
-      "Build email lists effectively, create automated email sequences, design mobile-friendly newsletters, and improve email deliverability.",
+      "Build your email list with smart opt-in forms, create automated email sequences that nurture subscribers, design professional emails with AI assistance, and track performance to optimize your email marketing strategy.",
     regions: ["Global"],
     link: "https://www.aweber.com",
+    tags: ["list-building", "automated-sequences", "smart-designer", "reliable-delivery"],
   },
   {
-    id: 99,
-    name: "Omnisend",
-    category: "Email Marketing",
-    description: "AI-powered email and SMS marketing for e-commerce",
-    pricing: "Free tier available, Standard at $16/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Omnisend specializes in e-commerce email marketing with AI-powered personalization and automation.",
-    personalizedPrompt:
-      "Create personalized product recommendations, automate cart abandonment emails, segment customers by purchase behavior, and increase e-commerce sales.",
-    regions: ["Global"],
-    link: "https://www.omnisend.com",
-  },
-  {
-    id: 100,
+    id: 124,
     name: "Drip AI",
     category: "Email Marketing",
     description: "AI-powered email marketing automation for e-commerce",
     pricing: "Starting at $39/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Drip AI focuses on e-commerce email marketing with intelligent customer segmentation and automation.",
+      "Drip AI specializes in email marketing for e-commerce businesses, with AI features for behavioral targeting, product recommendations, and revenue attribution. It's perfect for online stores.",
     personalizedPrompt:
-      "Create sophisticated e-commerce email campaigns, predict customer behavior, automate product recommendations, and increase customer lifetime value.",
+      "Create targeted email campaigns based on customer purchase behavior, send personalized product recommendations, track revenue generated from email campaigns, and optimize your e-commerce email marketing for maximum ROI.",
     regions: ["Global"],
     link: "https://www.drip.com",
+    tags: ["ecommerce-focused", "behavioral-targeting", "product-recommendations", "revenue-attribution"],
+  },
+  {
+    id: 125,
+    name: "Omnisend AI",
+    category: "Email Marketing",
+    description: "AI-powered omnichannel marketing automation for e-commerce",
+    pricing: "Free tier available, paid plans from $16/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Omnisend AI provides omnichannel marketing automation that combines email, SMS, and push notifications with AI-powered segmentation and personalization specifically for e-commerce businesses.",
+    personalizedPrompt:
+      "Create omnichannel marketing campaigns that reach customers via email, SMS, and push notifications, segment customers based on purchase behavior, personalize product recommendations, and recover abandoned carts automatically.",
+    regions: ["Global"],
+    link: "https://www.omnisend.com",
+    tags: ["omnichannel-automation", "sms-integration", "push-notifications", "cart-recovery"],
   },
 
-  // Website Building (25+ tools)
+  // Website Building (15+ tools)
   {
-    id: 101,
+    id: 126,
     name: "Wix AI",
     category: "Website Building",
-    description: "AI website builder that creates sites based on your answers",
-    pricing: "Free tier available, paid plans start at $14/month",
+    description: "AI-powered website builder with design intelligence",
+    pricing: "Free tier available, paid plans from $14/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Wix AI creates a complete website for you by asking questions about your business and automatically choosing designs and content.",
+      "Wix AI creates websites automatically based on your answers to a few questions. It designs layouts, chooses colors, and adds content, making it perfect for entrepreneurs who need a website quickly.",
     personalizedPrompt:
-      "Create a professional website without technical skills, customize design to match your brand, add e-commerce functionality, and optimize for search engines.",
+      "Create a professional website in minutes by answering simple questions about your business, get AI-generated layouts and content that match your brand, customize your site easily with drag-and-drop tools, and launch your online presence without technical skills.",
     regions: ["Global"],
-    tags: ["startup-fav"],
     link: "https://www.wix.com",
+    tags: ["automatic-design", "quick-setup", "drag-and-drop", "no-technical-skills"],
   },
   {
-    id: 102,
+    id: 127,
     name: "Squarespace AI",
     category: "Website Building",
-    description: "AI-enhanced website building with design assistance",
+    description: "AI-enhanced website builder with professional templates",
     pricing: "Starting at $12/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Squarespace AI helps create beautiful websites with smart design suggestions and content recommendations.",
+      "Squarespace AI helps create beautiful, professional websites with AI-powered design suggestions, content generation, and layout optimization. It's known for stunning visual designs.",
     personalizedPrompt:
-      "Build a stunning portfolio website that showcases your work, create an online store with beautiful product displays, design a professional business website that builds credibility, and optimize your site for mobile users.",
+      "Build a visually stunning website that reflects your brand aesthetic, get AI suggestions for layouts and content, optimize your site for mobile and desktop viewing, and create a professional online presence that impresses visitors.",
     regions: ["Global"],
     link: "https://www.squarespace.com",
+    tags: ["professional-templates", "visual-design", "mobile-optimization", "brand-aesthetic"],
   },
   {
-    id: 103,
-    name: "WordPress AI",
-    category: "Website Building",
-    description: "AI-powered plugins and tools for WordPress websites",
-    pricing: "Free tier available, premium plugins vary",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "WordPress AI includes various plugins that add smart features to WordPress websites for better performance and user experience.",
-    personalizedPrompt:
-      "Optimize your WordPress website for search engines, create engaging content automatically, improve website speed and performance, and add intelligent features that enhance user experience.",
-    regions: ["Global"],
-    link: "https://wordpress.com",
-  },
-  {
-    id: 104,
+    id: 128,
     name: "Webflow AI",
     category: "Website Building",
-    description: "AI-assisted web design and development platform",
-    pricing: "Free tier available, paid plans start at $12/month",
+    description: "AI-powered visual web design platform",
+    pricing: "Free tier available, paid plans from $12/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Webflow AI combines visual web design with AI assistance to create custom websites with professional designs.",
+      "Webflow AI combines visual design with powerful customization options, using AI to suggest layouts, optimize performance, and generate content. It's perfect for designers and businesses that want more control.",
     personalizedPrompt:
-      "Design custom websites that perfectly match your brand vision, create responsive designs that work on all devices, build complex web applications without coding, and optimize for performance and SEO.",
+      "Design custom websites with professional-level control, use AI to optimize site performance and SEO, create responsive designs that work perfectly on all devices, and build complex websites without coding knowledge.",
     regions: ["Global"],
     link: "https://webflow.com",
+    tags: ["visual-design", "custom-websites", "seo-optimization", "responsive-design"],
   },
   {
-    id: 105,
-    name: "Bookmark AiDA",
-    category: "Website Building",
-    description: "AI Design Assistant that builds websites automatically",
-    pricing: "Starting at $11.99/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Bookmark's AiDA creates websites automatically based on your business type and preferences, handling design, content, and layout.",
-    personalizedPrompt:
-      "Get a complete website built automatically for your business type, customize colors and content to match your brand, add business features like contact forms, and launch your professional online presence quickly.",
-    regions: ["Global"],
-    link: "https://www.bookmark.com",
-  },
-  {
-    id: 106,
+    id: 129,
     name: "10Web AI",
     category: "Website Building",
     description: "AI-powered WordPress website builder and hosting",
     pricing: "Starting at $10/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "10Web AI creates WordPress websites automatically using artificial intelligence and provides optimized hosting.",
+      "10Web AI creates WordPress websites automatically using AI, then provides hosting and optimization services. It's perfect for businesses that want WordPress without the complexity.",
     personalizedPrompt:
-      "Create a professional WordPress website automatically, optimize for speed and search engines, add e-commerce functionality, and manage your website with AI assistance.",
+      "Create a WordPress website automatically with AI design and content generation, get managed hosting that keeps your site fast and secure, optimize your site for search engines, and maintain your website without technical expertise.",
     regions: ["Global"],
     link: "https://10web.io",
+    tags: ["wordpress-automation", "managed-hosting", "seo-optimization", "maintenance-free"],
   },
   {
-    id: 107,
+    id: 130,
     name: "Durable AI",
     category: "Website Building",
-    description: "AI website builder that creates complete business websites",
+    description: "AI website builder that creates sites in 30 seconds",
     pricing: "Starting at $12/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Durable AI builds complete business websites in minutes, including content, images, and functionality tailored to your business.",
+      "Durable AI creates complete business websites in 30 seconds, including content, images, and contact forms. It's designed for small business owners who need a website immediately.",
     personalizedPrompt:
-      "Generate a complete business website with AI-written content, professional images, contact forms, and booking systems that represent your brand professionally.",
+      "Get a complete business website in 30 seconds with AI-generated content and images, include essential business features like contact forms and service descriptions, customize your site to match your brand, and launch your online presence instantly.",
     regions: ["Global"],
     link: "https://durable.co",
+    tags: ["instant-creation", "complete-websites", "business-features", "immediate-launch"],
   },
   {
-    id: 108,
-    name: "Hostinger AI Builder",
+    id: 131,
+    name: "Hostinger AI Website Builder",
     category: "Website Building",
     description: "AI-powered website builder with hosting included",
     pricing: "Starting at $2.99/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Hostinger's AI Builder creates websites automatically and includes reliable hosting at affordable prices.",
+      "Hostinger AI Website Builder creates websites using AI and includes hosting, domain, and email services. It's one of the most affordable options for getting online quickly.",
     personalizedPrompt:
-      "Create a professional website quickly and affordably, get reliable hosting included, optimize for mobile devices, and launch your online presence without technical knowledge.",
+      "Create an affordable website with AI assistance, get hosting, domain, and email services included, build your site quickly with AI-generated content and layouts, and maintain your online presence cost-effectively.",
     regions: ["Global"],
-    link: "https://www.hostinger.com",
+    link: "https://www.hostinger.com/website-builder",
+    tags: ["affordable", "all-inclusive", "cost-effective", "quick-setup"],
   },
   {
-    id: 109,
-    name: "GoDaddy AI",
+    id: 132,
+    name: "Bookmark AiDA",
     category: "Website Building",
-    description: "AI website builder with domain and hosting services",
-    pricing: "Starting at $9.99/month",
+    description: "AI Design Assistant for automated website creation",
+    pricing: "Starting at $11.99/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "GoDaddy's AI builder creates websites automatically and includes domain registration and hosting services.",
+      "Bookmark's AiDA (Artificial intelligence Design Assistant) creates websites by learning about your business and automatically designing layouts, choosing colors, and adding relevant content.",
     personalizedPrompt:
-      "Build a professional website with domain and hosting included, create content that matches your business, add online booking and payment features, and establish your web presence quickly.",
+      "Let AI learn about your business and create a customized website automatically, get personalized design recommendations based on your industry, optimize your site for conversions, and update your website easily as your business grows.",
     regions: ["Global"],
-    link: "https://www.godaddy.com",
+    link: "https://www.bookmark.com",
+    tags: ["ai-learning", "automated-design", "industry-specific", "conversion-optimization"],
   },
   {
-    id: 110,
+    id: 133,
     name: "Zyro AI",
     category: "Website Building",
-    description: "AI-powered website builder with content generation",
+    description: "AI website builder with content generation and design tools",
     pricing: "Starting at $2.90/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Zyro AI creates websites with AI-generated content, logos, and designs tailored to your business needs.",
+      "Zyro AI provides website building with AI-powered content generation, logo creation, and design suggestions. It's affordable and includes e-commerce features for online stores.",
     personalizedPrompt:
-      "Generate a complete website with AI-written content, create a professional logo automatically, add e-commerce functionality, and launch your business online affordably.",
+      "Build a website with AI-generated content and logos, create an online store with e-commerce features, get design suggestions that match your brand, and launch your business online affordably.",
     regions: ["Global"],
     link: "https://zyro.com",
+    tags: ["content-generation", "logo-creation", "ecommerce-features", "affordable-pricing"],
+  },
+  {
+    id: 134,
+    name: "Framer AI",
+    category: "Website Building",
+    description: "AI-powered web design tool for interactive websites",
+    pricing: "Free tier available, paid plans from $5/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Framer AI helps create interactive, animated websites with AI assistance for layout generation, content creation, and design optimization. It's perfect for creating modern, engaging websites.",
+    personalizedPrompt:
+      "Create modern, interactive websites with AI-powered design assistance, add animations and micro-interactions that engage visitors, optimize your site for user experience, and build websites that stand out from the competition.",
+    regions: ["Global"],
+    link: "https://www.framer.com",
+    tags: ["interactive-design", "animations", "modern-websites", "user-experience"],
+  },
+  {
+    id: 135,
+    name: "Elementor AI",
+    category: "Website Building",
+    description: "AI-powered WordPress page builder",
+    pricing: "Starting at $49/year",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Elementor AI adds artificial intelligence to WordPress website building, with features like AI content generation, layout suggestions, and design optimization for creating professional WordPress sites.",
+    personalizedPrompt:
+      "Build professional WordPress websites with AI-powered design suggestions, generate content automatically for your pages, create responsive layouts that work on all devices, and customize your site without coding knowledge.",
+    regions: ["Global"],
+    link: "https://elementor.com",
+    tags: ["wordpress-builder", "content-generation", "responsive-layouts", "professional-design"],
+  },
+  {
+    id: 136,
+    name: "Jimdo AI",
+    category: "Website Building",
+    description: "AI website builder with automated design and content",
+    pricing: "Free tier available, paid plans from $9/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Jimdo AI creates websites automatically by asking about your business and goals, then generates appropriate layouts, content, and features. It's designed for small businesses and personal websites.",
+    personalizedPrompt:
+      "Answer simple questions about your business and let AI create your website automatically, get content and images that match your industry, customize your site easily with simple tools, and maintain your website without technical knowledge.",
+    regions: ["Global"],
+    link: "https://www.jimdo.com",
+    tags: ["automated-creation", "simple-questions", "industry-matching", "easy-maintenance"],
+  },
+  {
+    id: 137,
+    name: "GoDaddy AI",
+    category: "Website Building",
+    description: "AI-powered website builder with business tools",
+    pricing: "Starting at $9.99/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "GoDaddy AI creates websites quickly with AI assistance and includes business tools like appointment scheduling, online payments, and marketing features. It's perfect for service-based businesses.",
+    personalizedPrompt:
+      "Create a business website with AI assistance, add appointment scheduling and online payment features, integrate marketing tools to grow your business, and manage your entire online presence from one platform.",
+    regions: ["Global"],
+    link: "https://www.godaddy.com/websites/website-builder",
+    tags: ["business-tools", "appointment-scheduling", "online-payments", "marketing-integration"],
+  },
+  {
+    id: 138,
+    name: "Weebly AI",
+    category: "Website Building",
+    description: "AI-enhanced website builder with e-commerce features",
+    pricing: "Free tier available, paid plans from $6/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Weebly AI provides website building with AI-powered design suggestions and includes e-commerce features for online stores. It's user-friendly and perfect for small businesses starting online.",
+    personalizedPrompt:
+      "Build a website and online store with AI design assistance, add e-commerce features to sell products online, get design suggestions that improve your site's appearance, and grow your business with integrated marketing tools.",
+    regions: ["Global"],
+    link: "https://www.weebly.com",
+    tags: ["ecommerce-integration", "design-suggestions", "user-friendly", "marketing-tools"],
+  },
+  {
+    id: 139,
+    name: "Site123 AI",
+    category: "Website Building",
+    description: "AI-powered website builder with multilingual support",
+    pricing: "Free tier available, paid plans from $12.80/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Site123 AI creates websites with AI assistance and offers multilingual support, making it perfect for businesses that serve international markets or want to reach global audiences.",
+    personalizedPrompt:
+      "Create a multilingual website that reaches global audiences, get AI assistance with design and content creation, optimize your site for international SEO, and expand your business to new markets easily.",
+    regions: ["Global"],
+    link: "https://www.site123.com",
+    tags: ["multilingual-support", "global-reach", "international-seo", "market-expansion"],
+  },
+  {
+    id: 140,
+    name: "Strikingly AI",
+    category: "Website Building",
+    description: "AI-powered single-page website builder",
+    pricing: "Free tier available, paid plans from $8/month",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Strikingly AI specializes in creating beautiful single-page websites with AI assistance. It's perfect for portfolios, landing pages, and simple business websites that need to make a strong impression.",
+    personalizedPrompt:
+      "Create a stunning single-page website that tells your story effectively, use AI to optimize your content and layout for maximum impact, build a professional portfolio or landing page, and make a strong first impression on visitors.",
+    regions: ["Global"],
+    link: "https://www.strikingly.com",
+    tags: ["single-page-sites", "portfolio-creation", "landing-pages", "strong-impression"],
   },
 
-  // Finance & Accounting (20+ tools)
+  // Finance & Accounting (10+ tools)
   {
-    id: 111,
+    id: 141,
     name: "QuickBooks AI",
     category: "Finance & Accounting",
-    description: "AI-enhanced accounting software for small businesses",
+    description: "AI-powered accounting software for small businesses",
     pricing: "Starting at $15/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "QuickBooks AI helps manage your business finances with intelligent categorization, expense tracking, and financial insights.",
+      "QuickBooks AI automates bookkeeping tasks, categorizes expenses, and provides financial insights using artificial intelligence. It's perfect for small business owners who want to manage finances without an accountant.",
     personalizedPrompt:
-      "Manage business expenses automatically, track income and profits, generate financial reports, and prepare for tax season with intelligent bookkeeping assistance.",
+      "Automate your bookkeeping and expense categorization, get AI-powered insights into your business finances, track cash flow and profitability automatically, and prepare for taxes with organized financial records.",
     regions: ["Global"],
-    tags: ["startup-fav"],
     link: "https://quickbooks.intuit.com",
+    tags: ["automated-bookkeeping", "expense-categorization", "financial-insights", "tax-preparation"],
   },
   {
-    id: 112,
+    id: 142,
     name: "Xero AI",
     category: "Finance & Accounting",
-    description: "AI-powered cloud accounting platform",
+    description: "AI-enhanced cloud accounting platform",
     pricing: "Starting at $13/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Xero AI provides cloud-based accounting with intelligent features for expense management, invoicing, and financial reporting.",
+      "Xero AI provides cloud-based accounting with AI features like automatic bank reconciliation, expense categorization, and financial reporting. It's designed for small businesses and their advisors.",
     personalizedPrompt:
-      "Automate expense categorization, create professional invoices, track business cash flow, and get insights into your financial performance.",
+      "Manage your business finances in the cloud with automatic bank reconciliation, categorize expenses and income automatically, generate financial reports for better decision-making, and collaborate with your accountant seamlessly.",
     regions: ["Global"],
     link: "https://www.xero.com",
+    tags: ["cloud-accounting", "bank-reconciliation", "financial-reporting", "advisor-collaboration"],
   },
   {
-    id: 113,
-    name: "Wave Accounting AI",
-    category: "Finance & Accounting",
-    description: "Free AI-enhanced accounting software",
-    pricing: "Free with paid add-ons",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Wave offers free accounting software with AI features for small businesses and freelancers to manage their finances.",
-    personalizedPrompt:
-      "Track business income and expenses for free, create professional invoices, manage receipts automatically, and prepare financial reports for your business.",
-    regions: ["Global"],
-    link: "https://www.waveapps.com",
-  },
-  {
-    id: 114,
+    id: 143,
     name: "FreshBooks AI",
     category: "Finance & Accounting",
     description: "AI-powered invoicing and accounting for service businesses",
     pricing: "Starting at $15/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "FreshBooks AI specializes in invoicing and time tracking for service-based businesses with intelligent automation.",
+      "FreshBooks AI specializes in invoicing and time tracking for service-based businesses, with AI features for expense categorization, project profitability analysis, and automated follow-ups.",
     personalizedPrompt:
-      "Create professional invoices automatically, track time spent on client projects, manage client relationships, and get paid faster with automated follow-ups.",
+      "Create professional invoices and track payments automatically, monitor project profitability with AI insights, track time spent on client work accurately, and follow up on overdue payments automatically.",
     regions: ["Global"],
     link: "https://www.freshbooks.com",
+    tags: ["invoicing", "time-tracking", "project-profitability", "payment-follow-up"],
   },
   {
-    id: 115,
+    id: 144,
+    name: "Wave Accounting AI",
+    category: "Finance & Accounting",
+    description: "Free AI-powered accounting software for small businesses",
+    pricing: "Free for core features, paid add-ons available",
+    skillLevel: "Beginner",
+    beginnerExplanation:
+      "Wave AI provides free accounting software with AI-powered features like automatic expense categorization, receipt scanning, and financial reporting. It's perfect for very small businesses and freelancers.",
+    personalizedPrompt:
+      "Manage your business finances for free with AI-powered expense categorization, scan receipts automatically for easy record-keeping, generate financial reports to understand your business performance, and track income and expenses effortlessly.",
+    regions: ["North America"],
+    link: "https://www.waveapps.com",
+    tags: ["free-accounting", "receipt-scanning", "expense-tracking", "financial-reports"],
+  },
+  {
+    id: 145,
     name: "Sage AI",
     category: "Finance & Accounting",
-    description: "AI-enhanced accounting and business management",
+    description: "AI-enhanced business management and accounting software",
     pricing: "Starting at $25/month",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Sage AI provides comprehensive accounting and business management tools with intelligent insights and automation.",
+      "Sage AI provides comprehensive business management with AI-powered features for accounting, payroll, and business intelligence. It's designed for growing businesses that need more advanced features.",
     personalizedPrompt:
-      "Manage comprehensive business finances, automate accounting processes, generate detailed financial reports, and gain insights into business performance.",
+      "Manage all aspects of your business finances with AI-powered insights, automate payroll and HR processes, get predictive analytics for better business planning, and scale your financial management as your business grows.",
     regions: ["Global"],
     link: "https://www.sage.com",
+    tags: ["business-management", "payroll-automation", "predictive-analytics", "scalable-solution"],
   },
   {
-    id: 116,
+    id: 146,
     name: "Receipt Bank (Dext)",
     category: "Finance & Accounting",
-    description: "AI-powered receipt and expense management",
-    pricing: "Starting at $10/month",
+    description: "AI-powered receipt and document processing",
+    pricing: "Starting at $18/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Receipt Bank uses AI to automatically extract data from receipts and invoices, making expense tracking effortless.",
+      "Receipt Bank (now Dext) uses AI to automatically extract data from receipts, invoices, and bank statements, then categorizes and organizes them for your accounting software.",
     personalizedPrompt:
-      "Automatically capture receipt data, categorize expenses intelligently, integrate with accounting software, and eliminate manual data entry for business expenses.",
+      "Eliminate manual data entry by automatically extracting information from receipts and invoices, organize your financial documents with AI categorization, integrate seamlessly with your accounting software, and save hours on bookkeeping tasks.",
     regions: ["Global"],
     link: "https://dext.com",
+    tags: ["receipt-processing", "data-extraction", "document-organization", "bookkeeping-automation"],
   },
   {
-    id: 117,
+    id: 147,
     name: "Zoho Books AI",
     category: "Finance & Accounting",
-    description: "AI-enhanced online accounting software",
+    description: "AI-powered accounting software with business intelligence",
     pricing: "Starting at $10/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Zoho Books AI offers comprehensive online accounting with intelligent automation for small to medium businesses.",
+      "Zoho Books AI provides accounting software with AI-powered features like expense categorization, financial insights, and automated workflows. It integrates well with other Zoho business apps.",
     personalizedPrompt:
-      "Automate invoicing and expense tracking, manage inventory and projects, generate financial insights, and integrate with other business tools.",
+      "Automate your accounting processes with AI-powered expense categorization, get intelligent insights into your business finances, create automated workflows for recurring tasks, and integrate with other business tools seamlessly.",
     regions: ["Global"],
     link: "https://www.zoho.com/books",
+    tags: ["expense-automation", "business-intelligence", "workflow-automation", "app-integration"],
   },
   {
-    id: 118,
-    name: "PlanGuru AI",
-    category: "Finance & Accounting",
-    description: "AI-powered budgeting and financial planning",
-    pricing: "Starting at $99/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "PlanGuru AI helps create detailed budgets and financial forecasts using intelligent modeling and analysis.",
-    personalizedPrompt:
-      "Create comprehensive business budgets, forecast future financial performance, plan for business growth, and make informed financial decisions.",
-    regions: ["Global"],
-    link: "https://www.planguru.com",
-  },
-  {
-    id: 119,
+    id: 148,
     name: "Kashoo AI",
     category: "Finance & Accounting",
-    description: "AI-enhanced small business accounting",
+    description: "AI-enhanced accounting software for small businesses",
     pricing: "Starting at $19.95/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Kashoo AI provides simple accounting software with intelligent features designed specifically for small businesses.",
+      "Kashoo AI provides simple accounting software with AI features for automatic categorization, financial reporting, and tax preparation. It's designed for small business owners who want straightforward financial management.",
     personalizedPrompt:
-      "Simplify business accounting processes, automatically categorize transactions, create professional financial reports, and track business profitability.",
-    regions: ["Global"],
+      "Simplify your business accounting with AI-powered categorization, generate clear financial reports to understand your business performance, prepare for taxes with organized records, and manage your finances without complexity.",
+    regions: ["North America"],
     link: "https://kashoo.com",
+    tags: ["simple-accounting", "clear-reporting", "tax-preparation", "straightforward-management"],
   },
   {
-    id: 120,
-    name: "Billy AI",
+    id: 149,
+    name: "Bench AI",
     category: "Finance & Accounting",
-    description: "AI-powered invoicing and expense management",
-    pricing: "Starting at $9/month",
+    description: "AI-powered bookkeeping service with human oversight",
+    pricing: "Starting at $190/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Billy AI focuses on invoicing and expense management with intelligent automation for small businesses and freelancers.",
+      "Bench AI combines artificial intelligence with human bookkeepers to provide complete bookkeeping services. They handle all your bookkeeping while you focus on running your business.",
     personalizedPrompt:
-      "Create professional invoices quickly, track business expenses automatically, manage client payments, and organize financial documents efficiently.",
+      "Outsource your bookkeeping to AI-powered professionals, get monthly financial statements prepared by experts, receive tax-ready books at year-end, and focus on growing your business while experts handle your finances.",
+    regions: ["North America"],
+    link: "https://bench.co",
+    tags: ["outsourced-bookkeeping", "professional-service", "monthly-statements", "tax-ready-books"],
+  },
+  {
+    id: 150,
+    name: "PlanGuru AI",
+    category: "Finance & Accounting",
+    description: "AI-powered budgeting and financial planning software",
+    pricing: "Starting at $99/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "PlanGuru AI helps create budgets, forecasts, and financial plans using artificial intelligence. It's perfect for businesses that want to plan ahead and make data-driven financial decisions.",
+    personalizedPrompt:
+      "Create accurate budgets and financial forecasts with AI assistance, plan for business growth with scenario modeling, track performance against your financial goals, and make informed decisions based on predictive analytics.",
     regions: ["Global"],
-    link: "https://www.billy.dk",
+    link: "https://www.planguru.com",
+    tags: ["budgeting", "financial-forecasting", "scenario-modeling", "predictive-analytics"],
   },
 
-  // Research & Learning (25+ tools)
+  // Research & Learning (10+ tools)
   {
-    id: 121,
+    id: 151,
     name: "Perplexity AI",
     category: "Research & Learning",
-    description: "AI-powered research and question-answering platform",
+    description: "AI-powered research assistant and search engine",
     pricing: "Free tier available, Pro at $20/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Perplexity AI helps you research topics and get accurate answers with citations to reliable sources.",
+      "Perplexity AI acts as a research assistant that can answer questions, summarize information, and provide sources. It's like having a smart researcher that can quickly find and explain information on any topic.",
     personalizedPrompt:
-      "Research industry trends and competitors, find accurate information for business decisions, explore new market opportunities, and stay updated on relevant topics.",
+      "Research industry trends and competitor analysis quickly, get comprehensive answers to business questions with cited sources, stay updated on developments in your field, and make informed decisions based on current information.",
     regions: ["Global"],
-    tags: ["trending"],
     link: "https://www.perplexity.ai",
+    tags: ["research-assistant", "cited-sources", "industry-trends", "competitor-analysis"],
   },
   {
-    id: 122,
-    name: "Elicit AI",
-    category: "Research & Learning",
-    description: "AI research assistant for academic and business research",
-    pricing: "Free tier available, Plus at $10/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Elicit AI helps conduct thorough research by finding and summarizing relevant papers and studies.",
-    personalizedPrompt:
-      "Conduct market research for your industry, find evidence-based insights for business strategies, analyze academic research relevant to your field, and summarize complex information.",
-    regions: ["Global"],
-    link: "https://elicit.org",
-  },
-  {
-    id: 123,
+    id: 152,
     name: "Semantic Scholar AI",
     category: "Research & Learning",
-    description: "AI-powered academic search and research platform",
+    description: "AI-powered academic research and paper discovery",
     pricing: "Free",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Semantic Scholar AI helps find and understand academic research papers with intelligent search and summarization.",
+      "Semantic Scholar AI helps find and understand academic research papers using artificial intelligence. It's perfect for entrepreneurs who want to base their business decisions on scientific research and evidence.",
     personalizedPrompt:
-      "Find academic research relevant to your business, understand complex studies and trends, access evidence-based insights, and stay informed about innovations in your field.",
+      "Find relevant academic research to support your business strategies, understand complex research papers with AI summaries, discover evidence-based approaches to business challenges, and stay informed about scientific developments in your industry.",
     regions: ["Global"],
     link: "https://www.semanticscholar.org",
+    tags: ["academic-research", "evidence-based", "research-summaries", "scientific-developments"],
   },
   {
-    id: 124,
+    id: 153,
+    name: "Elicit AI",
+    category: "Research & Learning",
+    description: "AI research assistant for analyzing papers and data",
+    pricing: "Free tier available, paid plans from $10/month",
+    skillLevel: "Intermediate",
+    beginnerExplanation:
+      "Elicit AI helps analyze research papers, extract key findings, and synthesize information from multiple sources. It's great for entrepreneurs who need to understand complex research quickly.",
+    personalizedPrompt:
+      "Analyze research papers relevant to your business quickly, extract key findings and insights from multiple studies, synthesize information to support business decisions, and understand complex topics without spending hours reading.",
+    regions: ["Global"],
+    link: "https://elicit.org",
+    tags: ["paper-analysis", "key-findings", "information-synthesis", "complex-topics"],
+  },
+  {
+    id: 154,
     name: "Coursera AI",
     category: "Research & Learning",
-    description: "AI-enhanced online learning platform",
-    pricing: "Free courses available, paid certificates from $39-79/month",
+    description: "AI-powered online learning platform with personalized recommendations",
+    pricing: "Free courses available, paid plans from $39/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Coursera AI provides personalized learning recommendations and AI-enhanced courses to develop business skills.",
+      "Coursera AI provides online courses with AI-powered personalized learning paths, skill assessments, and career recommendations. It's perfect for entrepreneurs who want to continuously learn and develop new skills.",
     personalizedPrompt:
-      "Develop business and entrepreneurship skills, learn about AI and technology trends, get professional certifications, and stay competitive in your industry.",
+      "Develop new business skills with AI-recommended courses, get personalized learning paths based on your goals, earn certificates that enhance your professional credibility, and stay competitive by continuously updating your knowledge.",
     regions: ["Global"],
     link: "https://www.coursera.org",
+    tags: ["skill-development", "personalized-learning", "professional-certificates", "continuous-learning"],
   },
   {
-    id: 125,
+    id: 155,
     name: "Khan Academy AI",
     category: "Research & Learning",
     description: "AI-powered personalized learning platform",
     pricing: "Free",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Khan Academy uses AI to provide personalized learning experiences across various subjects including business and entrepreneurship.",
+      "Khan Academy AI provides free personalized learning with AI tutoring features. While focused on academic subjects, it's great for entrepreneurs who want to strengthen foundational skills in math, economics, or other business-relevant topics.",
     personalizedPrompt:
-      "Learn fundamental business concepts, develop entrepreneurship skills, understand finance and economics, and build knowledge that supports your business growth.",
+      "Strengthen foundational skills in math, economics, and other business-relevant subjects, get personalized AI tutoring that adapts to your learning pace, access free high-quality education to support your business knowledge, and fill knowledge gaps efficiently.",
     regions: ["Global"],
     link: "https://www.khanacademy.org",
+    tags: ["foundational-skills", "personalized-tutoring", "free-education", "knowledge-gaps"],
   },
   {
-    id: 126,
+    id: 156,
     name: "Udemy AI",
     category: "Research & Learning",
-    description: "AI-enhanced online course marketplace",
-    pricing: "Individual courses $10-200, monthly subscription available",
+    description: "AI-enhanced online learning marketplace",
+    pricing: "Individual courses from $10-200, subscription at $29.99/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Udemy uses AI to recommend relevant courses and provide personalized learning paths for skill development.",
+      "Udemy AI provides online courses with AI-powered recommendations, progress tracking, and personalized learning experiences. It offers practical business skills and technical training for entrepreneurs.",
     personalizedPrompt:
-      "Learn specific skills for your business, stay updated on industry trends, develop technical abilities, and invest in your professional growth.",
+      "Learn practical business skills with AI-recommended courses, get personalized learning experiences based on your progress, access affordable training in marketing, technology, and entrepreneurship, and develop skills that directly impact your business success.",
     regions: ["Global"],
     link: "https://www.udemy.com",
+    tags: ["practical-skills", "affordable-training", "business-skills", "entrepreneurship"],
   },
   {
-    id: 127,
+    id: 157,
     name: "Skillshare AI",
     category: "Research & Learning",
     description: "AI-powered creative learning platform",
     pricing: "Free tier available, Premium at $13.75/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Skillshare AI provides personalized recommendations for creative and business skills development.",
+      "Skillshare AI focuses on creative skills with AI-powered course recommendations and project-based learning. It's perfect for entrepreneurs in creative industries or those who want to develop design and marketing skills.",
     personalizedPrompt:
-      "Develop creative skills for your business, learn marketing and branding techniques, improve design abilities, and enhance your entrepreneurial toolkit.",
+      "Develop creative skills for your business with AI-recommended courses, learn design, marketing, and branding through hands-on projects, get inspiration from a creative community, and enhance your business with better visual and creative skills.",
     regions: ["Global"],
     link: "https://www.skillshare.com",
-  },
-  {
-    id: 128,
-    name: "MasterClass AI",
-    category: "Research & Learning",
-    description: "AI-enhanced premium learning platform",
-    pricing: "$180/year",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "MasterClass uses AI to recommend courses taught by world-renowned experts in business, creativity, and leadership.",
-    personalizedPrompt:
-      "Learn from successful entrepreneurs and leaders, develop leadership skills, gain insights from industry experts, and apply proven strategies to your business.",
-    regions: ["Global"],
-    link: "https://www.masterclass.com",
-  },
-  {
-    id: 129,
-    name: "LinkedIn Learning AI",
-    category: "Research & Learning",
-    description: "AI-powered professional development platform",
-    pricing: "$29.99/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "LinkedIn Learning uses AI to recommend professional courses and skills based on your career goals and industry.",
-    personalizedPrompt:
-      "Develop professional skills relevant to your business, learn about industry trends, network with professionals, and advance your entrepreneurial journey.",
-    regions: ["Global"],
-    link: "https://www.linkedin.com/learning",
-  },
-  {
-    id: 130,
-    name: "Brilliant AI",
-    category: "Research & Learning",
-    description: "AI-powered STEM learning platform",
-    pricing: "Free tier available, Premium at $12.99/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Brilliant AI teaches mathematics, science, and computer science concepts that are valuable for technology-focused businesses.",
-    personalizedPrompt:
-      "Understand data analysis and statistics for your business, learn about AI and technology concepts, develop analytical thinking skills, and apply mathematical insights to business decisions.",
-    regions: ["Global"],
-    link: "https://brilliant.org",
-  },
-
-  // HR & Recruitment (20+ tools)
-  {
-    id: 131,
-    name: "BambooHR AI",
-    category: "HR & Recruitment",
-    description: "AI-enhanced human resources management platform",
-    pricing: "Starting at $6.19/month per employee",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "BambooHR AI helps manage employees with intelligent features for hiring, onboarding, and performance tracking.",
-    personalizedPrompt:
-      "Streamline employee onboarding, track team performance, manage time off requests, and create a positive workplace culture as your business grows.",
-    regions: ["Global"],
-    link: "https://www.bamboohr.com",
-  },
-  {
-    id: 132,
-    name: "Indeed AI",
-    category: "HR & Recruitment",
-    description: "AI-powered job posting and candidate matching",
-    pricing: "Free job posting, sponsored posts from $5/day",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Indeed AI helps you find the right employees by intelligently matching job postings with qualified candidates.",
-    personalizedPrompt:
-      "Find qualified employees for your growing business, create compelling job descriptions, screen candidates efficiently, and build a strong team.",
-    regions: ["Global"],
-    tags: ["our-top-pick"],
-    link: "https://www.indeed.com",
-  },
-  {
-    id: 133,
-    name: "LinkedIn Recruiter AI",
-    category: "HR & Recruitment",
-    description: "AI-powered professional networking and recruitment",
-    pricing: "Starting at $119.95/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "LinkedIn Recruiter AI uses intelligent search and recommendations to help find and connect with potential employees.",
-    personalizedPrompt:
-      "Network with potential employees and collaborators, recruit skilled professionals, build your business network, and establish thought leadership in your industry.",
-    regions: ["Global"],
-    link: "https://www.linkedin.com/talent/recruiter",
-  },
-  {
-    id: 134,
-    name: "Workday AI",
-    category: "HR & Recruitment",
-    description: "AI-powered enterprise HR and finance platform",
-    pricing: "Custom pricing for enterprise",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Workday AI provides comprehensive HR management with intelligent analytics for larger organizations.",
-    personalizedPrompt:
-      "Manage enterprise-level HR processes, analyze workforce data, optimize employee performance, and plan for organizational growth.",
-    regions: ["Global"],
-    link: "https://www.workday.com",
-  },
-  {
-    id: 135,
-    name: "Greenhouse AI",
-    category: "HR & Recruitment",
-    description: "AI-enhanced hiring and recruitment platform",
-    pricing: "Starting at $500/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Greenhouse AI streamlines the hiring process with intelligent candidate screening and interview coordination.",
-    personalizedPrompt:
-      "Optimize your hiring process, screen candidates more effectively, coordinate interviews efficiently, and make better hiring decisions for your team.",
-    regions: ["Global"],
-    link: "https://www.greenhouse.io",
-  },
-  {
-    id: 136,
-    name: "ZipRecruiter AI",
-    category: "HR & Recruitment",
-    description: "AI-powered job posting and candidate matching",
-    pricing: "Starting at $249/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "ZipRecruiter AI automatically posts jobs to multiple sites and uses smart matching to connect you with qualified candidates.",
-    personalizedPrompt:
-      "Reach more qualified candidates, get applications faster, screen candidates intelligently, and hire the right people for your business.",
-    regions: ["Global"],
-    link: "https://www.ziprecruiter.com",
-  },
-  {
-    id: 137,
-    name: "Lever AI",
-    category: "HR & Recruitment",
-    description: "AI-powered recruiting and talent management",
-    pricing: "Starting at $400/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Lever AI provides advanced recruiting tools with intelligent candidate sourcing and team collaboration features.",
-    personalizedPrompt:
-      "Source candidates from multiple channels, collaborate with your team on hiring decisions, track candidate progress, and build a strong recruitment process.",
-    regions: ["Global"],
-    link: "https://www.lever.co",
-  },
-  {
-    id: 138,
-    name: "JazzHR AI",
-    category: "HR & Recruitment",
-    description: "AI-enhanced recruiting software for growing businesses",
-    pricing: "Starting at $39/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "JazzHR AI helps small to medium businesses streamline their hiring process with intelligent candidate management.",
-    personalizedPrompt:
-      "Organize your hiring process, post jobs to multiple boards, screen candidates efficiently, and make informed hiring decisions as your business grows.",
-    regions: ["Global"],
-    link: "https://www.jazzhr.com",
-  },
-  {
-    id: 139,
-    name: "SmartRecruiters AI",
-    category: "HR & Recruitment",
-    description: "AI-powered talent acquisition platform",
-    pricing: "Custom pricing",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "SmartRecruiters AI provides comprehensive talent acquisition with intelligent candidate matching and analytics.",
-    personalizedPrompt:
-      "Attract top talent, streamline your recruitment process, make data-driven hiring decisions, and build a competitive team.",
-    regions: ["Global"],
-    link: "https://www.smartrecruiters.com",
-  },
-  {
-    id: 140,
-    name: "Gusto AI",
-    category: "HR & Recruitment",
-    description: "AI-enhanced payroll and HR platform for small businesses",
-    pricing: "Starting at $40/month plus $6 per person",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Gusto AI simplifies payroll, benefits, and HR tasks for small businesses with intelligent automation.",
-    personalizedPrompt:
-      "Manage employee payroll automatically, handle benefits administration, ensure compliance with labor laws, and focus on growing your business instead of paperwork.",
-    regions: ["North America"],
-    link: "https://gusto.com",
-  },
-
-  // Continue with additional categories to reach 200+ tools...
-  // Adding more tools to various categories
-
-  // Additional Writing & Content Generation tools
-  {
-    id: 141,
-    name: "Lex AI",
-    category: "Writing & Content Generation",
-    description: "AI-powered writing assistant for long-form content",
-    pricing: "Free tier available, Pro at $20/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Lex AI helps writers create and edit long-form content with intelligent suggestions and collaboration features.",
-    personalizedPrompt:
-      "Write comprehensive blog posts and articles, collaborate on content with your team, organize your writing projects, and maintain consistency across all your content.",
-    regions: ["Global"],
-    link: "https://lex.page",
-  },
-  {
-    id: 142,
-    name: "Hypotenuse AI",
-    category: "Writing & Content Generation",
-    description: "AI content generator for e-commerce and marketing",
-    pricing: "Starting at $15/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Hypotenuse AI specializes in creating product descriptions, blog posts, and marketing content for e-commerce businesses.",
-    personalizedPrompt:
-      "Generate compelling product descriptions, create SEO-optimized blog content, write engaging marketing copy, and develop content that drives sales.",
-    regions: ["Global"],
-    link: "https://www.hypotenuse.ai",
-  },
-  {
-    id: 143,
-    name: "Compose AI",
-    category: "Writing & Content Generation",
-    description: "AI writing assistant browser extension",
-    pricing: "Free tier available, Premium at $9.99/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Compose AI works as a browser extension to help you write faster and better across any website or platform.",
-    personalizedPrompt:
-      "Write emails more efficiently, compose social media posts faster, create content across different platforms, and improve your writing productivity.",
-    regions: ["Global"],
-    link: "https://www.compose.ai",
-  },
-  {
-    id: 144,
-    name: "Craftly AI",
-    category: "Writing & Content Generation",
-    description: "AI copywriting tool for various content types",
-    pricing: "Starting at $29/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Craftly AI helps create various types of content from blog posts to sales copy with customizable templates.",
-    personalizedPrompt:
-      "Create diverse content types for your business, develop consistent brand messaging, write persuasive sales copy, and maintain a regular content publishing schedule.",
-    regions: ["Global"],
-    link: "https://craftly.ai",
-  },
-  {
-    id: 145,
-    name: "Shortly AI",
-    category: "Writing & Content Generation",
-    description: "AI writing partner for creative and business writing",
-    pricing: "$79/month unlimited",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Shortly AI acts as a writing partner, helping you overcome writer's block and continue your thoughts naturally.",
-    personalizedPrompt:
-      "Overcome writer's block, develop your ideas into full articles, write engaging stories for your brand, and create compelling narratives for your business.",
-    regions: ["Global"],
-    link: "https://shortlyai.com",
-  },
-
-  // Additional Social Media & Marketing tools
-  {
-    id: 146,
-    name: "Brandwatch AI",
-    category: "Social Media & Marketing",
-    description: "AI-powered social media monitoring and analytics",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Brandwatch AI monitors social media conversations about your brand and provides intelligent insights about your audience.",
-    personalizedPrompt:
-      "Monitor brand mentions across social media, understand audience sentiment, track competitor activity, and identify opportunities for engagement.",
-    regions: ["Global"],
-    link: "https://www.brandwatch.com",
-  },
-  {
-    id: 147,
-    name: "Socialbakers AI",
-    category: "Social Media & Marketing",
-    description: "AI-driven social media marketing platform",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Socialbakers AI provides comprehensive social media analytics and content optimization for brands.",
-    personalizedPrompt:
-      "Optimize your social media strategy, benchmark against competitors, identify trending content, and improve your social media ROI.",
-    regions: ["Global"],
-    link: "https://www.socialbakers.com",
-  },
-  {
-    id: 148,
-    name: "Mention AI",
-    category: "Social Media & Marketing",
-    description: "AI-powered brand monitoring and social listening",
-    pricing: "Starting at $29/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Mention AI tracks brand mentions across the internet and provides insights about your online reputation.",
-    personalizedPrompt:
-      "Track brand mentions online, respond to customer feedback quickly, monitor competitor activity, and manage your online reputation effectively.",
-    regions: ["Global"],
-    link: "https://mention.com",
-  },
-  {
-    id: 149,
-    name: "CoSchedule AI",
-    category: "Social Media & Marketing",
-    description: "AI-powered marketing calendar and content optimization",
-    pricing: "Starting at $29/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "CoSchedule AI helps plan, create, and optimize your marketing content with intelligent scheduling and analytics.",
-    personalizedPrompt:
-      "Plan your marketing campaigns, optimize content for better performance, coordinate across marketing channels, and improve your content strategy.",
-    regions: ["Global"],
-    link: "https://coschedule.com",
-  },
-  {
-    id: 150,
-    name: "Publer AI",
-    category: "Social Media & Marketing",
-    description: "AI-enhanced social media scheduling and management",
-    pricing: "Free tier available, Professional at $12/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Publer AI helps schedule and manage social media posts across multiple platforms with intelligent optimization.",
-    personalizedPrompt:
-      "Schedule posts across all social platforms, optimize posting times, create engaging content, and maintain consistent social media presence.",
-    regions: ["Global"],
-    link: "https://publer.io",
-  },
-
-  // Additional tools to reach 200+
-  {
-    id: 151,
-    name: "Piktochart AI",
-    category: "Image Generation & Design",
-    description: "AI-powered infographic and visual content creator",
-    pricing: "Free tier available, Pro at $24.17/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Piktochart AI helps create professional infographics, presentations, and visual content with intelligent design assistance.",
-    personalizedPrompt:
-      "Create engaging infographics for your industry, design professional presentations, visualize data effectively, and produce shareable visual content.",
-    regions: ["Global"],
-    link: "https://piktochart.com",
-  },
-  {
-    id: 152,
-    name: "Gamma AI",
-    category: "Image Generation & Design",
-    description: "AI-powered presentation and content creation platform",
-    pricing: "Free tier available, Pro at $10/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Gamma AI creates presentations, documents, and websites automatically from your ideas with beautiful design.",
-    personalizedPrompt:
-      "Create professional presentations quickly, design marketing materials, build simple websites, and produce visual content that engages your audience.",
-    regions: ["Global"],
-    link: "https://gamma.app",
-  },
-  {
-    id: 153,
-    name: "Designs.ai",
-    category: "Image Generation & Design",
-    description: "AI-powered design suite for logos, graphics, and videos",
-    pricing: "Starting at $29/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Designs.ai offers multiple AI tools for creating logos, graphics, videos, and other design assets for your business.",
-    personalizedPrompt:
-      "Create a professional logo for your brand, design marketing graphics, produce video content, and develop a consistent visual identity.",
-    regions: ["Global"],
-    link: "https://designs.ai",
-  },
-  {
-    id: 154,
-    name: "Remove.bg AI",
-    category: "Image Generation & Design",
-    description: "AI-powered background removal tool",
-    pricing: "Free tier available, Pro at $9.99/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Remove.bg uses AI to automatically remove backgrounds from images, perfect for product photos and marketing materials.",
-    personalizedPrompt:
-      "Create professional product photos, remove backgrounds for marketing materials, prepare images for e-commerce, and enhance your visual content.",
-    regions: ["Global"],
-    link: "https://www.remove.bg",
-  },
-  {
-    id: 155,
-    name: "Upscale.media",
-    category: "Image Generation & Design",
-    description: "AI image upscaling and enhancement tool",
-    pricing: "Free tier available, Pro at $9/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Upscale.media uses AI to enhance and enlarge images while maintaining quality, perfect for improving existing visuals.",
-    personalizedPrompt:
-      "Enhance low-resolution images for marketing, improve product photos for e-commerce, create high-quality prints, and upgrade your visual assets.",
-    regions: ["Global"],
-    link: "https://www.upscale.media",
-  },
-
-  // Additional Video & Avatar Creation tools
-  {
-    id: 156,
-    name: "Heygen",
-    category: "Video & Avatar Creation",
-    description: "AI-powered avatar video generation platform",
-    pricing: "Starting at $24/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Heygen creates professional videos with AI avatars that can speak in multiple languages and voices.",
-    personalizedPrompt:
-      "Create multilingual marketing videos, produce training content without filming, generate spokesperson videos, and scale video content production.",
-    regions: ["Global"],
-    link: "https://www.heygen.com",
-  },
-  {
-    id: 157,
-    name: "Colossyan",
-    category: "Video & Avatar Creation",
-    description: "AI video creation with realistic presenters",
-    pricing: "Starting at $19/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Colossyan creates professional videos with AI presenters for training, marketing, and educational content.",
-    personalizedPrompt:
-      "Create professional training videos, produce educational content, generate marketing presentations, and develop video content at scale.",
-    regions: ["Global"],
-    link: "https://www.colossyan.com",
+    tags: ["creative-skills", "project-based-learning", "design-skills", "visual-branding"],
   },
   {
     id: 158,
-    name: "Murf AI",
-    category: "Video & Avatar Creation",
-    description: "AI voice generator for videos and presentations",
-    pricing: "Starting at $19/month",
+    name: "LinkedIn Learning AI",
+    category: "Research & Learning",
+    description: "AI-powered professional development platform",
+    pricing: "Starting at $29.99/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Murf AI generates realistic human-like voices for your videos, presentations, and audio content.",
+      "LinkedIn Learning AI provides professional development courses with AI-powered skill assessments and career path recommendations. It's integrated with LinkedIn to help advance your professional goals.",
     personalizedPrompt:
-      "Add professional voiceovers to your videos, create audio content for podcasts, generate multilingual voice content, and enhance your multimedia presentations.",
+      "Advance your professional skills with AI-recommended courses, get skill assessments that identify areas for improvement, build your professional network through learning, and advance your career with LinkedIn-integrated credentials.",
     regions: ["Global"],
-    link: "https://murf.ai",
+    link: "https://www.linkedin.com/learning",
+    tags: ["professional-development", "skill-assessments", "career-advancement", "linkedin-integration"],
   },
   {
     id: 159,
-    name: "Speechify AI",
-    category: "Video & Avatar Creation",
-    description: "AI text-to-speech and voice cloning platform",
-    pricing: "Free tier available, Premium at $11.58/month",
+    name: "MasterClass AI",
+    category: "Research & Learning",
+    description: "AI-enhanced premium learning platform with expert instructors",
+    pricing: "Starting at $10/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Speechify converts text to natural-sounding speech and can clone voices for various applications.",
+      "MasterClass AI provides high-quality courses taught by world-renowned experts, with AI features for personalized recommendations and learning paths. It's perfect for learning from the best in business, creativity, and leadership.",
     personalizedPrompt:
-      "Create audio versions of your written content, generate voiceovers for videos, produce podcast content, and make your content accessible to more audiences.",
+      "Learn from world-class experts in business, leadership, and creativity, get AI-powered recommendations based on your interests and goals, develop high-level strategic thinking skills, and gain insights from successful entrepreneurs and leaders.",
     regions: ["Global"],
-    link: "https://speechify.com",
+    link: "https://www.masterclass.com",
+    tags: ["expert-instructors", "high-quality-content", "strategic-thinking", "leadership-skills"],
   },
   {
     id: 160,
-    name: "Opus Clip",
-    category: "Video & Avatar Creation",
-    description: "AI-powered long video to short clips converter",
-    pricing: "Free tier available, Pro at $19/month",
-    skillLevel: "Beginner",
+    name: "Brilliant AI",
+    category: "Research & Learning",
+    description: "AI-powered interactive learning for STEM and business concepts",
+    pricing: "Free tier available, Premium at $12.99/month",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "Opus Clip automatically identifies the best moments in long videos and creates engaging short clips for social media.",
+      "Brilliant AI teaches complex concepts through interactive lessons and problem-solving exercises. It's great for entrepreneurs who want to understand data science, logic, and analytical thinking for better business decisions.",
     personalizedPrompt:
-      "Repurpose long-form video content for social media, create highlight reels from webinars, generate clips for marketing, and maximize your video content reach.",
+      "Develop analytical thinking skills through interactive problem-solving, understand data science concepts that can improve your business decisions, learn logical reasoning and mathematical concepts relevant to business, and strengthen your quantitative skills.",
     regions: ["Global"],
-    link: "https://www.opus.pro",
+    link: "https://brilliant.org",
+    tags: ["analytical-thinking", "data-science", "problem-solving", "quantitative-skills"],
   },
 
-  // Additional tools to ensure we have 200+ total
+  // HR & Recruitment (10+ tools)
   {
     id: 161,
-    name: "Typeface AI",
-    category: "Writing & Content Generation",
-    description: "Enterprise AI content creation platform",
-    pricing: "Custom enterprise pricing",
-    skillLevel: "Expert",
+    name: "BambooHR AI",
+    category: "HR & Recruitment",
+    description: "AI-powered human resources management system",
+    pricing: "Custom pricing starting around $99/month",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "Typeface AI helps large organizations create consistent, on-brand content across all their marketing channels.",
+      "BambooHR AI provides comprehensive HR management with AI features for employee analytics, performance predictions, and automated workflows. It's perfect for growing businesses that need to manage their team effectively.",
     personalizedPrompt:
-      "Maintain brand consistency across all content, create personalized marketing materials at scale, develop content strategies, and ensure brand compliance.",
+      "Streamline your HR processes with AI-powered employee management, predict performance issues before they become problems, automate routine HR tasks like onboarding and reviews, and make data-driven decisions about your team.",
     regions: ["Global"],
-    link: "https://www.typeface.ai",
+    link: "https://www.bamboohr.com",
+    tags: ["hr-management", "employee-analytics", "performance-prediction", "automated-workflows"],
   },
   {
     id: 162,
-    name: "Writer.com Enterprise",
-    category: "Writing & Content Generation",
-    description: "AI writing platform for teams and enterprises",
+    name: "Workday AI",
+    category: "HR & Recruitment",
+    description: "AI-enhanced enterprise HR and workforce management",
     pricing: "Custom enterprise pricing",
     skillLevel: "Expert",
     beginnerExplanation:
-      "Writer.com helps large teams maintain consistent brand voice and create high-quality content collaboratively.",
+      "Workday AI provides enterprise-level HR management with advanced AI features for workforce planning, talent management, and predictive analytics. It's designed for larger organizations with complex HR needs.",
     personalizedPrompt:
-      "Coordinate content creation across large teams, maintain brand voice consistency, create enterprise-level documentation, and scale content production.",
+      "Manage your workforce with enterprise-level AI insights, predict talent needs and plan for future hiring, optimize employee performance and engagement, and make strategic HR decisions based on comprehensive data analysis.",
     regions: ["Global"],
-    link: "https://writer.com",
+    link: "https://www.workday.com",
+    tags: ["enterprise-hr", "workforce-planning", "talent-management", "strategic-decisions"],
   },
   {
     id: 163,
-    name: "Rephrase.ai",
-    category: "Video & Avatar Creation",
-    description: "AI-powered professional video creation with digital avatars",
-    pricing: "Starting at $25/month",
+    name: "Greenhouse AI",
+    category: "HR & Recruitment",
+    description: "AI-powered recruiting and hiring platform",
+    pricing: "Custom pricing",
     skillLevel: "Intermediate",
     beginnerExplanation:
-      "Rephrase.ai creates professional videos using AI avatars for personalized video marketing and communication.",
+      "Greenhouse AI streamlines the hiring process with AI-powered candidate screening, interview scheduling, and hiring analytics. It helps you find and hire the best talent more efficiently.",
     personalizedPrompt:
-      "Create personalized video messages for customers, produce scalable video marketing campaigns, generate training videos, and enhance customer communication.",
+      "Streamline your hiring process with AI-powered candidate screening, identify the best candidates faster with intelligent matching, reduce bias in hiring decisions with data-driven insights, and build a stronger team through better recruitment.",
     regions: ["Global"],
-    link: "https://www.rephrase.ai",
+    link: "https://www.greenhouse.io",
+    tags: ["candidate-screening", "intelligent-matching", "bias-reduction", "recruitment-optimization"],
   },
   {
     id: 164,
-    name: "Animaker AI",
-    category: "Video & Avatar Creation",
-    description: "AI-powered animation and video creation platform",
-    pricing: "Free tier available, Pro at $12.5/month",
-    skillLevel: "Beginner",
+    name: "Lever AI",
+    category: "HR & Recruitment",
+    description: "AI-enhanced talent acquisition and recruiting platform",
+    pricing: "Custom pricing",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "Animaker AI helps create animated videos, presentations, and marketing content with intelligent assistance.",
+      "Lever AI provides talent acquisition tools with AI features for candidate sourcing, relationship management, and hiring analytics. It's designed to help companies build great teams efficiently.",
     personalizedPrompt:
-      "Create engaging animated videos for marketing, produce educational content with animations, develop presentation videos, and create memorable brand content.",
+      "Source and attract top talent with AI-powered candidate discovery, manage relationships with potential hires effectively, track hiring metrics to improve your recruitment process, and build a strong employer brand that attracts great candidates.",
     regions: ["Global"],
-    link: "https://www.animaker.com",
+    link: "https://www.lever.co",
+    tags: ["talent-acquisition", "candidate-sourcing", "relationship-management", "employer-branding"],
   },
   {
     id: 165,
-    name: "Beautiful.ai",
-    category: "Image Generation & Design",
-    description: "AI-powered presentation design platform",
-    pricing: "Starting at $12/month",
-    skillLevel: "Beginner",
+    name: "HireVue AI",
+    category: "HR & Recruitment",
+    description: "AI-powered video interviewing and assessment platform",
+    pricing: "Custom pricing",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "Beautiful.ai automatically creates professional presentations with intelligent design assistance and templates.",
+      "HireVue AI uses artificial intelligence to analyze video interviews, assess candidate responses, and predict job performance. It helps streamline the interview process and make more objective hiring decisions.",
     personalizedPrompt:
-      "Create stunning business presentations, design investor pitch decks, develop training materials, and produce professional slides effortlessly.",
+      "Conduct efficient video interviews with AI-powered analysis, assess candidates objectively based on their responses and behavior, predict job performance to make better hiring decisions, and scale your interview process without sacrificing quality.",
     regions: ["Global"],
-    link: "https://www.beautiful.ai",
+    link: "https://www.hirevue.com",
+    tags: ["video-interviewing", "candidate-assessment", "performance-prediction", "objective-hiring"],
   },
   {
     id: 166,
-    name: "Looka AI",
-    category: "Image Generation & Design",
-    description: "AI-powered logo and brand identity creator",
-    pricing: "Logo packages from $20-96",
+    name: "Workable AI",
+    category: "HR & Recruitment",
+    description: "AI-powered recruiting software for small to medium businesses",
+    pricing: "Starting at $149/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Looka AI creates professional logos and complete brand identities based on your preferences and business type.",
+      "Workable AI provides recruiting tools with AI features for job posting optimization, candidate matching, and hiring analytics. It's designed for small to medium businesses that want to improve their hiring process.",
     personalizedPrompt:
-      "Design a professional logo for your business, create a complete brand identity, develop marketing materials with consistent branding, and establish a professional visual presence.",
+      "Optimize your job postings to attract better candidates, get AI-powered candidate recommendations based on your requirements, streamline your hiring workflow from application to offer, and make data-driven hiring decisions.",
     regions: ["Global"],
-    link: "https://looka.com",
+    link: "https://www.workable.com",
+    tags: ["job-posting-optimization", "candidate-matching", "hiring-workflow", "small-business-friendly"],
   },
   {
     id: 167,
-    name: "Tome AI",
-    category: "Image Generation & Design",
-    description: "AI-powered storytelling and presentation platform",
-    pricing: "Free tier available, Pro at $20/month",
-    skillLevel: "Beginner",
+    name: "SmartRecruiters AI",
+    category: "HR & Recruitment",
+    description: "AI-enhanced talent acquisition suite",
+    pricing: "Custom pricing",
+    skillLevel: "Intermediate",
     beginnerExplanation:
-      "Tome AI creates presentations and visual stories automatically from your ideas with intelligent design and content generation.",
+      "SmartRecruiters AI provides a comprehensive talent acquisition platform with AI features for candidate sourcing, screening, and hiring optimization. It helps companies hire better talent faster.",
     personalizedPrompt:
-      "Create compelling business presentations, develop visual stories for your brand, produce marketing decks, and generate professional slides with minimal effort.",
+      "Build a comprehensive talent acquisition strategy with AI-powered sourcing, screen candidates efficiently with intelligent filtering, optimize your hiring process for better outcomes, and create a positive candidate experience that strengthens your brand.",
     regions: ["Global"],
-    link: "https://tome.app",
+    link: "https://www.smartrecruiters.com",
+    tags: ["talent-acquisition", "candidate-sourcing", "intelligent-screening", "candidate-experience"],
   },
   {
     id: 168,
-    name: "Sembly AI",
-    category: "Automation & Productivity",
-    description: "AI meeting assistant and note-taking platform",
-    pricing: "Free tier available, Professional at $10/month",
+    name: "JazzHR AI",
+    category: "HR & Recruitment",
+    description: "AI-powered recruiting software for growing companies",
+    pricing: "Starting at $75/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Sembly AI joins your meetings and automatically creates summaries, action items, and transcripts.",
+      "JazzHR AI provides affordable recruiting software with AI features for candidate tracking, interview scheduling, and hiring analytics. It's perfect for growing companies that need better hiring processes.",
     personalizedPrompt:
-      "Automatically capture meeting notes, track action items and decisions, create meeting summaries, and ensure nothing important is missed in business meetings.",
+      "Track candidates efficiently through your hiring pipeline, schedule interviews automatically to save time, get insights into your hiring process performance, and build a systematic approach to finding and hiring great talent.",
     regions: ["Global"],
-    link: "https://www.sembly.ai",
+    link: "https://www.jazzhr.com",
+    tags: ["candidate-tracking", "interview-scheduling", "hiring-analytics", "systematic-hiring"],
   },
   {
     id: 169,
-    name: "Otter.ai",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting transcription and note-taking",
-    pricing: "Free tier available, Pro at $8.33/month",
+    name: "Recruitee AI",
+    category: "HR & Recruitment",
+    description: "AI-enhanced collaborative recruiting platform",
+    pricing: "Starting at $199/month",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Otter.ai automatically transcribes meetings and conversations, making it easy to search and review important discussions.",
+      "Recruitee AI provides collaborative recruiting tools with AI features for candidate matching, team collaboration, and hiring insights. It's designed for teams that want to work together effectively in the hiring process.",
     personalizedPrompt:
-      "Transcribe important business meetings, create searchable notes from conversations, capture client calls for reference, and maintain detailed records of business discussions.",
+      "Collaborate effectively with your team on hiring decisions, get AI-powered candidate recommendations, streamline communication throughout the hiring process, and make better hiring decisions through team input and data insights.",
     regions: ["Global"],
-    link: "https://otter.ai",
+    link: "https://recruitee.com",
+    tags: ["collaborative-hiring", "team-collaboration", "candidate-recommendations", "hiring-insights"],
   },
   {
     id: 170,
-    name: "Mem AI",
-    category: "Automation & Productivity",
-    description: "AI-powered note-taking and knowledge management",
-    pricing: "Starting at $8.33/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Mem AI creates intelligent connections between your notes and ideas, helping you organize and find information effortlessly.",
-    personalizedPrompt:
-      "Organize business ideas and research, connect related concepts automatically, build a searchable knowledge base, and enhance your creative thinking process.",
-    regions: ["Global"],
-    link: "https://mem.ai",
-  },
-  {
-    id: 171,
-    name: "Fireflies.ai",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting assistant",
-    pricing: "Free tier available, Pro at $18/month",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Fireflies.ai helps transcribe, summarize, and analyze your meetings automatically.",
-    personalizedPrompt:
-      "Record and transcribe your sales calls, create meeting summaries for your team, analyze customer feedback from meetings, and improve your meeting productivity.",
-    regions: ["Global"],
-    link: "https://fireflies.ai",
-  },
-  {
-    id: 172,
-    name: "Taskade AI",
-    category: "Automation & Productivity",
-    description: "AI-powered collaboration and project management",
-    pricing: "Free tier available, Pro at $8/month",
+    name: "Zoho Recruit AI",
+    category: "HR & Recruitment",
+    description: "AI-powered recruiting software with CRM features",
+    pricing: "Starting at $25/month per user",
     skillLevel: "Beginner",
     beginnerExplanation:
-      "Taskade AI helps you organize tasks, manage projects, and collaborate with your team in a visual workspace.",
+      "Zoho Recruit AI combines recruiting with CRM features, using AI for candidate matching, resume parsing, and hiring analytics. It integrates well with other Zoho business applications.",
     personalizedPrompt:
-      "Plan your marketing campaigns, manage your product development, organize your team meetings, and collaborate with your team in real-time.",
+      "Manage candidates like customers with CRM-style relationship management, parse resumes automatically to extract key information, get AI-powered candidate matching for your open positions, and integrate recruiting with your other business processes.",
     regions: ["Global"],
-    link: "https://www.taskade.com",
-  },
-  {
-    id: 173,
-    name: "Motion AI",
-    category: "Automation & Productivity",
-    description: "AI-powered time management and scheduling",
-    pricing: "Starting at $34/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Motion AI helps you automate your scheduling, prioritize your tasks, and manage your time more effectively.",
-    personalizedPrompt:
-      "Automate your scheduling, prioritize your tasks, manage your time more effectively, and improve your productivity.",
-    regions: ["Global"],
-    link: "https://www.usemotion.com",
-  },
-  {
-    id: 174,
-    name: "Reclaim AI",
-    category: "Automation & Productivity",
-    description: "AI-powered calendar and time management",
-    pricing: "Free tier available, Pro at $12/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Reclaim AI helps you schedule your tasks, protect your time, and balance your work and personal life.",
-    personalizedPrompt:
-      "Schedule your tasks, protect your time, balance your work and personal life, and improve your productivity.",
-    regions: ["Global"],
-    link: "https://reclaim.ai",
-  },
-  {
-    id: 175,
-    name: "Clockwise AI",
-    category: "Automation & Productivity",
-    description: "AI-powered calendar scheduling and optimization",
-    pricing: "Free tier available, Pro at $6.75/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Clockwise AI helps you optimize your calendar, schedule your meetings, and protect your focus time.",
-    personalizedPrompt:
-      "Optimize your calendar, schedule your meetings, protect your focus time, and improve your team's productivity.",
-    regions: ["Global"],
-    link: "https://www.getclockwise.com",
-  },
-  {
-    id: 176,
-    name: "Krisp AI",
-    category: "Automation & Productivity",
-    description: "AI-powered noise cancellation for meetings",
-    pricing: "Free tier available, Pro at $8/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Krisp AI helps you remove background noise from your meetings, improving your audio quality and reducing distractions.",
-    personalizedPrompt:
-      "Remove background noise from your meetings, improve your audio quality, reduce distractions, and improve your meeting productivity.",
-    regions: ["Global"],
-    link: "https://krisp.ai",
-  },
-  {
-    id: 177,
-    name: "OtterPilot",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting assistant by Otter.ai",
-    pricing: "Included with Otter Business plan",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "OtterPilot automatically joins your meetings, records audio, captures notes, and generates summaries.",
-    personalizedPrompt:
-      "Automatically record and transcribe your meetings, capture notes and action items, generate meeting summaries, and improve your meeting productivity.",
-    regions: ["Global"],
-    link: "https://otter.ai/otterpilot",
-  },
-  {
-    id: 178,
-    name: "Read AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting analytics and insights",
-    pricing: "Free tier available, Pro at $19/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Read AI helps you analyze your meetings, understand attendee engagement, and improve your meeting effectiveness.",
-    personalizedPrompt:
-      "Analyze your meeting data, understand attendee engagement, improve your meeting effectiveness, and optimize your meeting strategy.",
-    regions: ["Global"],
-    link: "https://www.read.ai",
-  },
-  {
-    id: 179,
-    name: "Fellow.app AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting management and collaboration",
-    pricing: "Free tier available, Pro at $7/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Fellow.app AI helps you plan your meetings, create agendas, track action items, and collaborate with your team.",
-    personalizedPrompt:
-      "Plan your meetings, create agendas, track action items, collaborate with your team, and improve your meeting productivity.",
-    regions: ["Global"],
-    link: "https://www.fellow.app",
-  },
-  {
-    id: 180,
-    name: "Avoma AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting intelligence platform",
-    pricing: "Starting at $79/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation: "Avoma AI helps you record, transcribe, summarize, and analyze your customer meetings.",
-    personalizedPrompt:
-      "Record and transcribe your customer meetings, summarize key insights, analyze customer sentiment, and improve your sales and customer success.",
-    regions: ["Global"],
-    link: "https://www.avoma.com",
-  },
-  {
-    id: 181,
-    name: "Grain AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting recording and sharing",
-    pricing: "Free tier available, Pro at $19/month",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Grain AI helps you record, transcribe, and share key moments from your meetings.",
-    personalizedPrompt:
-      "Record and transcribe your meetings, share key moments with your team, create highlight reels, and improve your meeting communication.",
-    regions: ["Global"],
-    link: "https://grain.com",
-  },
-  {
-    id: 182,
-    name: "Fathom AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting assistant for Zoom",
-    pricing: "Free",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Fathom AI helps you record, transcribe, and summarize your Zoom meetings automatically.",
-    personalizedPrompt:
-      "Record and transcribe your Zoom meetings, summarize key insights, capture action items, and improve your meeting productivity.",
-    regions: ["Global"],
-    link: "https://www.fathom.video",
-  },
-  {
-    id: 183,
-    name: "Tactiq AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting transcription and summarization",
-    pricing: "Free tier available, Pro at $12/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Tactiq AI helps you transcribe and summarize your meetings, create searchable notes, and share key insights.",
-    personalizedPrompt:
-      "Transcribe and summarize your meetings, create searchable notes, share key insights with your team, and improve your meeting collaboration.",
-    regions: ["Global"],
-    link: "https://tactiq.io",
-  },
-  {
-    id: 184,
-    name: "Airgram AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting assistant and collaboration",
-    pricing: "Free tier available, Pro at $9.99/month",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Airgram AI helps you record, transcribe, and collaborate on your meetings with your team.",
-    personalizedPrompt:
-      "Record and transcribe your meetings, collaborate on notes and action items, share key insights with your team, and improve your meeting productivity.",
-    regions: ["Global"],
-    link: "https://www.airgram.io",
-  },
-  {
-    id: 185,
-    name: "Sesh AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting facilitator and collaboration",
-    pricing: "Starting at $15/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Sesh AI helps you facilitate your meetings, engage your attendees, and improve your meeting outcomes.",
-    personalizedPrompt:
-      "Facilitate your meetings, engage your attendees, improve your meeting outcomes, and optimize your meeting strategy.",
-    regions: ["Global"],
-    link: "https://www.sesh.ai",
-  },
-  {
-    id: 186,
-    name: "Hypercontext AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting agenda and collaboration",
-    pricing: "Starting at $5.60/month per user",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Hypercontext AI helps you create meeting agendas, track action items, and collaborate with your team.",
-    personalizedPrompt:
-      "Create effective meeting agendas, track action items and decisions, collaborate with your team, and improve your meeting productivity.",
-    regions: ["Global"],
-    link: "https://www.hypercontext.com",
-  },
-  {
-    id: 187,
-    name: "Hugo AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting notes and collaboration",
-    pricing: "Starting at $8/month per user",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Hugo AI helps you capture meeting notes, track action items, and collaborate with your team.",
-    personalizedPrompt:
-      "Capture detailed meeting notes, track action items and decisions, collaborate with your team, and improve your meeting communication.",
-    regions: ["Global"],
-    link: "https://www.hugo.team",
-  },
-  {
-    id: 188,
-    name: "Docket AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting management and collaboration",
-    pricing: "Starting at $6/month per user",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Docket AI helps you plan your meetings, create agendas, track action items, and collaborate with your team.",
-    personalizedPrompt:
-      "Plan your meetings effectively, create detailed agendas, track action items and decisions, and collaborate with your team seamlessly.",
-    regions: ["Global"],
-    link: "https://www.dockethq.com",
-  },
-  {
-    id: 189,
-    name: "Meetingbird AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting scheduling and calendar",
-    pricing: "Free tier available, Pro at $9/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Meetingbird AI helps you schedule your meetings, manage your calendar, and automate your scheduling tasks.",
-    personalizedPrompt:
-      "Schedule your meetings efficiently, manage your calendar effectively, automate your scheduling tasks, and improve your time management.",
-    regions: ["Global"],
-    link: "https://www.meetingbird.com",
-  },
-  {
-    id: 190,
-    name: "Ruum AI",
-    category: "Automation & Productivity",
-    description: "AI-powered project management and collaboration",
-    pricing: "Free tier available, Pro at $9.99/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Ruum AI helps you manage your projects, collaborate with your team, and automate your project tasks.",
-    personalizedPrompt:
-      "Manage your projects effectively, collaborate with your team seamlessly, automate your project tasks, and improve your project productivity.",
-    regions: ["Global"],
-    link: "https://ruumapp.com",
-  },
-  {
-    id: 191,
-    name: "Taskable AI",
-    category: "Automation & Productivity",
-    description: "AI-powered task management and collaboration",
-    pricing: "Starting at $8/month per user",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Taskable AI helps you manage your tasks, collaborate with your team, and track your progress.",
-    personalizedPrompt:
-      "Manage your tasks effectively, collaborate with your team seamlessly, track your progress easily, and improve your task productivity.",
-    regions: ["Global"],
-    link: "https://taskable.com",
-  },
-  {
-    id: 192,
-    name: "Tweek AI",
-    category: "Automation & Productivity",
-    description: "AI-powered weekly planner and task management",
-    pricing: "Free tier available, Pro at $10/month",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Tweek AI helps you plan your week, manage your tasks, and track your progress.",
-    personalizedPrompt:
-      "Plan your week effectively, manage your tasks efficiently, track your progress easily, and improve your weekly productivity.",
-    regions: ["Global"],
-    link: "https://tweek.to",
-  },
-  {
-    id: 193,
-    name: "Akiflow AI",
-    category: "Automation & Productivity",
-    description: "AI-powered task management and calendar",
-    pricing: "Starting at $15/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation: "Akiflow AI helps you manage your tasks, schedule your time, and integrate your tools.",
-    personalizedPrompt:
-      "Manage your tasks effectively, schedule your time efficiently, integrate your tools seamlessly, and improve your overall productivity.",
-    regions: ["Global"],
-    link: "https://www.akiflow.com",
-  },
-  {
-    id: 194,
-    name: "Miro AI",
-    category: "Automation & Productivity",
-    description: "AI-powered visual collaboration platform",
-    pricing: "Free tier available, Pro at $8/month per user",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Miro AI helps you collaborate visually with your team, brainstorm ideas, and plan projects.",
-    personalizedPrompt:
-      "Collaborate visually with your team, brainstorm ideas effectively, plan projects seamlessly, and improve your team collaboration.",
-    regions: ["Global"],
-    link: "https://miro.com",
-  },
-  {
-    id: 195,
-    name: "Lucidchart AI",
-    category: "Automation & Productivity",
-    description: "AI-powered diagramming and visual collaboration",
-    pricing: "Free tier available, Individual at $7.95/month",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Lucidchart AI helps you create diagrams, visualize data, and collaborate with your team.",
-    personalizedPrompt:
-      "Create professional diagrams, visualize data effectively, collaborate with your team seamlessly, and improve your visual communication.",
-    regions: ["Global"],
-    link: "https://www.lucidchart.com",
-  },
-  {
-    id: 196,
-    name: "Coda AI",
-    category: "Automation & Productivity",
-    description: "AI-powered document and workflow platform",
-    pricing: "Free tier available, Pro at $10/month per user",
-    skillLevel: "Beginner",
-    beginnerExplanation: "Coda AI helps you create documents, automate workflows, and collaborate with your team.",
-    personalizedPrompt:
-      "Create dynamic documents, automate your workflows, collaborate with your team seamlessly, and improve your document productivity.",
-    regions: ["Global"],
-    link: "https://www.coda.io",
-  },
-  {
-    id: 197,
-    name: "ClickUp Brain",
-    category: "Automation & Productivity",
-    description: "AI-powered writing assistant in ClickUp",
-    pricing: "Included in ClickUp Unlimited plan",
-    skillLevel: "Beginner",
-    beginnerExplanation: "ClickUp Brain helps you write tasks, create summaries, and generate content within ClickUp.",
-    personalizedPrompt:
-      "Write clear and concise tasks, create summaries of your projects, generate content for your team, and improve your writing productivity within ClickUp.",
-    regions: ["Global"],
-    link: "https://clickup.com/features/clickup-ai",
-  },
-  {
-    id: 198,
-    name: "Memorable AI",
-    category: "Automation & Productivity",
-    description: "AI-powered memory enhancement and note-taking",
-    pricing: "Starting at $10/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Memorable AI helps you remember important information, organize your notes, and improve your memory recall.",
-    personalizedPrompt:
-      "Remember important details from meetings, organize your notes effectively, improve your memory recall, and enhance your learning and productivity.",
-    regions: ["Global"],
-    link: "https://memorable.ai",
-  },
-  {
-    id: 199,
-    name: "Supernormal AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting notes and action items",
-    pricing: "Free tier available, Pro at $10/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Supernormal AI helps you capture meeting notes, track action items, and share key insights with your team.",
-    personalizedPrompt:
-      "Capture detailed meeting notes, track action items and decisions, share key insights with your team, and improve your meeting communication.",
-    regions: ["Global"],
-    link: "https://supernormal.com",
-  },
-  {
-    id: 200,
-    name: "Scribble AI",
-    category: "Automation & Productivity",
-    description: "AI-powered meeting notes and summaries",
-    pricing: "Free tier available, Pro at $10/month",
-    skillLevel: "Beginner",
-    beginnerExplanation:
-      "Scribble AI helps you capture meeting notes, generate summaries, and share key insights with your team.",
-    personalizedPrompt:
-      "Capture detailed meeting notes, generate concise summaries, share key insights with your team, and improve your meeting productivity.",
-    regions: ["Global"],
-    link: "https://www.scribbleai.com",
-  },
-  {
-    id: 201,
-    name: "Bardeen AI",
-    category: "Automation & Productivity",
-    description: "AI-powered workflow automation platform",
-    pricing: "Free tier available, Pro at $12/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Bardeen AI helps you automate repetitive tasks, connect your apps, and streamline your workflows.",
-    personalizedPrompt:
-      "Automate repetitive tasks, connect your apps seamlessly, streamline your workflows efficiently, and improve your overall productivity.",
-    regions: ["Global"],
-    link: "https://www.bardeen.ai",
-  },
-  {
-    id: 202,
-    name: "Parabola AI",
-    category: "Automation & Productivity",
-    description: "AI-powered data automation and workflow",
-    pricing: "Starting at $150/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation: "Parabola AI helps you automate data tasks, transform data, and build automated workflows.",
-    personalizedPrompt:
-      "Automate data tasks efficiently, transform data effectively, build automated workflows seamlessly, and improve your data productivity.",
-    regions: ["Global"],
-    link: "https://parabola.io",
-  },
-  {
-    id: 203,
-    name: "n8n AI",
-    category: "Automation & Productivity",
-    description: "AI-powered workflow automation platform",
-    pricing: "Free (self-hosted), Cloud starting at $20/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "n8n AI helps you automate complex workflows, connect your apps, and build custom integrations.",
-    personalizedPrompt:
-      "Automate complex workflows efficiently, connect your apps seamlessly, build custom integrations easily, and improve your overall automation.",
-    regions: ["Global"],
-    link: "https://n8n.io",
-  },
-  {
-    id: 204,
-    name: "IFTTT AI",
-    category: "Automation & Productivity",
-    description: "AI-powered applet automation platform",
-    pricing: "Free tier available, Pro at $3/month",
-    skillLevel: "Beginner",
-    beginnerExplanation: "IFTTT AI helps you connect your apps, automate simple tasks, and create custom applets.",
-    personalizedPrompt:
-      "Connect your apps easily, automate simple tasks efficiently, create custom applets seamlessly, and improve your overall app productivity.",
-    regions: ["Global"],
-    link: "https://ifttt.com",
-  },
-  {
-    id: 205,
-    name: "Integromat AI",
-    category: "Automation & Productivity",
-    description: "AI-powered workflow automation platform",
-    pricing: "Free tier available, Standard at $9/month",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Integromat AI helps you automate complex workflows, connect your apps, and transform your data.",
-    personalizedPrompt:
-      "Automate complex workflows efficiently, connect your apps seamlessly, transform your data effectively, and improve your overall automation.",
-    regions: ["Global"],
-    link: "https://www.make.com",
-  },
-  {
-    id: 206,
-    name: "Workato AI",
-    category: "Automation & Productivity",
-    description: "AI-powered enterprise automation platform",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Workato AI helps you automate enterprise workflows, connect your systems, and transform your business processes.",
-    personalizedPrompt:
-      "Automate enterprise workflows efficiently, connect your systems seamlessly, transform your business processes effectively, and improve your overall enterprise automation.",
-    regions: ["Global"],
-    link: "https://www.workato.com",
-  },
-  {
-    id: 207,
-    name: "UiPath AI",
-    category: "Automation & Productivity",
-    description: "AI-powered robotic process automation (RPA)",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "UiPath AI helps you automate repetitive tasks, streamline your processes, and improve your business efficiency.",
-    personalizedPrompt:
-      "Automate repetitive tasks efficiently, streamline your business processes effectively, improve your business efficiency seamlessly, and transform your overall business automation.",
-    regions: ["Global"],
-    link: "https://www.uipath.com",
-  },
-  {
-    id: 208,
-    name: "Automation Anywhere AI",
-    category: "Automation & Productivity",
-    description: "AI-powered robotic process automation (RPA)",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Automation Anywhere AI helps you automate repetitive tasks, streamline your processes, and improve your business efficiency.",
-    personalizedPrompt:
-      "Automate repetitive tasks efficiently, streamline your business processes effectively, improve your business efficiency seamlessly, and transform your overall business automation.",
-    regions: ["Global"],
-    link: "https://www.automationanywhere.com",
-  },
-  {
-    id: 209,
-    name: "Blue Prism AI",
-    category: "Automation & Productivity",
-    description: "AI-powered robotic process automation (RPA)",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Blue Prism AI helps you automate repetitive tasks, streamline your processes, and improve your business efficiency.",
-    personalizedPrompt:
-      "Automate repetitive tasks efficiently, streamline your business processes effectively, improve your business efficiency seamlessly, and transform your overall business automation.",
-    regions: ["Global"],
-    link: "https://www.blueprism.com",
-  },
-  {
-    id: 210,
-    name: "Pega AI",
-    category: "Automation & Productivity",
-    description: "AI-powered business process management (BPM)",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Pega AI helps you automate business processes, improve customer experiences, and optimize your business operations.",
-    personalizedPrompt:
-      "Automate business processes efficiently, improve customer experiences effectively, optimize your business operations seamlessly, and transform your overall business automation.",
-    regions: ["Global"],
-    link: "https://www.pega.com",
-  },
-  {
-    id: 211,
-    name: "Appian AI",
-    category: "Automation & Productivity",
-    description: "AI-powered low-code automation platform",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Appian AI helps you build applications, automate workflows, and improve your business processes.",
-    personalizedPrompt:
-      "Build applications efficiently, automate workflows effectively, improve your business processes seamlessly, and transform your overall business automation.",
-    regions: ["Global"],
-    link: "https://www.appian.com",
-  },
-  {
-    id: 212,
-    name: "Zoho Creator AI",
-    category: "Automation & Productivity",
-    description: "AI-powered low-code application development",
-    pricing: "Starting at $10/month per user",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Zoho Creator AI helps you build custom applications, automate workflows, and integrate your data.",
-    personalizedPrompt:
-      "Build custom applications efficiently, automate workflows effectively, integrate your data seamlessly, and improve your overall application development.",
-    regions: ["Global"],
-    link: "https://www.zoho.com/creator",
-  },
-  {
-    id: 213,
-    name: "Microsoft Power Automate AI",
-    category: "Automation & Productivity",
-    description: "AI-powered workflow automation platform",
-    pricing: "Starting at $15/month per user",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Microsoft Power Automate AI helps you automate workflows, connect your apps, and streamline your processes.",
-    personalizedPrompt:
-      "Automate workflows efficiently, connect your apps seamlessly, streamline your business processes effectively, and improve your overall automation.",
-    regions: ["Global"],
-    link: "https://powerautomate.microsoft.com",
-  },
-  {
-    id: 214,
-    name: "Nintex AI",
-    category: "Automation & Productivity",
-    description: "AI-powered process management and automation",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Nintex AI helps you automate business processes, improve efficiency, and transform your operations.",
-    personalizedPrompt:
-      "Automate business processes efficiently, improve your business efficiency effectively, transform your business operations seamlessly, and improve your overall business automation.",
-    regions: ["Global"],
-    link: "https://www.nintex.com",
-  },
-  {
-    id: 215,
-    name: "Kissflow AI",
-    category: "Automation & Productivity",
-    description: "AI-powered low-code platform for workflow",
-    pricing: "Starting at $18/month per user",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Kissflow AI helps you automate workflows, build applications, and manage your business processes.",
-    personalizedPrompt:
-      "Automate workflows efficiently, build applications effectively, manage your business processes seamlessly, and improve your overall business automation.",
-    regions: ["Global"],
-    link: "https://www.kissflow.com",
-  },
-  {
-    id: 216,
-    name: "ProcessMaker AI",
-    category: "Automation & Productivity",
-    description: "AI-powered business process management (BPM)",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "ProcessMaker AI helps you automate business processes, improve efficiency, and transform your operations.",
-    personalizedPrompt:
-      "Automate business processes efficiently, improve your business efficiency effectively, transform your business operations seamlessly, and improve your overall business automation.",
-    regions: ["Global"],
-    link: "https://www.processmaker.com",
-  },
-  {
-    id: 217,
-    name: "Bizagi AI",
-    category: "Automation & Productivity",
-    description: "AI-powered business process management (BPM)",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Bizagi AI helps you automate business processes, improve efficiency, and transform your operations.",
-    personalizedPrompt:
-      "Automate business processes efficiently, improve your business efficiency effectively, transform your business operations seamlessly, and improve your overall business automation.",
-    regions: ["Global"],
-    link: "https://www.bizagi.com",
-  },
-  {
-    id: 218,
-    name: "Creatio AI",
-    category: "Automation & Productivity",
-    description: "AI-powered low-code platform for CRM and BPM",
-    pricing: "Starting at $35/month per user",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Creatio AI helps you automate CRM and BPM processes, improve customer experiences, and streamline your operations.",
-    personalizedPrompt:
-      "Automate CRM and BPM processes efficiently, improve customer experiences effectively, streamline your business operations seamlessly, and improve your overall business automation.",
-    regions: ["Global"],
-    link: "https://www.creatio.com",
-  },
-  {
-    id: 219,
-    name: "OutSystems AI",
-    category: "Automation & Productivity",
-    description: "AI-powered low-code application development",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "OutSystems AI helps you build enterprise applications, automate workflows, and transform your business processes.",
-    personalizedPrompt:
-      "Build enterprise applications efficiently, automate workflows effectively, transform your business processes seamlessly, and improve your overall application development.",
-    regions: ["Global"],
-    link: "https://www.outsystems.com",
-  },
-  {
-    id: 220,
-    name: "Mendix AI",
-    category: "Automation & Productivity",
-    description: "AI-powered low-code application development",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "Mendix AI helps you build enterprise applications, automate workflows, and transform your business processes.",
-    personalizedPrompt:
-      "Build enterprise applications efficiently, automate workflows effectively, transform your business processes seamlessly, and improve your overall application development.",
-    regions: ["Global"],
-    link: "https://www.mendix.com",
-  },
-  {
-    id: 221,
-    name: "Salesforce Flow AI",
-    category: "Automation & Productivity",
-    description: "AI-powered workflow automation in Salesforce",
-    pricing: "Included with Salesforce plans",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Salesforce Flow AI helps you automate workflows, connect your data, and improve your business processes within Salesforce.",
-    personalizedPrompt:
-      "Automate workflows efficiently, connect your data seamlessly, improve your business processes effectively, and transform your overall Salesforce automation.",
-    regions: ["Global"],
-    link: "https://www.salesforce.com/products/platform/flow",
-  },
-  {
-    id: 222,
-    name: "ServiceNow AI",
-    category: "Automation & Productivity",
-    description: "AI-powered workflow automation in ServiceNow",
-    pricing: "Custom pricing",
-    skillLevel: "Expert",
-    beginnerExplanation:
-      "ServiceNow AI helps you automate workflows, improve service delivery, and transform your business operations within ServiceNow.",
-    personalizedPrompt:
-      "Automate workflows efficiently, improve service delivery effectively, transform your business operations seamlessly, and improve your overall ServiceNow automation.",
-    regions: ["Global"],
-    link: "https://www.servicenow.com",
-  },
-  {
-    id: 223,
-    name: "Jira Automation AI",
-    category: "Automation & Productivity",
-    description: "AI-powered workflow automation in Jira",
-    pricing: "Included with Jira plans",
-    skillLevel: "Intermediate",
-    beginnerExplanation:
-      "Jira Automation AI helps you automate workflows, streamline your processes, and improve your team's productivity within Jira.",
-    personalizedPrompt:
-      "Automate workflows efficiently, streamline your business processes effectively, improve your team's productivity seamlessly, and transform your overall Jira automation.",
-    regions: ["Global"],
-    link: "https://www.atlassian.com/software/jira/automation",
+    link: "https://www.zoho.com/recruit",
+    tags: ["crm-integration", "resume-parsing", "candidate-matching", "business-integration"],
   },
 ]
 
-// Export functions for filtering and categorisation
+// Export functions for filtering and categorization
 export function getUniqueCategories(): string[] {
   const categories = [...new Set(aiToolsDatabase.map((tool) => tool.category))]
   return categories.sort()
@@ -3184,42 +2599,37 @@ export function getUniqueCategories(): string[] {
 export function getUniqueRegions(): string[] {
   const allRegions = aiToolsDatabase.flatMap((tool) => tool.regions)
   const uniqueRegions = [...new Set(allRegions)]
-  // Add popular regions and sort alphabetically
-  const popularRegions = ["Global", "North America", "Europe", "Asia", "Australia"]
-  const combinedRegions = [...new Set([...popularRegions, ...uniqueRegions])]
+
+  // Add popular regions that might not be in the data
+  const popularRegions = ["Global", "North America", "Europe", "Asia", "Australia", "South America", "Africa"]
+  const combinedRegions = [...new Set([...uniqueRegions, ...popularRegions])]
+
   return combinedRegions.sort()
 }
 
 export function getUniqueSkillLevels(): string[] {
-  const skillLevels = [...new Set(aiToolsDatabase.map((tool) => tool.skillLevel))]
-  // Return in logical order
-  return ["Beginner", "Intermediate", "Expert"].filter((level) => skillLevels.includes(level))
+  return ["Beginner", "Intermediate", "Expert"]
 }
 
-// Helper function to get tools by category
 export function getToolsByCategory(category: string): AITool[] {
   return aiToolsDatabase.filter((tool) => tool.category === category)
 }
 
-// Helper function to get tools by skill level
 export function getToolsBySkillLevel(skillLevel: string): AITool[] {
   return aiToolsDatabase.filter((tool) => tool.skillLevel === skillLevel)
 }
 
-// Helper function to get tools by region
 export function getToolsByRegion(region: string): AITool[] {
   return aiToolsDatabase.filter((tool) => tool.regions.includes(region))
 }
 
-// Helper function to search tools
 export function searchTools(query: string): AITool[] {
-  const searchTerm = query.toLowerCase()
+  const lowercaseQuery = query.toLowerCase()
   return aiToolsDatabase.filter(
     (tool) =>
-      tool.name.toLowerCase().includes(searchTerm) ||
-      tool.description.toLowerCase().includes(searchTerm) ||
-      tool.beginnerExplanation.toLowerCase().includes(searchTerm) ||
-      tool.category.toLowerCase().includes(searchTerm) ||
-      tool.personalizedPrompt.toLowerCase().includes(searchTerm),
+      tool.name.toLowerCase().includes(lowercaseQuery) ||
+      tool.description.toLowerCase().includes(lowercaseQuery) ||
+      tool.category.toLowerCase().includes(lowercaseQuery) ||
+      tool.tags.some((tag) => tag.toLowerCase().includes(lowercaseQuery)),
   )
 }
