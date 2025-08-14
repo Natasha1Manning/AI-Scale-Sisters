@@ -1,207 +1,382 @@
-import { NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 
-export const runtime = "nodejs"
-
-// Initialize Resend with error handling
-let resend: Resend | null = null
-try {
-  if (process.env.RESEND_API_KEY) {
-    resend = new Resend(process.env.RESEND_API_KEY)
-  }
-} catch (error) {
-  console.error("Failed to initialize Resend:", error)
-}
-
-// Simple validation without external dependencies
-function validateEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
-
-function validateInput(data: any) {
-  if (!data.name || typeof data.name !== "string" || data.name.length < 2) {
-    return { valid: false, error: "Name must be at least 2 characters" }
-  }
-  if (!data.email || !validateEmail(data.email)) {
-    return { valid: false, error: "Valid email is required" }
-  }
-  if (!data.drain || typeof data.drain !== "string" || data.drain.length < 3) {
-    return { valid: false, error: "Please select what drains your time most" }
-  }
-  if (!data.stack || typeof data.stack !== "string" || data.stack.length < 2) {
-    return { valid: false, error: "Please describe your tool stack" }
-  }
-  return { valid: true }
-}
-
-function generatePlan(name: string, drain: string, stack: string) {
-  const ideas: Record<string, string[]> = {
-    "Inbox & Email Replies": [
-      "Gmail triage: labels + tone-matched drafts via a private agent",
-      'Auto-summaries to Notion + daily "Need-to-Reply" digest',
-      "Booking links injected for qualified leads",
-    ],
-    "Leads & DMs / Follow-ups": [
-      "DM lead-qualifier that books calls and logs to CRM",
-      "3-step follow-up sequence that sounds like you",
-      "Daily pipeline snapshot to your inbox/Slack",
-    ],
-    "Content Repurposing": [
-      "Video → post/email/carousel drafts in your voice",
-      "Auto-captioning & thumbnail suggestions",
-      "Publish queue synced to Notion/Buffer",
-    ],
-    "Ops/Admin & CRM Hygiene": [
-      "Auto-tag, notes, and tasks from calls/emails",
-      "Weekly ops digest: blockers, due dates, owners",
-      "Airtable/Notion sync with dedupe guardrails",
-    ],
-    "Customer Support / FAQs": [
-      "Care agent that answers FAQs, escalates edge cases",
-      "Order status & refund triage for Shopify",
-      "Satisfaction pings + review requests",
-    ],
-    "Research & Briefs": [
-      "Source-cited research briefs in your template",
-      "Competitor/news watch with weekly summary",
-      "Idea bank ranked by effort vs impact",
-    ],
-  }
-  const picks = ideas[drain] ?? ideas["Ops/Admin & CRM Hygiene"]
-  const first = name.split(" ")[0]
-
-  return `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Your Automation Plan</title>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { background: linear-gradient(135deg, #ec4899, #8b5cf6); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
-    .content { background: #f9fafb; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb; }
-    .automation-list { background: white; padding: 15px; border-radius: 8px; margin: 15px 0; }
-    .automation-list li { margin: 8px 0; }
-    .next-steps { background: #fef3c7; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-top: 20px; }
-    .footer { text-align: center; margin-top: 20px; font-size: 14px; color: #6b7280; }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <h1 style="margin: 0; font-size: 24px;">Your 1-Page Automation Plan ✨</h1>
-    <p style="margin: 10px 0 0; opacity: 0.9;">Custom AI automations for ${first}</p>
-  </div>
-  
-  <div class="content">
-    <p>Hi ${first}! 👋</p>
-    <p>Here's a lightweight automation plan tailored to your focus area: <strong>${drain}</strong> and your tech stack: <strong>${stack}</strong>.</p>
-    
-    <div class="automation-list">
-      <h3 style="margin-top: 0; color: #8b5cf6;">🤖 Your Custom Automation Ideas:</h3>
-      <ol>
-        <li><strong>${picks[0]}</strong></li>
-        <li><strong>${picks[1]}</strong></li>
-        <li><strong>${picks[2]}</strong></li>
-      </ol>
-    </div>
-    
-    <div class="next-steps">
-      <h3 style="margin-top: 0; color: #f59e0b;">🚀 Next Steps (Free):</h3>
-      <p>15-minute fit call → we map 2–3 automations, pick the smallest build with the biggest win.</p>
-      <p><strong>Ready to chat?</strong> Simply reply to this email or connect with me on <a href="https://www.linkedin.com/in/natasha-manning-7bb914205/" style="color: #8b5cf6;">LinkedIn</a>.</p>
-    </div>
-    
-    <p>No pressure, no jargon. We'll suggest the smallest build that makes the biggest difference.</p>
-    
-    <p>Best,<br>
-    <strong>Natasha Manning</strong><br>
-    <em>AI UP-SCALE Sisters</em></p>
-  </div>
-  
-  <div class="footer">
-    <p>Built by a Sister, for All my Sisters 💜</p>
-    <p><a href="https://www.aiupscalesisters.com" style="color: #8b5cf6;">AI UP-SCALE Sisters</a> | Custom AI Automations & Private Agents</p>
-  </div>
-</body>
-</html>
-`
-}
-
-export async function POST(req: Request) {
-  console.log("API route called")
-
+export async function POST(request: NextRequest) {
   try {
-    // Check if Resend is configured
-    if (!process.env.RESEND_API_KEY) {
-      console.error("RESEND_API_KEY not configured")
-      return new NextResponse("Email service not configured", { status: 500 })
-    }
+    const formData = await request.json()
 
-    if (!resend) {
-      console.error("Resend not initialized")
-      return new NextResponse("Email service initialization failed", { status: 500 })
-    }
+    // Use the custom environment variable names from Vercel
+    const apiKey = process.env.RESEND_API_KEY_EMAILS_OUTPUT
+    const fromEmail = process.env.FROM_EMAILOUTPUT_FORM
+    const adminEmail = process.env.ADMIN_EMAIL_OUTPUT
+    const replyToEmail = process.env.REPLY_TO_EMAIL_OUTPUT
+    const siteUrl = process.env.SITE_URL_OUTPUT
 
-    const body = await req.json()
-    console.log("Request body:", body)
-
-    const validation = validateInput(body)
-    if (!validation.valid) {
-      console.error("Validation failed:", validation.error)
-      return new NextResponse(validation.error, { status: 400 })
-    }
-
-    // Honeypot spam protection
-    if (body.hp) {
-      console.log("Honeypot triggered, returning silent success")
-      return NextResponse.json({ ok: true })
-    }
-
-    const { name, email, drain, stack } = body
-    const html = generatePlan(name, drain, stack)
-
-    console.log("Sending email to:", email)
-
-    // Send personalized plan to user
-    const userEmailResult = await resend.emails.send({
-      from: process.env.FROM_EMAIL || "AI Up-Scale Sisters <hello@aiupscalesisters.com>",
-      to: email,
-      reply_to: "natasha.manning@riseandthrivefamilies.com",
-      subject: `${name.split(" ")[0]}, your custom automation plan is ready ✨`,
-      html,
+    console.log("📧 Processing automation plan request...")
+    console.log("📋 Form data received:", {
+      name: formData.name,
+      email: formData.email,
+      businessType: formData.businessType,
+      hasStack: !!formData.stack,
     })
 
-    console.log("User email sent:", userEmailResult)
+    console.log("🔧 Environment variables check:", {
+      hasApiKey: !!apiKey,
+      apiKeyPrefix: apiKey?.substring(0, 10) + "...",
+      fromEmail: fromEmail,
+      adminEmail: adminEmail,
+      replyToEmail: replyToEmail,
+      siteUrl: siteUrl,
+    })
 
-    // Send admin notification if configured
-    if (process.env.ADMIN_EMAIL) {
-      console.log("Sending admin notification to:", process.env.ADMIN_EMAIL)
+    // Check for honeypot (spam protection)
+    if (formData.website) {
+      console.log("🛡️ Honeypot triggered - potential spam")
+      return NextResponse.json({ success: true, message: "Thank you for your submission!" })
+    }
 
-      const adminEmailResult = await resend.emails.send({
-        from: process.env.FROM_EMAIL || "AI Up-Scale Sisters <hello@aiupscalesisters.com>",
-        to: process.env.ADMIN_EMAIL,
-        subject: `🎯 New Automation Plan Request: ${name} <${email}>`,
-        html: `
-          <h2>New Automation Plan Request</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Time Drain:</strong> ${drain}</p>
-          <p><strong>Tool Stack:</strong> ${stack}</p>
-          <hr>
-          <h3>Plan Sent:</h3>
-          ${html}
-        `,
+    // Validate required fields
+    if (!formData.email) {
+      console.error("❌ Missing email field")
+      return NextResponse.json({ error: "Email is required" }, { status: 400 })
+    }
+
+    if (!formData.businessType) {
+      console.error("❌ Missing businessType field")
+      return NextResponse.json({ error: "Business type is required" }, { status: 400 })
+    }
+
+    if (!apiKey || !fromEmail || !adminEmail) {
+      console.error("❌ Missing environment variables:", {
+        hasApiKey: !!apiKey,
+        hasFromEmail: !!fromEmail,
+        hasAdminEmail: !!adminEmail,
       })
-
-      console.log("Admin email sent:", adminEmailResult)
+      return NextResponse.json({ error: "Email service configuration error" }, { status: 500 })
     }
 
-    return NextResponse.json({ ok: true })
-  } catch (error) {
-    console.error("Detailed error:", error)
-    return new NextResponse(`Server error: ${error instanceof Error ? error.message : "Unknown error"}`, {
-      status: 500,
+    const resend = new Resend(apiKey)
+
+    // Generate personalized recommendations based on form data
+    const generateRecommendations = (data: any) => {
+      const recommendations = []
+
+      console.log("🎯 Generating recommendations for business type:", data.businessType)
+
+      // Business type specific recommendations
+      if (data.businessType === "e-commerce") {
+        recommendations.push("🛒 **Shopify AI** - Product recommendations and inventory optimization")
+        recommendations.push("📧 **Klaviyo AI** - Personalized email marketing for online stores")
+        recommendations.push("💬 **Gorgias AI** - AI-powered customer service for e-commerce")
+      } else if (data.businessType === "consulting") {
+        recommendations.push("📋 **Notion AI** - Smart project management and client documentation")
+        recommendations.push("🎥 **Loom AI** - Automated video summaries for client presentations")
+        recommendations.push("📅 **Calendly AI** - Smart scheduling that learns your preferences")
+      } else if (data.businessType === "creative-services") {
+        recommendations.push("🎨 **Adobe AI** - Automated design suggestions and photo editing")
+        recommendations.push("✨ **Figma AI** - Smart design system management")
+        recommendations.push("📝 **Jasper AI** - Generate creative briefs and project descriptions")
+      } else if (data.businessType === "coaching") {
+        recommendations.push("📚 **Teachable AI** - Automated course creation and student engagement")
+        recommendations.push("💬 **Zoom AI** - Meeting summaries and action item extraction")
+        recommendations.push("📊 **Typeform AI** - Smart forms that adapt to responses")
+      } else if (data.businessType === "health-wellness") {
+        recommendations.push("📱 **MyFitnessPal AI** - Personalized nutrition and wellness tracking")
+        recommendations.push("🧘 **Headspace AI** - AI-powered meditation and wellness programs")
+        recommendations.push("📊 **Fitbit AI** - Health data analysis and personalized insights")
+      } else if (data.businessType === "education") {
+        recommendations.push("📚 **Khan Academy AI** - Personalized learning paths and assessments")
+        recommendations.push("🎓 **Coursera AI** - AI-powered course recommendations and progress tracking")
+        recommendations.push("📝 **Grammarly AI** - Writing assistance for educational content")
+      } else {
+        // Default for service-based or other
+        recommendations.push("🤖 **ChatGPT Plus** - Your AI assistant for brainstorming and problem-solving")
+        recommendations.push("✍️ **Grammarly AI** - Professional writing assistance for all communications")
+        recommendations.push("📅 **Calendly** - Streamline your appointment scheduling")
+        recommendations.push("⚡ **Zapier** - Connect your apps and automate workflows")
+        recommendations.push("🎨 **Canva AI** - Create professional graphics and social media posts")
+      }
+
+      // Add some general recommendations
+      recommendations.push("📋 **Notion AI** - Smart note-taking and project management")
+      recommendations.push("📧 **Mailchimp AI** - Smart email campaigns that convert leads")
+
+      console.log("✅ Generated", recommendations.length, "recommendations")
+      return [...new Set(recommendations)].slice(0, 6) // Remove duplicates and limit to 6
+    }
+
+    const personalizedRecommendations = generateRecommendations(formData)
+
+    console.log("📧 Attempting to send user email...")
+
+    // Send email to user
+    const userEmailResult = await resend.emails.send({
+      from: fromEmail,
+      to: formData.email,
+      subject: "✨ Your Personalised AI Automation Plan - AI UP-SCALE Sisters",
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Your Personalised AI Plan</title>
+          <style>
+            body { 
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+              line-height: 1.6; 
+              color: #333; 
+              max-width: 600px; 
+              margin: 0 auto; 
+              padding: 20px; 
+              background-color: #fdf2f8; 
+            }
+            .container { 
+              background: white; 
+              border-radius: 16px; 
+              overflow: hidden; 
+              box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            }
+            .header { 
+              background: linear-gradient(135deg, #ec4899, #8b5cf6); 
+              color: white; 
+              padding: 30px 20px; 
+              text-align: center; 
+            }
+            .content { 
+              padding: 30px; 
+            }
+            .recommendation { 
+              background: #f1f5f9; 
+              padding: 20px; 
+              border-radius: 12px; 
+              margin: 15px 0; 
+              border-left: 4px solid #8b5cf6; 
+            }
+            .cta { 
+              background: linear-gradient(135deg, #ec4899, #8b5cf6); 
+              color: white; 
+              padding: 15px 30px; 
+              border-radius: 8px; 
+              text-decoration: none; 
+              display: inline-block; 
+              margin: 20px 0; 
+              font-weight: bold; 
+            }
+            .footer { 
+              background: #f8fafc; 
+              padding: 20px; 
+              text-align: center; 
+              font-size: 14px; 
+              color: #6b7280; 
+            }
+            .highlight { 
+              background: #fef3c7; 
+              padding: 2px 6px; 
+              border-radius: 4px; 
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">✨ Your Personalised AI Plan</h1>
+              <p style="margin: 10px 0 0; opacity: 0.9; font-size: 16px;">Tailored for your ${formData.businessType} business</p>
+            </div>
+            
+            <div class="content">
+              <p>Hi ${formData.name || "there"}! 👋</p>
+              
+              <p>Thank you for taking the time to share your business details with us. Based on your responses, I've created a <span class="highlight">personalised AI automation plan</span> specifically for your ${formData.businessType} business.</p>
+              
+              <h2 style="color: #8b5cf6; margin-top: 30px;">🎯 Your AI Tool Recommendations:</h2>
+              
+              ${personalizedRecommendations.map((rec) => `<div class="recommendation">${rec}</div>`).join("")}
+              
+              <h2 style="color: #8b5cf6; margin-top: 30px;">🚀 Implementation Roadmap:</h2>
+              <ol style="padding-left: 20px; color: #374151; line-height: 1.8;">
+                <li><strong>Week 1-2:</strong> Start with 1-2 tools that address your biggest pain points</li>
+                <li><strong>Week 3-4:</strong> Set up free trials and test which tools work best for you</li>
+                <li><strong>Month 2:</strong> Gradually integrate more tools as you get comfortable with automation</li>
+                <li><strong>Month 3+:</strong> Track your time savings and productivity improvements</li>
+              </ol>
+              
+              <div style="background: #ecfdf5; border-radius: 12px; padding: 20px; margin: 25px 0;">
+                <h3 style="color: #059669; margin-top: 0;">💡 Want Custom AI Automations?</h3>
+                <p style="color: #374151; line-height: 1.6; margin-bottom: 15px;">
+                  Ready to take it to the next level? I can build custom AI automations and private agents specifically for your business - saving you hours while keeping your unique magic ✨
+                </p>
+                <div style="text-align: center;">
+                  <a href="${siteUrl || "https://aiupscalesisters.com"}/services" class="cta">
+                    Get My Custom Automation Plan
+                  </a>
+                </div>
+              </div>
+              
+              <div style="background: #e0f2fe; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                <h3 style="margin-top: 0; color: #0277bd;">🌟 Why This Matters:</h3>
+                <p style="margin-bottom: 0; color: #374151;">These automations aren't just about saving time—they're about <strong>scaling your impact</strong>. When you automate the right processes, you free yourself to focus on what you do best: growing your business and serving your clients at the highest level.</p>
+              </div>
+              
+              <div style="background: #fef3c7; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                <h3 style="margin-top: 0; color: #92400e;">📞 Questions? I'm Here to Help!</h3>
+                <p style="margin-bottom: 0; color: #92400e;">Simply reply to this email with any questions about implementing these tools. I read every message personally and love helping fellow entrepreneurs succeed! 💜</p>
+              </div>
+              
+              <p>I'm excited to help you implement these solutions and watch your business transform! 🚀</p>
+              
+              <p>Best regards,<br>
+              <strong>Natasha Manning</strong><br>
+              <em>AI UP-SCALE Sisters</em><br>
+              <a href="mailto:${replyToEmail}" style="color: #8b5cf6;">${replyToEmail}</a></p>
+            </div>
+            
+            <div class="footer">
+              <p><strong>Built by a Sister, for All my Sisters 💜</strong></p>
+              <p><a href="${siteUrl || "https://aiupscalesisters.com"}" style="color: #8b5cf6;">AI UP-SCALE Sisters</a> | Custom AI Automations & Private Agents</p>
+              <p style="font-size: 12px; margin-top: 15px;">This plan was generated based on your specific business needs and goals. Every recommendation is tailored to help you succeed.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+      replyTo: replyToEmail,
     })
+
+    console.log("✅ User email sent successfully:", userEmailResult.data?.id)
+
+    console.log("📧 Attempting to send admin notification...")
+
+    // Send notification email to admin
+    const adminEmailResult = await resend.emails.send({
+      from: fromEmail,
+      to: adminEmail,
+      subject: `🎉 New Automation Plan Request - ${formData.name || formData.email}`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>New Plan Request</title>
+          <style>
+            body { 
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+              line-height: 1.6; 
+              color: #333; 
+              max-width: 600px; 
+              margin: 0 auto; 
+              padding: 20px; 
+            }
+            .header { 
+              background: linear-gradient(135deg, #ec4899, #8b5cf6); 
+              color: white; 
+              padding: 20px; 
+              border-radius: 12px; 
+              text-align: center; 
+              margin-bottom: 20px; 
+            }
+            .content { 
+              background: #f9fafb; 
+              padding: 20px; 
+              border-radius: 12px; 
+              border: 1px solid #e5e7eb; 
+            }
+            .field { 
+              margin: 15px 0; 
+              padding: 15px; 
+              background: white; 
+              border-radius: 8px; 
+              border-left: 4px solid #8b5cf6; 
+            }
+            .label { 
+              font-weight: bold; 
+              color: #8b5cf6; 
+              margin-bottom: 5px; 
+            }
+            .value { 
+              color: #374151; 
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1 style="margin: 0; font-size: 24px;">🚨 New Automation Plan Request</h1>
+            <p style="margin: 10px 0 0; opacity: 0.9;">AI UP-SCALE Sisters</p>
+          </div>
+          
+          <div class="content">
+            <div class="field">
+              <div class="label">Email:</div>
+              <div class="value"><a href="mailto:${formData.email}" style="color: #8b5cf6;">${formData.email}</a></div>
+            </div>
+            
+            <div class="field">
+              <div class="label">Name:</div>
+              <div class="value">${formData.name || "Not provided"}</div>
+            </div>
+            
+            <div class="field">
+              <div class="label">Business Type:</div>
+              <div class="value">${formData.businessType}</div>
+            </div>
+            
+            <div class="field">
+              <div class="label">Tool Stack:</div>
+              <div class="value">${formData.stack || "Not specified"}</div>
+            </div>
+            
+            <div style="margin-top: 25px; padding: 20px; background: #fef3c7; border-radius: 8px;">
+              <h3 style="margin-top: 0; color: #92400e;">📋 Recommendations Sent:</h3>
+              <div style="line-height: 1.6; color: #92400e;">
+                ${personalizedRecommendations.map((rec) => `<div style="margin: 8px 0;">${rec}</div>`).join("")}
+              </div>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #dbeafe; border-radius: 8px;">
+              <strong style="color: #1e40af;">Quick Actions:</strong><br>
+              <a href="mailto:${formData.email}?subject=Re: Your AI Automation Plan&body=Hi ${formData.name || "there"}, thank you for your interest in AI automation. I'd love to discuss your specific needs further..." style="color: #1d4ed8;">Reply to ${formData.name || formData.email}</a>
+            </div>
+            
+            <p style="color: #6b7280; font-size: 14px; margin-top: 20px;">
+              Submitted: ${new Date().toLocaleString()}<br>
+              From: ${siteUrl || "https://aiupscalesisters.com"}<br>
+              User Agent: ${request.headers.get("user-agent")?.substring(0, 100) || "Unknown"}
+            </p>
+          </div>
+        </body>
+        </html>
+      `,
+      replyTo: formData.email,
+    })
+
+    console.log("✅ Admin email sent successfully:", adminEmailResult.data?.id)
+
+    console.log("🎉 All emails sent successfully!")
+
+    return NextResponse.json({
+      success: true,
+      message:
+        "Your personalised AI plan has been sent to your email! Check your inbox (and spam folder) in the next few minutes. ✨",
+      userEmailId: userEmailResult.data?.id,
+      adminEmailId: adminEmailResult.data?.id,
+      timestamp: new Date().toISOString(),
+    })
+  } catch (error) {
+    console.error("❌ Email sending error:", error)
+
+    // Log detailed error information
+    if (error instanceof Error) {
+      console.error("Error name:", error.name)
+      console.error("Error message:", error.message)
+      console.error("Error stack:", error.stack)
+    }
+
+    return NextResponse.json(
+      {
+        error: "Failed to send automation plan. Please try again or contact support.",
+        details: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 },
+    )
   }
 }

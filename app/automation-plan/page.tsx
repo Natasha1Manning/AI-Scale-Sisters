@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, Sparkles } from "lucide-react"
+import { ArrowLeft, Sparkles, AlertCircle, CheckCircle, Loader2 } from "lucide-react"
 
 // Brand Logo Component
 const BrandLogo = ({ size = "w-8 h-8" }: { size?: string }) => (
@@ -28,30 +28,76 @@ const BrandLogo = ({ size = "w-8 h-8" }: { size?: string }) => (
 export default function AutomationPlanPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle")
   const [msg, setMsg] = useState("")
+  const [debugInfo, setDebugInfo] = useState("")
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setStatus("sending")
     setMsg("")
+    setDebugInfo("")
+
     const form = new FormData(e.currentTarget)
     const payload = {
       name: form.get("name") as string,
       email: form.get("email") as string,
-      drain: form.get("drain") as string,
+      businessType: form.get("businessType") as string, // Changed from 'drain' to 'businessType'
+      currentChallenges: [form.get("businessType") as string], // Use businessType as challenge
+      goals: ["improve-efficiency"], // Default goal
+      techComfort: "beginner", // Default tech comfort
+      budgetRange: "under-500", // Default budget
+      timeline: "1-3-months", // Default timeline
       stack: form.get("stack") as string,
-      hp: form.get("website") as string, // honeypot
+      website: form.get("website") as string, // honeypot
     }
-    const res = await fetch("/api/plan", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+
+    console.log("🚀 Submitting automation plan form with payload:", {
+      name: payload.name,
+      email: payload.email,
+      businessType: payload.businessType,
+      hasStack: !!payload.stack,
+      isHoneypot: !!payload.website,
     })
-    if (res.ok) {
-      setStatus("ok")
-      setMsg("Plan received! Check your inbox in the next few minutes.")
-    } else {
+
+    try {
+      const res = await fetch("/api/plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+
+      console.log("📡 Response status:", res.status)
+      console.log("📡 Response headers:", Object.fromEntries(res.headers.entries()))
+
+      const responseText = await res.text()
+      console.log("📡 Response text:", responseText)
+
+      if (res.ok) {
+        setStatus("ok")
+        setMsg(
+          "🎉 Your personalized automation plan has been sent! Check your inbox (and spam folder) in the next few minutes.",
+        )
+
+        // Try to parse JSON response for additional info
+        try {
+          const jsonResponse = JSON.parse(responseText)
+          if (jsonResponse.userEmailId) {
+            setDebugInfo(
+              `User Email ID: ${jsonResponse.userEmailId}\nAdmin Email ID: ${jsonResponse.adminEmailId || "N/A"}`,
+            )
+          }
+        } catch (e) {
+          console.log("Response wasn't JSON, that's okay")
+        }
+      } else {
+        setStatus("err")
+        setMsg("Failed to send your automation plan. Please try again.")
+        setDebugInfo(`Status: ${res.status}\nResponse: ${responseText}`)
+      }
+    } catch (error) {
+      console.error("❌ Network error:", error)
       setStatus("err")
-      setMsg((await res.text()) || "Something went wrong. Please try again.")
+      setMsg("Network error occurred. Please check your connection and try again.")
+      setDebugInfo(`Network error: ${error instanceof Error ? error.message : "Unknown error"}`)
     }
   }
 
@@ -107,6 +153,7 @@ export default function AutomationPlanPage() {
                 required
                 className="w-full rounded-lg border border-pink-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                 placeholder="Your first name"
+                disabled={status === "sending"}
               />
             </div>
 
@@ -118,23 +165,28 @@ export default function AutomationPlanPage() {
                 required
                 className="w-full rounded-lg border border-pink-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                 placeholder="your@email.com"
+                disabled={status === "sending"}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">What drains your time most? *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                What type of business do you run? *
+              </label>
               <select
-                name="drain"
+                name="businessType"
                 required
                 className="w-full rounded-lg border border-pink-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                disabled={status === "sending"}
               >
-                <option value="">Choose one...</option>
-                <option>Inbox & Email Replies</option>
-                <option>Leads & DMs / Follow-ups</option>
-                <option>Content Repurposing</option>
-                <option>Ops/Admin & CRM Hygiene</option>
-                <option>Customer Support / FAQs</option>
-                <option>Research & Briefs</option>
+                <option value="">Choose your business type...</option>
+                <option value="e-commerce">E-commerce & Online Store</option>
+                <option value="consulting">Consulting & Professional Services</option>
+                <option value="creative-services">Creative Services & Design</option>
+                <option value="coaching">Coaching & Course Creation</option>
+                <option value="health-wellness">Health & Wellness Services</option>
+                <option value="education">Education & Training</option>
+                <option value="service-based">Other Service-Based Business</option>
               </select>
             </div>
 
@@ -142,9 +194,10 @@ export default function AutomationPlanPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Your main tool stack *</label>
               <input
                 name="stack"
-                placeholder="e.g., Notion, Gmail, Shopify, Slack..."
+                placeholder="e.g., Notion, Gmail, Shopify, Slack, Canva..."
                 required
                 className="w-full rounded-lg border border-pink-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                disabled={status === "sending"}
               />
               <p className="text-xs text-gray-500 mt-1">List the main apps/tools you use daily</p>
             </div>
@@ -154,13 +207,22 @@ export default function AutomationPlanPage() {
               disabled={status === "sending"}
               className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-4 rounded-lg font-semibold text-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              <Sparkles className="w-5 h-5" />
-              {status === "sending" ? "Sending Your Plan..." : "Send Me My Automation Plan"}
+              {status === "sending" ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Sending Your Plan...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-5 h-5" />
+                  Send Me My Automation Plan
+                </>
+              )}
             </button>
 
             {status !== "idle" && (
               <div
-                className={`p-4 rounded-lg text-center ${
+                className={`p-4 rounded-lg ${
                   status === "ok"
                     ? "bg-green-50 border border-green-200 text-green-800"
                     : status === "err"
@@ -168,10 +230,45 @@ export default function AutomationPlanPage() {
                       : "bg-gray-50 border border-gray-200 text-gray-600"
                 }`}
               >
-                <p className="font-medium">{msg}</p>
-                {status === "ok" && (
-                  <p className="text-sm mt-2">Check your spam folder if you don't see it in a few minutes.</p>
-                )}
+                <div className="flex items-start gap-3">
+                  {status === "ok" ? (
+                    <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  ) : status === "err" ? (
+                    <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                  ) : null}
+                  <div className="flex-1">
+                    <p className="font-medium">{msg}</p>
+                    {status === "ok" && (
+                      <div className="mt-2 space-y-1">
+                        <p className="text-sm">✅ Check your inbox (and spam folder)</p>
+                        <p className="text-sm">✅ Look for an email from hello@aiupscalesisters.com</p>
+                        <p className="text-sm">✅ If you don't see it in 10 minutes, contact us</p>
+                        <p className="text-sm">✅ Admin notification sent to Natasha</p>
+                      </div>
+                    )}
+                    {status === "err" && (
+                      <div className="mt-2">
+                        <p className="text-sm">Please try again or contact support:</p>
+                        <p className="text-sm">
+                          <a
+                            href="mailto:natasha.manning@riseandthrivefamilies.com"
+                            className="underline hover:no-underline"
+                          >
+                            natasha.manning@riseandthrivefamilies.com
+                          </a>
+                        </p>
+                      </div>
+                    )}
+                    {debugInfo && (
+                      <details className="mt-2">
+                        <summary className="text-xs cursor-pointer">Debug Info</summary>
+                        <pre className="text-xs mt-1 bg-gray-100 p-2 rounded overflow-auto whitespace-pre-wrap">
+                          {debugInfo}
+                        </pre>
+                      </details>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
           </form>
@@ -180,9 +277,10 @@ export default function AutomationPlanPage() {
             <div className="mt-8 p-4 bg-pink-50 border border-pink-200 rounded-lg">
               <h3 className="font-semibold text-pink-800 mb-2">What you'll get:</h3>
               <ul className="text-sm text-pink-700 space-y-1">
-                <li>• 3 specific automation ideas for your workflow</li>
-                <li>• Tailored to your exact tools and pain points</li>
-                <li>• Next steps for a free 15-minute fit call</li>
+                <li>• Personalized AI tool recommendations for your business type</li>
+                <li>• Step-by-step implementation roadmap</li>
+                <li>• Custom automation ideas tailored to your workflow</li>
+                <li>• Next steps for a free 15-minute consultation</li>
                 <li>• No sales pressure, just helpful recommendations</li>
               </ul>
             </div>
