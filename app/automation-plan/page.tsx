@@ -92,7 +92,7 @@ export default function AutomationPlanPage() {
             Get Your Free Automation Plan
           </h1>
           <p className="text-lg text-gray-600 mb-2">No spam, no tech-speak. We'll reply with a simple 1-page plan.</p>
-          <p className="text-sm text-pink-600 font-medium">Personalized recommendations in minutes ✨</p>
+          <p className="text-sm text-pink-600 font-medium">Personalised recommendations in minutes ✨</p>
         </div>
 
         <div className="bg-white/60 backdrop-blur-sm border border-pink-200 rounded-2xl p-8 shadow-lg">

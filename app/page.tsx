@@ -1,413 +1,397 @@
 "use client"
 
 import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { ArrowRight, Sparkles, Users, TrendingUp, Heart, Star, Zap, Target, Globe } from "lucide-react"
 import Link from "next/link"
-import {
-  ArrowRight,
-  Sparkles,
-  Users,
-  TrendingUp,
-  Zap,
-  Star,
-  Heart,
-  PenTool,
-  Video,
-  MessageSquare,
-  ShoppingCart,
-  Settings,
-  BarChart3,
-  Mail,
-  Globe,
-  Headphones,
-  Calculator,
-  Search,
-  Palette,
-} from "lucide-react"
 import { BrandLogo } from "@/components/brand-logo"
 
-// AI Tool Categories with matching icons
-const aiToolCategories = [
+const testimonials = [
+  {
+    name: "Sarah Chen",
+    role: "E-commerce Founder",
+    content:
+      "This platform helped me discover AI tools that automated my customer service and increased sales by 40%. Game-changer!",
+    avatar: "/placeholder.svg?height=40&width=40&text=SC",
+  },
+  {
+    name: "Maria Rodriguez",
+    role: "Marketing Consultant",
+    content:
+      "I found the perfect AI writing assistant that cut my content creation time in half. Now I can focus on strategy instead of writing.",
+    avatar: "/placeholder.svg?height=40&width=40&text=MR",
+  },
+  {
+    name: "Jessica Kim",
+    role: "Tech Startup CEO",
+    content:
+      "The personalised recommendations were spot-on. I implemented 3 AI tools that transformed how my team works.",
+    avatar: "/placeholder.svg?height=40&width=40&text=JK",
+  },
+]
+
+const categories = [
   {
     name: "Writing & Content",
-    icon: PenTool,
-    color: "from-blue-400 to-blue-600",
+    icon: "✍️",
     description: "AI writers, editors, and content creators",
-    count: "45+ tools",
+    toolCount: "45+ tools",
   },
   {
     name: "Image & Design",
-    icon: Palette,
-    color: "from-purple-400 to-purple-600",
+    icon: "🎨",
     description: "AI image generators and design tools",
-    count: "35+ tools",
+    toolCount: "35+ tools",
   },
   {
     name: "Video & Avatars",
-    icon: Video,
-    color: "from-red-400 to-red-600",
+    icon: "🎬",
     description: "AI video creation and avatar tools",
-    count: "25+ tools",
+    toolCount: "25+ tools",
   },
   {
     name: "Social Media",
-    icon: MessageSquare,
-    color: "from-pink-400 to-pink-600",
+    icon: "📱",
     description: "Social media management and marketing",
-    count: "30+ tools",
-  },
-  {
-    name: "E-commerce",
-    icon: ShoppingCart,
-    color: "from-green-400 to-green-600",
-    description: "Online store and sales optimization",
-    count: "20+ tools",
-  },
-  {
-    name: "Automation",
-    icon: Settings,
-    color: "from-orange-400 to-orange-600",
-    description: "Workflow automation and productivity",
-    count: "40+ tools",
+    toolCount: "30+ tools",
   },
   {
     name: "Customer Support",
-    icon: Headphones,
-    color: "from-teal-400 to-teal-600",
+    icon: "💬",
     description: "AI chatbots and support systems",
-    count: "15+ tools",
+    toolCount: "15+ tools",
+  },
+  {
+    name: "E-commerce & Sales",
+    icon: "🛒",
+    description: "Online store and sales optimization",
+    toolCount: "20+ tools",
+  },
+  {
+    name: "Automation",
+    icon: "⚡",
+    description: "Workflow automation and productivity",
+    toolCount: "40+ tools",
   },
   {
     name: "Analytics & Data",
-    icon: BarChart3,
-    color: "from-indigo-400 to-indigo-600",
+    icon: "📊",
     description: "Business intelligence and insights",
-    count: "12+ tools",
+    toolCount: "12+ tools",
   },
   {
     name: "Email Marketing",
-    icon: Mail,
-    color: "from-cyan-400 to-cyan-600",
+    icon: "📧",
     description: "Email campaigns and automation",
-    count: "25+ tools",
+    toolCount: "25+ tools",
   },
   {
     name: "Website Building",
-    icon: Globe,
-    color: "from-emerald-400 to-emerald-600",
+    icon: "🌐",
     description: "AI-powered website creators",
-    count: "20+ tools",
+    toolCount: "20+ tools",
   },
   {
     name: "Finance & Accounting",
-    icon: Calculator,
-    color: "from-yellow-400 to-yellow-600",
+    icon: "💰",
     description: "Financial management and tracking",
-    count: "15+ tools",
+    toolCount: "15+ tools",
   },
   {
     name: "Research & Learning",
-    icon: Search,
-    color: "from-violet-400 to-violet-600",
+    icon: "🔍",
     description: "AI research assistants and learning",
-    count: "20+ tools",
+    toolCount: "20+ tools",
   },
 ]
 
 export default function HomePage() {
-  const [copiedEmail, setCopiedEmail] = useState(false)
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText("hello@aiupscalesisters.com")
-    setCopiedEmail(true)
-    setTimeout(() => setCopiedEmail(false), 2000)
-  }
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-pink-50 to-purple-100">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-pink-100">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <BrandLogo size="w-12 h-12" />
-              <div>
-                <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
-                  AI UP-SCALE SISTERS
-                </span>
-                <p className="text-sm text-gray-600">Empowering Women Entrepreneurs with AI</p>
-              </div>
-            </div>
-            <nav className="hidden md:flex space-x-6">
-              <Link href="/services" className="text-gray-700 hover:text-pink-600 transition-colors">
-                Services
-              </Link>
-              <Link href="/results?showAll=true" className="text-gray-700 hover:text-pink-600 transition-colors">
-                All Tools
-              </Link>
-            </nav>
-          </div>
+      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <BrandLogo />
+          <nav className="hidden md:flex items-center space-x-8">
+            <Link href="/questionnaire" className="text-gray-600 hover:text-purple-600 transition-colors">
+              Find Tools
+            </Link>
+            <Link href="/services" className="text-gray-600 hover:text-purple-600 transition-colors">
+              Services
+            </Link>
+            <Link href="/automation-plan" className="text-gray-600 hover:text-purple-600 transition-colors">
+              Get Automation Plan
+            </Link>
+          </nav>
+          <Link href="/questionnaire">
+            <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
+              Get Started
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
-              Scale Your Business with AI
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
-              Discover the perfect AI tools to grow your business, save time, and increase revenue. Built specifically
-              for women entrepreneurs who are ready to scale.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/questionnaire"
-                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105"
+      <section className="py-20 px-4">
+        <div className="container mx-auto text-center max-w-4xl">
+          <div className="mb-6">
+            <Badge className="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 border-purple-200 mb-4">
+              <Sparkles className="w-4 h-4 mr-2" />
+              250+ AI Tools Curated for Women Entrepreneurs
+            </Badge>
+          </div>
+
+          <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent mb-6 leading-tight">
+            Find Your Perfect AI Tools in Minutes
+          </h1>
+
+          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+            Stop wasting time searching through endless AI tools. Get personalised recommendations based on your
+            business needs, skill level, and goals. Built by women entrepreneurs, for women entrepreneurs.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <Link href="/questionnaire">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 text-lg"
               >
-                Find My AI Tools
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link
-                href="/results?showAll=true"
-                className="border-2 border-pink-500 text-pink-600 hover:bg-pink-50 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2"
+                Take the 2-Minute Quiz
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link href="/services">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-purple-200 text-purple-700 hover:bg-purple-50 px-8 py-4 text-lg bg-transparent"
               >
-                Browse All 250+ Tools
-                <Sparkles className="w-5 h-5" />
-              </Link>
+                View Services
+              </Button>
+            </Link>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div className="text-center">
+              <div className="flex justify-center mb-2">
+                <Users className="h-8 w-8 text-purple-600" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">95%</div>
+              <div className="text-gray-600">Report Increased Productivity</div>
+            </div>
+            <div className="text-center">
+              <div className="flex justify-center mb-2">
+                <TrendingUp className="h-8 w-8 text-pink-600" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">250+</div>
+              <div className="text-gray-600">AI Tools Curated</div>
+            </div>
+            <div className="text-center">
+              <div className="flex justify-center mb-2">
+                <Heart className="h-8 w-8 text-indigo-600" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">100%</div>
+              <div className="text-gray-600">Built for Women</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* AI Tool Categories Section - ClickUp Style */}
-      <section className="py-20 bg-white/40 backdrop-blur-sm">
-        <div className="container mx-auto px-4">
+      {/* Categories Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-white via-purple-50/30 to-pink-50/30">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent mb-6">
               AI Tools for Every Part of Your Business
             </h2>
-            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               From content creation to customer support, we've curated the best AI tools across all business categories
             </p>
           </div>
 
-          {/* Categories Grid - ClickUp Style */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
-            {aiToolCategories.map((category, index) => {
-              const IconComponent = category.icon
-              return (
-                <Link
-                  key={category.name}
-                  href={`/results?category=${encodeURIComponent(category.name.replace(" & ", " & "))}`}
-                  className="group bg-white/60 backdrop-blur-sm border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-pink-300 transition-all duration-200 hover:scale-105"
-                >
-                  <div className="flex flex-col items-center text-center space-y-3">
-                    <div
-                      className={`w-12 h-12 rounded-lg bg-gradient-to-r ${category.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-200`}
-                    >
-                      <IconComponent className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-800 text-sm mb-1 group-hover:text-pink-600 transition-colors">
-                        {category.name}
-                      </h3>
-                      <p className="text-xs text-gray-600 mb-2 leading-tight">{category.description}</p>
-                      <span className="text-xs font-medium text-pink-600 bg-pink-50 px-2 py-1 rounded-full">
-                        {category.count}
-                      </span>
-                    </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {categories.map((category, index) => (
+              <Card
+                key={category.name}
+                className={`cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-gradient-to-br from-pink-50/50 to-purple-50/50 border-pink-200/50 ${
+                  hoveredCategory === category.name ? "ring-2 ring-purple-500 shadow-lg" : ""
+                }`}
+                onMouseEnter={() => setHoveredCategory(category.name)}
+                onMouseLeave={() => setHoveredCategory(null)}
+              >
+                <CardHeader className="text-center pb-2">
+                  <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-pink-100 to-purple-100 rounded-full border-2 border-pink-200/60 flex items-center justify-center">
+                    <span className="text-2xl">{category.icon}</span>
                   </div>
-                </Link>
-              )
-            })}
+                  <CardTitle className="text-lg text-gray-800">{category.name}</CardTitle>
+                  <Badge className="bg-gradient-to-r from-pink-500 to-purple-500 text-white border-0 text-xs">
+                    {category.toolCount}
+                  </Badge>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription className="text-sm text-gray-600">{category.description}</CardDescription>
+                </CardContent>
+              </Card>
+            ))}
           </div>
 
           <div className="text-center mt-12">
-            <Link
-              href="/results?showAll=true"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
-              <Sparkles className="w-5 h-5" />
-              Explore All Categories
+            <Link href="/questionnaire">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+              >
+                Find Your Perfect Tools
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-white/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div className="p-6">
-              <div className="text-4xl font-bold text-pink-600 mb-2">250+</div>
-              <div className="text-gray-700">AI Tools Curated</div>
+      {/* How It Works */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Get personalised AI tool recommendations in just 3 simple steps
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="text-center">
+              <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-purple-600">1</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Take the Quiz</h3>
+              <p className="text-gray-600">Answer a few questions about your business, goals, and skill level</p>
             </div>
-            <div className="p-6">
-              <div className="text-4xl font-bold text-purple-600 mb-2">12+</div>
-              <div className="text-gray-700">Categories Covered</div>
+
+            <div className="text-center">
+              <div className="bg-gradient-to-r from-pink-100 to-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-pink-600">2</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Get Recommendations</h3>
+              <p className="text-gray-600">
+                Receive personalised AI tool suggestions with beginner-friendly explanations
+              </p>
             </div>
-            <div className="p-6">
-              <div className="text-4xl font-bold text-pink-600 mb-2">95%</div>
-              <div className="text-gray-700">Report Increased Productivity</div>
-            </div>
-            <div className="p-6">
-              <div className="text-4xl font-bold text-purple-600 mb-2">24/7</div>
-              <div className="text-gray-700">AI-Powered Support</div>
+
+            <div className="text-center">
+              <div className="bg-gradient-to-r from-indigo-100 to-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-indigo-600">3</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Start Growing</h3>
+              <p className="text-gray-600">Implement the tools and watch your business productivity soar</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
-              Why Choose AI UP-SCALE SISTERS?
-            </h2>
-            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
-              We understand the unique challenges women entrepreneurs face. Our platform is designed with you in mind.
+      {/* Testimonials */}
+      <section className="py-16 px-4 bg-white/50">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Success Stories</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              See how other women entrepreneurs are transforming their businesses with AI
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-pink-200 hover:shadow-lg transition-all duration-200">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mb-6">
-                <Users className="w-8 h-8 text-white" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {testimonials.map((testimonial, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <img
+                      src={testimonial.avatar || "/placeholder.svg"}
+                      alt={testimonial.name}
+                      className="w-12 h-12 rounded-full mr-4"
+                    />
+                    <div>
+                      <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
+                      <p className="text-sm text-gray-600">{testimonial.role}</p>
+                    </div>
+                  </div>
+                  <div className="flex mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 italic">"{testimonial.content}"</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Choose Our Platform?</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              We understand the unique challenges women entrepreneurs face
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Target className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Personalised Recommendations</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Our smart questionnaire understands your business stage, goals, and challenges to recommend the perfect
-                AI tools for your unique journey.
-              </p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Personalised Recommendations</h3>
+              <p className="text-gray-600 text-sm">Get tools matched to your specific business needs and skill level</p>
             </div>
 
-            <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-pink-200 hover:shadow-lg transition-all duration-200">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mb-6">
-                <Zap className="w-8 h-8 text-white" />
+            <div className="text-center">
+              <div className="bg-gradient-to-r from-pink-100 to-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Heart className="w-8 h-8 text-pink-600" />
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Ready-to-Use Prompts</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Skip the learning curve with our pre-written, personalised prompts that get you results immediately.
-                Just copy, paste, and watch the magic happen.
-              </p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Built by Women</h3>
+              <p className="text-gray-600 text-sm">Created by women entrepreneurs who understand your journey</p>
             </div>
 
-            <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-pink-200 hover:shadow-lg transition-all duration-200">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mb-6">
-                <TrendingUp className="w-8 h-8 text-white" />
+            <div className="text-center">
+              <div className="bg-gradient-to-r from-indigo-100 to-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Zap className="w-8 h-8 text-indigo-600" />
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Proven Results</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Join thousands of successful women entrepreneurs who have scaled their businesses using our curated AI
-                tools and strategies.
-              </p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Beginner-Friendly</h3>
+              <p className="text-gray-600 text-sm">Clear explanations and prompts to get you started immediately</p>
+            </div>
+
+            <div className="text-center">
+              <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Globe className="w-8 h-8 text-purple-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Global Coverage</h3>
+              <p className="text-gray-600 text-sm">Tools available worldwide with regional recommendations</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-pink-500 to-purple-600 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Scale Your Business with AI?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join thousands of successful women entrepreneurs who are already using AI to grow their businesses faster
-            than ever before.
+      <section className="py-20 px-4 bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Transform Your Business with AI?</h2>
+          <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+            Join thousands of women entrepreneurs who are already using AI to scale their businesses faster and smarter.
           </p>
-          <Link
-            href="/questionnaire"
-            className="bg-white text-pink-600 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 inline-flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105"
-          >
-            Start Your AI Journey Now
-            <ArrowRight className="w-5 h-5" />
+          <Link href="/questionnaire">
+            <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold">
+              Start Your AI Journey Now
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </Link>
-        </div>
-      </section>
-
-      {/* Built by Women Section */}
-      <section className="py-16 bg-white/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            {/* Enhanced Attribution Design */}
-            <div className="relative max-w-3xl mx-auto mb-8">
-              <div className="bg-gradient-to-r from-pink-50 via-purple-50 to-pink-50 border-2 border-pink-200 rounded-2xl p-8 shadow-lg">
-                {/* Decorative elements */}
-                <div className="absolute top-4 left-4 text-pink-300">
-                  <Heart className="w-6 h-6" />
-                </div>
-                <div className="absolute top-4 right-4 text-purple-300">
-                  <Sparkles className="w-6 h-6" />
-                </div>
-
-                {/* Main attribution text */}
-                <div className="space-y-4">
-                  <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent leading-tight">
-                    Built by a Sister, for All my Sisters
-                  </h3>
-
-                  {/* Decorative divider */}
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="w-8 h-0.5 bg-gradient-to-r from-transparent to-pink-400"></div>
-                    <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
-                    <div className="w-8 h-0.5 bg-gradient-to-r from-pink-400 to-transparent"></div>
-                  </div>
-
-                  {/* Inspiration text */}
-                  <div className="bg-white/70 rounded-lg p-4 border border-pink-100">
-                    <p className="text-lg text-gray-700 font-medium mb-1">Inspired by</p>
-                    <p className="text-xl font-bold text-purple-700">Agnes Agyepong - Goddess Table</p>
-                    <div className="mt-2 flex justify-center">
-                      <div className="flex items-center space-x-1 text-pink-500">
-                        <Star className="w-4 h-4 fill-current" />
-                        <Star className="w-4 h-4 fill-current" />
-                        <Star className="w-4 h-4 fill-current" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-center mb-8">
-              <BrandLogo size="w-24 h-24" />
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div className="p-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-gray-800">Diverse</h3>
-              <p className="text-gray-600">Celebrating women from all backgrounds and industries</p>
-            </div>
-
-            <div className="p-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-gray-800">Innovative</h3>
-              <p className="text-gray-600">Cutting-edge AI solutions for modern entrepreneurs</p>
-            </div>
-
-            <div className="p-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Star className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-gray-800">Experienced</h3>
-              <p className="text-gray-600">Built by entrepreneurs who understand your journey</p>
-            </div>
-
-            <div className="p-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-gray-800">Empowered</h3>
-              <p className="text-gray-600">Supporting women to achieve their biggest dreams</p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -445,6 +429,11 @@ export default function HomePage() {
                 💼 Connect on LinkedIn
               </a>
             </div>
+          </div>
+
+          <div className="text-center mb-4">
+            <p className="text-lg font-medium text-white mb-2">Built by a Sister, for All my Sisters</p>
+            <p className="text-gray-300 mb-4">Inspired by Agnes Agyepong - Goddess Table</p>
           </div>
 
           <p className="text-sm text-gray-500 mb-2">

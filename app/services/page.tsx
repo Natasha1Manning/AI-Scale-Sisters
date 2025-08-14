@@ -82,15 +82,6 @@ export default function ServicesPage() {
                 <Sparkles className="w-5 h-5" />
                 Get Your Free Automation Plan
               </Link>
-              <a
-                href="https://www.linkedin.com/in/natasha-manning-7bb914205/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white/80 backdrop-blur-sm border-2 border-pink-300 text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 mx-auto"
-              >
-                <Users className="w-5 h-5" />
-                Book a 15-min Fit Call
-              </a>
             </div>
 
             <p className="text-sm text-gray-600">

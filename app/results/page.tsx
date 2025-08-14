@@ -1,6 +1,5 @@
 "use client"
 
-import type React from "react"
 import { useState, useEffect } from "react"
 import {
   Copy,
@@ -8,7 +7,6 @@ import {
   Grid,
   List,
   Search,
-  Sparkles,
   Star,
   TrendingUp,
   Users,
@@ -17,8 +15,8 @@ import {
   Info,
   DollarSign,
   MapPin,
-  UserCheck,
   ArrowLeft,
+  CheckCircle,
 } from "lucide-react"
 import Link from "next/link"
 import {
@@ -26,6 +24,7 @@ import {
   getUniqueCategories,
   getUniqueRegions,
   getUniqueSkillLevels,
+  type AITool,
 } from "../../data/ai-tools-database"
 
 const inspirationalQuotes = [
@@ -72,209 +71,73 @@ const inspirationalQuotes = [
   },
 ]
 
-// Brand Logo Component
 const BrandLogo = ({ size = "w-8 h-8" }: { size?: string }) => (
   <div className={`${size} flex items-center justify-center`}>
     <img
       src="/images/ai-upscale-sisters-logo.png"
       alt="AI UP-SCALE Sisters Logo"
       className={`${size} object-contain`}
+      onError={(e) => {
+        const target = e.currentTarget as HTMLImageElement
+        target.style.display = "none"
+        const parent = target.parentElement
+        if (parent) {
+          parent.innerHTML = `<div class="${size} bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center"><span class="text-white font-bold text-lg">AS</span></div>`
+        }
+      }}
     />
   </div>
 )
 
-const calculateRelevanceScore = (tool: any, questionnaireData: any) => {
-  if (!questionnaireData) return 0
-
-  let score = 0
-  const businessTypes = questionnaireData.businessTypes || []
-  const challenge = questionnaireData.challenge?.toLowerCase() || ""
-  const inspiration = questionnaireData.inspiration?.toLowerCase() || ""
-
-  // Category relevance
-  businessTypes.forEach((type) => {
-    if (type.includes("Website") && tool.category.includes("Website")) score += 3
-    if (type.includes("E-commerce") && tool.category.includes("E-commerce")) score += 3
-    if (type.includes("Social Media") && tool.category.includes("Social Media")) score += 3
-    if (type.includes("Video") && tool.category.includes("Video")) score += 3
-    if (type.includes("Content") && tool.category.includes("Writing")) score += 3
-  })
-
-  // Challenge relevance
-  if (challenge.includes("time") && tool.category.includes("Automation")) score += 2
-  if (challenge.includes("content") && tool.category.includes("Writing")) score += 2
-  if (challenge.includes("design") && tool.category.includes("Image")) score += 2
-  if (challenge.includes("customer") && tool.category.includes("Customer")) score += 2
-
-  // Tag bonuses
-  if (tool.tags.includes("our-top-pick")) score += 2
-  if (tool.tags.includes("startup-fav")) score += 1
-  if (tool.tags.includes("trending")) score += 1
-
-  return score
-}
-
 export default function ResultsPage() {
   const [questionnaireData, setQuestionnaireData] = useState<any>(null)
-  const [filteredTools, setFilteredTools] = useState(aiToolsDatabase)
+  const [filteredTools, setFilteredTools] = useState<AITool[]>(aiToolsDatabase)
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [selectedSkillLevel, setSelectedSkillLevel] = useState("all")
   const [selectedRegion, setSelectedRegion] = useState("all")
-  const [showVCForm, setShowVCForm] = useState(false)
   const [showAllTools, setShowAllTools] = useState(false)
-  const [copiedEmail, setCopiedEmail] = useState(false)
-  const [vcFormData, setVcFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    businessIdea: "",
-    gdprConsent: false,
-  })
+  const [copiedPrompt, setCopiedPrompt] = useState<string | null>(null)
 
   const currentQuote = inspirationalQuotes[Math.floor(Math.random() * inspirationalQuotes.length)]
   const categories = getUniqueCategories()
   const regions = getUniqueRegions()
   const skillLevels = getUniqueSkillLevels()
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText("hello@aiupscalesisters.com")
-    setCopiedEmail(true)
-    setTimeout(() => setCopiedEmail(false), 2000)
-  }
-
   useEffect(() => {
-    const data = localStorage.getItem("questionnaireData")
-    const urlParams = new URLSearchParams(window.location.search)
-    const showAll = urlParams.get("showAll") === "true"
+    try {
+      const data = localStorage.getItem("questionnaireData")
+      const urlParams = new URLSearchParams(window.location.search)
+      const showAll = urlParams.get("showAll") === "true"
 
-    if (data) {
-      const parsed = JSON.parse(data)
-      setQuestionnaireData(parsed)
-      if (parsed.shareWithVC) {
-        setShowVCForm(true)
+      if (data) {
+        const parsed = JSON.parse(data)
+        setQuestionnaireData(parsed)
       }
-    }
 
-    if (showAll) {
-      setShowAllTools(true)
+      if (showAll) {
+        setShowAllTools(true)
+      }
+    } catch (error) {
+      console.error("Error loading questionnaire data:", error)
     }
   }, [])
 
   useEffect(() => {
-    let filtered = aiToolsDatabase
+    let filtered = [...aiToolsDatabase]
 
-    // If not showing all tools and we have questionnaire data, filter based on responses
-    if (!showAllTools && questionnaireData) {
-      // Enhanced smart filtering based on questionnaire responses
-      const businessTypes = questionnaireData.businessTypes || []
-      const businessStage = questionnaireData.businessStage || ""
-      const challenge = questionnaireData.challenge?.toLowerCase() || ""
-      const inspiration = questionnaireData.inspiration?.toLowerCase() || ""
-      const audience = questionnaireData.audience?.toLowerCase() || ""
-
-      // More precise category matching based on business type
-      const relevantCategories: string[] = []
-
-      if (businessTypes.includes("Website") || businessTypes.includes("E-commerce Store")) {
-        relevantCategories.push(
-          "Image Generation & Design",
-          "Writing & Content Generation",
-          "E-commerce & Sales",
-          "Website Building",
-        )
-      }
-
-      if (
-        businessTypes.includes("Social Media Posts") ||
-        businessTypes.includes("Video Content") ||
-        businessTypes.includes("YouTube Channel")
-      ) {
-        relevantCategories.push(
-          "Image Generation & Design",
-          "Video & Avatar Creation",
-          "Social Media & Marketing",
-          "Writing & Content Generation",
-        )
-      }
-
-      if (
-        businessTypes.includes("Online Course") ||
-        businessTypes.includes("E-book/Guide") ||
-        businessTypes.includes("Podcast")
-      ) {
-        relevantCategories.push("Writing & Content Generation", "Video & Avatar Creation", "Email Marketing")
-      }
-
-      if (businessTypes.includes("Consulting Services") || businessTypes.includes("Service Business")) {
-        relevantCategories.push("Customer Service & Support", "Automation & Productivity", "Email Marketing")
-      }
-
-      if (businessTypes.includes("SaaS Product") || businessTypes.includes("Mobile App")) {
-        relevantCategories.push("Automation & Productivity", "Customer Service & Support", "Analytics & Data")
-      }
-
-      // Filter by challenge-specific needs
-      if (challenge.includes("time") || challenge.includes("automat") || challenge.includes("productiv")) {
-        relevantCategories.push("Automation & Productivity")
-      }
-
-      if (challenge.includes("content") || challenge.includes("writing") || challenge.includes("blog")) {
-        relevantCategories.push("Writing & Content Generation")
-      }
-
-      if (challenge.includes("customer") || challenge.includes("support") || challenge.includes("service")) {
-        relevantCategories.push("Customer Service & Support")
-      }
-
-      if (challenge.includes("market") || challenge.includes("social") || challenge.includes("promot")) {
-        relevantCategories.push("Social Media & Marketing")
-      }
-
-      // Apply category filtering if we have relevant categories
-      if (relevantCategories.length > 0) {
-        filtered = filtered.filter((tool) => relevantCategories.some((category) => tool.category.includes(category)))
-      }
-
-      // Enhanced skill level filtering based on business stage
-      if (
-        businessStage === "Just an idea" ||
-        businessStage === "Planning stage" ||
-        businessStage === "Just exploring options"
-      ) {
-        filtered = filtered.filter((tool) => tool.skillLevel === "Beginner")
-      } else if (businessStage === "Building/Developing") {
-        filtered = filtered.filter((tool) => tool.skillLevel === "Beginner" || tool.skillLevel === "Intermediate")
-      } else if (businessStage === "Launched but early stage") {
-        filtered = filtered.filter((tool) => tool.skillLevel === "Intermediate" || tool.skillLevel === "Expert")
-      }
-
-      // Prioritize tools with relevant tags
-      filtered = filtered.sort((a, b) => {
-        const aRelevant = a.tags.includes("our-top-pick") || a.tags.includes("startup-fav") ? 1 : 0
-        const bRelevant = b.tags.includes("our-top-pick") || b.tags.includes("startup-fav") ? 1 : 0
-        return bRelevant - aRelevant
-      })
-    }
-
-    // Apply search filter - Enhanced matching
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase()
+    // Apply search filter first
+    if (searchTerm.trim()) {
+      const searchLower = searchTerm.toLowerCase().trim()
       filtered = filtered.filter(
         (tool) =>
           tool.name.toLowerCase().includes(searchLower) ||
           tool.description.toLowerCase().includes(searchLower) ||
           tool.beginnerExplanation.toLowerCase().includes(searchLower) ||
           tool.category.toLowerCase().includes(searchLower) ||
-          tool.usedFor.toLowerCase().includes(searchLower) ||
-          tool.tags.some((tag) => tag.toLowerCase().includes(searchLower)) ||
-          tool.skillLevel.toLowerCase().includes(searchLower) ||
-          tool.pricing.toLowerCase().includes(searchLower) ||
-          // Search in prompt content too
-          tool.prompt
-            .toLowerCase()
-            .includes(searchLower),
+          tool.personalizedPrompt.toLowerCase().includes(searchLower) ||
+          (tool.tags && tool.tags.some((tag) => tag.toLowerCase().includes(searchLower))),
       )
     }
 
@@ -290,42 +153,76 @@ export default function ResultsPage() {
 
     // Apply region filter
     if (selectedRegion !== "all") {
-      filtered = filtered.filter((tool) => tool.region === selectedRegion || tool.region === "Global")
+      filtered = filtered.filter((tool) => tool.regions.includes(selectedRegion) || tool.regions.includes("Global"))
     }
 
-    // Minimum result guarantee
-    if (!showAllTools && filtered.length < 50) {
-      let expandedFiltered = aiToolsDatabase.filter(
-        (tool) =>
-          tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          tool.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          tool.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          tool.usedFor.toLowerCase().includes(searchTerm.toLowerCase()),
-      )
-
-      if (selectedCategory !== "all") {
-        expandedFiltered = aiToolsDatabase.filter((tool) => tool.category === selectedCategory)
-      }
-
-      if (selectedSkillLevel !== "all") {
-        expandedFiltered = aiToolsDatabase.filter((tool) => tool.skillLevel === selectedSkillLevel)
-      }
-
-      if (selectedRegion !== "all") {
-        expandedFiltered = aiToolsDatabase.filter((tool) => tool.region === selectedRegion || tool.region === "Global")
-      }
-
-      if (expandedFiltered.length > filtered.length) {
-        filtered = expandedFiltered
-      }
-    }
-
-    // Sort by relevance if we have questionnaire data
+    // Smart filtering based on questionnaire data (only if not showing all tools)
     if (!showAllTools && questionnaireData) {
+      const businessTypes = questionnaireData.businessTypes || []
+      const businessStage = questionnaireData.businessStage || ""
+      const challenge = questionnaireData.challenge?.toLowerCase() || ""
+
+      // Prioritise tools based on business type
+      const relevantCategories: string[] = []
+
+      if (businessTypes.includes("Website") || businessTypes.includes("E-commerce Store")) {
+        relevantCategories.push("Website Building", "E-commerce & Sales", "Image Generation & Design")
+      }
+
+      if (businessTypes.includes("Social Media Posts") || businessTypes.includes("Video Content")) {
+        relevantCategories.push("Social Media & Marketing", "Image Generation & Design", "Video & Avatar Creation")
+      }
+
+      if (businessTypes.includes("Online Course") || businessTypes.includes("E-book/Guide")) {
+        relevantCategories.push("Writing & Content Generation", "Video & Avatar Creation")
+      }
+
+      if (businessTypes.includes("Consulting Services") || businessTypes.includes("Service Business")) {
+        relevantCategories.push("Customer Service & Support", "Automation & Productivity")
+      }
+
+      // Filter by challenge-specific needs
+      if (challenge.includes("time") || challenge.includes("automat")) {
+        relevantCategories.push("Automation & Productivity")
+      }
+
+      if (challenge.includes("content") || challenge.includes("writing")) {
+        relevantCategories.push("Writing & Content Generation")
+      }
+
+      if (challenge.includes("customer") || challenge.includes("support")) {
+        relevantCategories.push("Customer Service & Support")
+      }
+
+      if (challenge.includes("market") || challenge.includes("social")) {
+        relevantCategories.push("Social Media & Marketing")
+      }
+
+      // Apply smart filtering if we have relevant categories and no manual filters
+      if (relevantCategories.length > 0 && selectedCategory === "all" && !searchTerm.trim()) {
+        filtered = filtered.filter((tool) => relevantCategories.some((category) => tool.category.includes(category)))
+      }
+
+      // Skill level filtering based on business stage
+      if (selectedSkillLevel === "all") {
+        if (businessStage === "Just an idea" || businessStage === "Planning stage") {
+          filtered = filtered.filter((tool) => tool.skillLevel === "Beginner")
+        } else if (businessStage === "Building/Developing") {
+          filtered = filtered.filter((tool) => tool.skillLevel === "Beginner" || tool.skillLevel === "Intermediate")
+        }
+      }
+
+      // Sort by relevance (prioritise tagged tools)
       filtered = filtered.sort((a, b) => {
-        const scoreA = calculateRelevanceScore(a, questionnaireData)
-        const scoreB = calculateRelevanceScore(b, questionnaireData)
-        return scoreB - scoreA
+        const aScore =
+          (a.tags?.includes("our-top-pick") ? 3 : 0) +
+          (a.tags?.includes("startup-fav") ? 2 : 0) +
+          (a.tags?.includes("trending") ? 1 : 0)
+        const bScore =
+          (b.tags?.includes("our-top-pick") ? 3 : 0) +
+          (b.tags?.includes("startup-fav") ? 2 : 0) +
+          (b.tags?.includes("trending") ? 1 : 0)
+        return bScore - aScore
       })
     }
 
@@ -333,94 +230,39 @@ export default function ResultsPage() {
   }, [searchTerm, selectedCategory, selectedSkillLevel, selectedRegion, questionnaireData, showAllTools])
 
   const copyPrompt = (prompt: string, toolName: string) => {
-    let personalizedPrompt = prompt
+    try {
+      let personalisedPrompt = prompt
 
-    if (questionnaireData) {
-      // Create a more targeted context based on the specific tool and user needs
-      const businessContext = questionnaireData.businessTypes?.join(" and ") || "business"
-      const targetAudience = questionnaireData.audience || "target customers"
-      const mainChallenge = questionnaireData.challenge || "business challenges"
-      const currentStage = questionnaireData.businessStage || "current stage"
-      const goals = questionnaireData.goals || "business goals"
-      const inspiration = questionnaireData.inspiration || "current project"
+      if (questionnaireData) {
+        const businessContext = questionnaireData.businessTypes?.join(" and ") || "business"
+        const targetAudience = questionnaireData.audience || "target customers"
+        const mainChallenge = questionnaireData.challenge || "business challenges"
+        const currentStage = questionnaireData.businessStage || "current stage"
+        const goals = questionnaireData.goals || "business goals"
+        const inspiration = questionnaireData.inspiration || "current project"
 
-      // Tool-specific context enhancement
-      let toolSpecificContext = ""
-
-      if (toolName.toLowerCase().includes("chatgpt") || toolName.toLowerCase().includes("claude")) {
-        toolSpecificContext = `As an AI assistant helping with ${businessContext}, I need you to understand my specific context:`
-      } else if (toolName.toLowerCase().includes("canva") || toolName.toLowerCase().includes("midjourney")) {
-        toolSpecificContext = `As a design tool for ${businessContext}, help me create visuals that:`
-      } else if (toolName.toLowerCase().includes("shopify") || toolName.toLowerCase().includes("ecommerce")) {
-        toolSpecificContext = `For my ${businessContext} e-commerce needs:`
-      } else if (toolName.toLowerCase().includes("social") || toolName.toLowerCase().includes("instagram")) {
-        toolSpecificContext = `For my ${businessContext} social media strategy:`
-      }
-
-      const contextualIntro = `${toolSpecificContext}
-
-🎯 MY BUSINESS: ${businessContext}
+        const contextualPrompt = `🎯 MY BUSINESS: ${businessContext}
 📍 CURRENT STAGE: ${currentStage}
 👥 TARGET AUDIENCE: ${targetAudience}
 🚀 MAIN PROJECT: ${inspiration}
 💡 KEY CHALLENGE: ${mainChallenge}
 ✨ ULTIMATE GOAL: ${goals}
 
-Based on this specific context, ${prompt.toLowerCase()}`
+Based on this context: ${prompt}`
 
-      // More precise placeholder replacement
-      personalizedPrompt = contextualIntro
-        .replace(/\[your business type\]/gi, businessContext)
-        .replace(/\[business type\]/gi, businessContext)
-        .replace(/\[target audience\]/gi, targetAudience)
-        .replace(/\[your audience\]/gi, targetAudience)
-        .replace(/\[audience\]/gi, targetAudience)
-        .replace(/\[your main challenge\]/gi, mainChallenge)
-        .replace(/\[specific challenge\]/gi, mainChallenge)
-        .replace(/\[current manual process\]/gi, inspiration)
-        .replace(/\[project\/task\]/gi, inspiration)
-        .replace(/\[specific task\]/gi, inspiration)
-        .replace(/\[topic\]/gi, inspiration)
-        .replace(/\[key message\]/gi, goals)
-        .replace(/\[desired action\]/gi, goals)
-        .replace(/\[specific problem\]/gi, mainChallenge)
-        .replace(/\[key benefit\]/gi, goals)
-        .replace(/\[content type\]/gi, `content for ${businessContext}`)
-        .replace(/\[type of content\]/gi, `content for ${businessContext}`)
-        .replace(/\[product\/service\]/gi, inspiration)
-        .replace(/\[service\]/gi, inspiration)
-        .replace(/\[products\]/gi, inspiration)
-        .replace(/\[project type\]/gi, businessContext)
-        .replace(/\[meeting type\]/gi, `${businessContext} meetings`)
-        .replace(/\[specific goal\]/gi, goals)
-        .replace(/\[digital product\]/gi, inspiration)
-        .replace(/\[creative business type\]/gi, businessContext)
-        .replace(/\[customer type\]/gi, targetAudience)
-        .replace(/\[common questions\]/gi, `questions about ${mainChallenge}`)
-        .replace(/\[keywords\]/gi, `${businessContext} ${mainChallenge}`)
-        .replace(/\[brand values\]/gi, goals)
-        .replace(/\[industry\]/gi, businessContext)
-        .replace(/\[platforms\]/gi, "social media platforms")
-        .replace(/\[style\]/gi, "professional and engaging")
-        .replace(/\[theme\]/gi, businessContext)
-        .replace(/\[description\]/gi, `${businessContext} focused on ${goals}`)
-        .replace(
-          /\[detailed description\]/gi,
-          `professional ${businessContext} that helps ${targetAudience} with ${mainChallenge}`,
-        )
-    } else {
-      // Fallback for users without questionnaire data
-      personalizedPrompt = `Please help me with ${toolName}. Here's what I need:\n\n${prompt}`
+        personalisedPrompt = contextualPrompt
+      }
+
+      navigator.clipboard.writeText(personalisedPrompt)
+      setCopiedPrompt(toolName)
+
+      setTimeout(() => {
+        setCopiedPrompt(null)
+      }, 2000)
+    } catch (error) {
+      console.error("Error copying prompt:", error)
+      alert("Error copying prompt. Please try again.")
     }
-
-    navigator.clipboard.writeText(personalizedPrompt)
-
-    // Show success message with tool-specific context
-    const successMessage = questionnaireData
-      ? `✨ Personalized prompt copied for ${toolName}! This prompt includes your specific business context: ${questionnaireData.businessTypes?.join(", ") || "your business"} targeting ${questionnaireData.audience || "your audience"}.`
-      : `Prompt copied for ${toolName}!`
-
-    alert(successMessage)
   }
 
   const getTagIcon = (tag: string) => {
@@ -453,29 +295,22 @@ Based on this specific context, ${prompt.toLowerCase()}`
     }
   }
 
-  const getRegionFlag = (region: string) => {
+  const getRegionFlag = (regions: string[]) => {
+    if (!regions || regions.length === 0) return "🌍"
+    const region = regions[0]
     switch (region) {
-      case "UK":
-      case "UK/Global":
-        return "🇬🇧"
-      case "USA":
-      case "USA/UK":
-      case "USA/Global":
+      case "North America":
         return "🇺🇸"
-      case "China":
-        return "🇨🇳"
-      case "Russia":
-        return "🇷🇺"
-      case "Germany/Europe":
-      case "France/Europe":
       case "Europe":
         return "🇪🇺"
-      case "Canada":
-        return "🇨🇦"
-      case "South Korea":
-        return "🇰🇷"
-      case "Australia/Global":
+      case "Asia":
+        return "🌏"
+      case "Australia":
         return "🇦🇺"
+      case "South America":
+        return "🌎"
+      case "Africa":
+        return "🌍"
       case "Global":
         return "🌍"
       default:
@@ -483,30 +318,13 @@ Based on this specific context, ${prompt.toLowerCase()}`
     }
   }
 
-  const getRegionPopularity = (region: string) => {
-    const popularityMap: { [key: string]: string } = {
-      USA: "🔥 Very Popular in USA",
-      "USA/UK": "🔥 Popular in USA & UK",
-      "USA/Global": "🔥 USA-based, Global reach",
-      UK: "🔥 Very Popular in UK",
-      "UK/Global": "🔥 UK-based, Global reach",
-      China: "🔥 Dominant in China",
-      Russia: "🔥 Leading in Russia",
-      "Germany/Europe": "🔥 Popular across Europe",
-      "France/Europe": "🔥 European favorite",
-      Canada: "🔥 Canadian innovation",
-      "South Korea": "🔥 K-tech leader",
-      "Australia/Global": "🔥 Aussie-made, worldwide",
-      Global: "🌍 Worldwide popularity",
-    }
-    return popularityMap[region] || "🌍 Available globally"
-  }
-
-  const handleVCSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("VC Form submitted:", vcFormData)
-    alert("Thank you! Your information has been submitted to our VC network.")
-    setShowVCForm(false)
+  const getRegionPopularity = (regions: string[]) => {
+    if (!regions || regions.length === 0) return "🌍 Available globally"
+    if (regions.includes("Global")) return "🌍 Worldwide popularity"
+    if (regions.includes("North America")) return "🔥 Very Popular in North America"
+    if (regions.includes("Europe")) return "🔥 Popular in Europe"
+    if (regions.includes("Asia")) return "🔥 Leading in Asia"
+    return `🌍 Available in ${regions.join(", ")}`
   }
 
   return (
@@ -547,7 +365,7 @@ Based on this specific context, ${prompt.toLowerCase()}`
           </h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             {showAllTools
-              ? "Browse our complete collection of 250+ AI tools for women entrepreneurs"
+              ? "Browse our complete collection of 50+ AI tools for women entrepreneurs"
               : "Based on your responses, here are the perfect AI tools to help scale your business"}
           </p>
         </div>
@@ -559,7 +377,7 @@ Based on this specific context, ${prompt.toLowerCase()}`
             className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 mx-auto"
           >
             <Globe className="w-5 h-5" />
-            {showAllTools ? "Show My Personalised Tools" : "Show All 250+ Tools"}
+            {showAllTools ? "Show My Personalised Tools" : "Show All 50+ Tools"}
           </button>
         </div>
 
@@ -610,7 +428,7 @@ Based on this specific context, ${prompt.toLowerCase()}`
               <option value="all">All Regions</option>
               {regions.map((region) => (
                 <option key={region} value={region}>
-                  {getRegionFlag(region)} {region}
+                  {getRegionFlag([region])} {region}
                 </option>
               ))}
             </select>
@@ -631,7 +449,7 @@ Based on this specific context, ${prompt.toLowerCase()}`
             <div className="flex gap-2">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-2 rounded-md ${
+                className={`p-2 rounded-md transition-colors ${
                   viewMode === "grid"
                     ? "bg-pink-500 text-white"
                     : "border border-pink-200 text-pink-600 hover:bg-pink-50"
@@ -641,7 +459,7 @@ Based on this specific context, ${prompt.toLowerCase()}`
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-2 rounded-md ${
+                className={`p-2 rounded-md transition-colors ${
                   viewMode === "list"
                     ? "bg-pink-500 text-white"
                     : "border border-pink-200 text-pink-600 hover:bg-pink-50"
@@ -665,19 +483,18 @@ Based on this specific context, ${prompt.toLowerCase()}`
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <h3 className="text-lg font-bold text-gray-800">{tool.name}</h3>
-                      <span className="text-lg">{getRegionFlag(tool.region)}</span>
+                      <span className="text-lg">{getRegionFlag(tool.regions)}</span>
                     </div>
                     <span className="inline-block px-2 py-1 text-xs border border-pink-300 text-pink-700 rounded-full mb-2">
                       {tool.category}
                     </span>
-                    {/* Regional Popularity Indicator */}
                     <div className="mb-2">
                       <span className="text-xs bg-gradient-to-r from-orange-100 to-red-100 text-orange-800 px-2 py-1 rounded-full border border-orange-200">
-                        {getRegionPopularity(tool.region)}
+                        {getRegionPopularity(tool.regions)}
                       </span>
                     </div>
                   </div>
-                  <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-lg flex items-center justify-center ml-4 overflow-hidden">
+                  <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-lg flex items-center justify-center ml-4">
                     <img
                       src={`/placeholder.svg?height=64&width=64&query=professional woman entrepreneur using ${tool.name}, diverse ethnicity, confident business owner`}
                       alt={`${tool.name} user`}
@@ -685,27 +502,30 @@ Based on this specific context, ${prompt.toLowerCase()}`
                       onError={(e) => {
                         const target = e.currentTarget as HTMLImageElement
                         target.style.display = "none"
-                        const sparklesIcon = target.nextElementSibling as HTMLElement
-                        if (sparklesIcon) {
-                          sparklesIcon.style.display = "flex"
+                        const parent = target.parentElement
+                        if (parent) {
+                          const sparkles = document.createElement("div")
+                          sparkles.innerHTML = `<svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>`
+                          parent.appendChild(sparkles)
                         }
                       }}
                     />
-                    <Sparkles className="w-8 h-8 text-white" style={{ display: "none" }} />
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-1 mb-2">
-                  {tool.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className={`text-xs px-2 py-1 rounded-full border flex items-center gap-1 ${getTagColor(tag)}`}
-                    >
-                      {getTagIcon(tag)}
-                      {tag.replace("-", " ")}
-                    </span>
-                  ))}
-                </div>
+                {tool.tags && tool.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {tool.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className={`text-xs px-2 py-1 rounded-full border flex items-center gap-1 ${getTagColor(tag)}`}
+                      >
+                        {getTagIcon(tag)}
+                        {tag.replace("-", " ")}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="p-4 space-y-4">
@@ -760,46 +580,37 @@ Based on this specific context, ${prompt.toLowerCase()}`
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center">
-                        <UserCheck className="w-3 h-3 text-orange-600" />
-                      </div>
-                      <div>
-                        <p className="text-xs text-gray-500 uppercase tracking-wide">Sign-up</p>
-                        <span
-                          className={`text-xs font-medium ${tool.signupRequired ? "text-orange-600" : "text-green-600"}`}
-                        >
-                          {tool.signupRequired ? "Required" : "Not Required"}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 col-span-2">
                       <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
                         <MapPin className="w-3 h-3 text-blue-600" />
                       </div>
                       <div>
                         <p className="text-xs text-gray-500 uppercase tracking-wide">Region</p>
                         <p className="text-xs font-medium text-gray-800">
-                          {getRegionFlag(tool.region)} {tool.region}
+                          {getRegionFlag(tool.regions)} {tool.regions.join(", ")}
                         </p>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="pt-2 border-t border-gray-200">
-                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">People use this for</p>
-                    <p className="text-sm text-gray-700">{tool.usedFor}</p>
                   </div>
                 </div>
 
                 <div className="flex gap-2">
                   <button
-                    onClick={() => copyPrompt(tool.prompt, tool.name)}
+                    onClick={() => copyPrompt(tool.personalizedPrompt, tool.name)}
                     className="flex-1 flex items-center justify-center px-3 py-2 border border-pink-300 text-pink-600 hover:bg-pink-50 rounded-md text-sm font-medium transition-colors"
+                    disabled={copiedPrompt === tool.name}
                   >
-                    <Copy className="w-4 h-4 mr-2" />
-                    Copy Prompt
+                    {copiedPrompt === tool.name ? (
+                      <>
+                        <CheckCircle className="w-4 h-4 mr-2 text-green-600" />
+                        Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4 mr-2" />
+                        Copy Prompt
+                      </>
+                    )}
                   </button>
                   <a
                     href={tool.link}
@@ -831,84 +642,10 @@ Based on this specific context, ${prompt.toLowerCase()}`
                 setSelectedRegion("all")
                 setSelectedSkillLevel("all")
               }}
-              className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-md"
+              className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-md transition-colors"
             >
               Clear All Filters
             </button>
-          </div>
-        )}
-
-        {/* VC Form Modal */}
-        {showVCForm && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg w-full max-w-md">
-              <div className="p-6 border-b">
-                <h3 className="text-lg font-semibold text-center">Share with VC Network</h3>
-              </div>
-              <div className="p-6">
-                <form onSubmit={handleVCSubmit} className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    value={vcFormData.name}
-                    onChange={(e) => setVcFormData((prev) => ({ ...prev, name: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-200"
-                    required
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    value={vcFormData.email}
-                    onChange={(e) => setVcFormData((prev) => ({ ...prev, email: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-200"
-                    required
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Phone Number"
-                    value={vcFormData.phone}
-                    onChange={(e) => setVcFormData((prev) => ({ ...prev, phone: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-200"
-                  />
-                  <textarea
-                    placeholder="Brief description of your business idea"
-                    value={vcFormData.businessIdea}
-                    onChange={(e) => setVcFormData((prev) => ({ ...prev, businessIdea: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-md min-h-20 focus:outline-none focus:ring-2 focus:ring-pink-200"
-                    required
-                  />
-                  <div className="flex items-start space-x-2">
-                    <input
-                      type="checkbox"
-                      id="gdpr"
-                      checked={vcFormData.gdprConsent}
-                      onChange={(e) => setVcFormData((prev) => ({ ...prev, gdprConsent: e.target.checked }))}
-                      className="w-4 h-4 text-pink-600 border-gray-300 rounded focus:ring-pink-500 mt-1"
-                      required
-                    />
-                    <label htmlFor="gdpr" className="text-xs text-gray-600">
-                      I consent to my data being processed in accordance with GDPR regulations for the purpose of
-                      connecting with potential investors and mentors.
-                    </label>
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setShowVCForm(false)}
-                      className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="flex-1 px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-md hover:from-pink-600 hover:to-purple-700"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
           </div>
         )}
       </div>
